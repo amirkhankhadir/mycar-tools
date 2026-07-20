@@ -9,8 +9,8 @@
 ### 🖊 `mycar-copy` — интерфейсные тексты (RU)
 Проверка, генерация и улучшение UI-текстов по гайду **Mycar UX Content**. Три режима: аудит /
 генерация / улучшение; работает «на рельсах» правил. Команда — `/mycar-copy`.
-Подробно для пользователей → `how-to-use.md`. Есть и витрина для Figma (`figma/mycar-copy.md`,
-публикуется в Figma-агент отдельно).
+Подробно для пользователей → `how-to-use.md`. Витрина для Figma (Figma custom skill) — в работе,
+добавится позже.
 
 ### 📐 `mylo-docs` — документация компонентов Figma
 Строит **doc-фреймы для дизайнеров** в Mўlo Mobile Library (Figma-only, без кода): по компоненту —
@@ -41,7 +41,6 @@
 plugins/
   mycar-copy/                     плагин: SKILL.md + правила (content-guide, date-time) внутри
   mylo-docs/                      плагин: SKILL.md + references (methodology, doc-kit, library-index)
-figma/mycar-copy.md               исходник Figma-скилла для mycar-copy (снимок)
 how-to-use.md                     инструкция пользователям
 ```
 
