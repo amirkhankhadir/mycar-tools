@@ -1,2 +1,8 @@
 .DS_Store
 *.log
+
+# Внутренние рабочие файлы — НЕ публикуем в маркетплейс (живут локально)
+eval-corpus.md
+screens-audit.md
+screens-audit.json
+open-questions.md

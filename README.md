@@ -37,15 +37,12 @@
 ## Структура репозитория
 
 ```
-.claude-plugin/marketplace.json        каталог (сюда ведёт ссылка)
+.claude-plugin/marketplace.json   каталог (сюда ведёт ссылка)
 plugins/
-  mycar-copy/                          плагин: SKILL.md + правила (content-guide, date-time) внутри
-  mylo-docs/                           плагин: SKILL.md + references (methodology, doc-kit, library-index)
-figma/mycar-copy.md                    витрина mycar-copy для Figma (снимок)
-how-to-use.md                          инструкция пользователям (mycar-copy)
-HANDOFF.md                             заметки по размещению/раздаче
-eval-corpus.md, screens-audit.md/.json тест-корпуса/регрессия mycar-copy (для сопровождающих)
-open-questions.md                      журнал обкатки (внутреннее)
+  mycar-copy/                     плагин: SKILL.md + правила (content-guide, date-time) внутри
+  mylo-docs/                      плагин: SKILL.md + references (methodology, doc-kit, library-index)
+figma/mycar-copy.md               исходник Figma-скилла для mycar-copy (снимок)
+how-to-use.md                     инструкция пользователям
 ```
 
 ## Добавить ещё инструмент
