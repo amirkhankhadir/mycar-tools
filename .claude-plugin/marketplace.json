@@ -1,0 +1,14 @@
+{
+  "name": "mycar-tools",
+  "owner": {
+    "name": "Mycar Design",
+    "email": "a.khadir@mycar.kz"
+  },
+  "plugins": [
+    {
+      "name": "mycar-copy",
+      "source": "./plugins/mycar-copy",
+      "description": "Проверка, генерация и улучшение интерфейсных текстов (RU) по гайду Mycar UX Content"
+    }
+  ]
+}
