@@ -1,5 +1,6 @@
 {
   "name": "mycar-tools",
+  "description": "Внутренние инструменты Mycar Design для Claude Code (проверка и генерация интерфейсных текстов и др.)",
   "owner": {
     "name": "Mycar Design",
     "email": "a.khadir@mycar.kz"
