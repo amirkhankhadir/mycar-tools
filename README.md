@@ -1,57 +1,55 @@
-# Mycar UX Content — правила интерфейсных текстов + инструмент проверки
+# mycar-tools — инструменты Mycar Design для Claude Code
 
-Единый источник правил для интерфейсных текстов (RU) и инструмент на его основе: **проверка,
-генерация и улучшение** текстов по гайду. Цель — единообразие: один свод правил вместо «кто как привык».
+Публичный маркетплейс плагинов Claude Code для команды Mycar Design. Подключается по ссылке одной
+командой; каждый инструмент ставится отдельно и обновляется через маркетплейс. Всё — Markdown по
+спецификации Agent Skills, без кода, серверов и API-ключей; работает на местах Claude Max.
 
-## Две витрины (обе на уже оплаченных местах, без доп. бюджета)
+## Инструменты
 
-Один источник правды → два инструмента одного формата (спецификация Agent Skills):
+### 🖊 `mycar-copy` — интерфейсные тексты (RU)
+Проверка, генерация и улучшение UI-текстов по гайду **Mycar UX Content**. Три режима: аудит /
+генерация / улучшение; работает «на рельсах» правил. Команда — `/mycar-copy`.
+Подробно для пользователей → `how-to-use.md`. Есть и витрина для Figma (`figma/mycar-copy.md`,
+публикуется в Figma-агент отдельно).
 
-- **Claude Code** — плагин `mycar-copy` (команда `/mycar-copy`). Раздаётся по ссылке через
-  плагин-маркетплейс. Готов и обкатан.
-- **Figma** — скилл `/mycar-copy` (один самодостаточный `.md`, публикуется в Figma на организацию).
-  Снимок — в `figma/mycar-copy.md`. *(В работе.)*
+### 📐 `mylo-docs` — документация компонентов Figma
+Строит **doc-фреймы для дизайнеров** в Mўlo Mobile Library (Figma-only, без кода): по компоненту —
+структура, состояния, токены, контент-гайдлайны, с house-style и §0 QA-чеклистом. Команда —
+`/mylo-docs` (или «Mylo: документируем <компонент> <ссылка>»).
 
-Полноценный Figma-плагин **не делаем** — инструмент работает как скилл, отдельный API-бюджет не нужен.
+## Как подключить (один раз)
 
-## Как пользоваться → `how-to-use.md`
-## Как разместить и раздать → `HANDOFF.md`
+```
+/plugin marketplace add amirkhankhadir/mycar-tools
+```
+Дальше поставить нужные инструменты:
+```
+/plugin install mycar-copy@mycar-tools
+/plugin install mylo-docs@mycar-tools
+```
 
-## Состав
+## Как обновлять
 
-**Источник правды (правим здесь):**
-- `plugins/mycar-copy/skills/mycar-copy/content-guide.md` — ядро правил.
-- `plugins/mycar-copy/skills/mycar-copy/date-time-formats.md` — даты/время (`DT-*`, RU & KZ).
-- Лежат **внутри скилла** — так они копируются вместе с плагином при установке у коллеги.
+Правишь файлы плагина → `git commit` + `git push` + бамп `version` в его `plugin.json`.
+Коллеги: `/plugin marketplace update mycar-tools` (или авто-обновление). Правка без пуша живёт только
+локально — у команды останется старая версия.
 
-**Скилл (Claude Code):**
-- `plugins/mycar-copy/skills/mycar-copy/SKILL.md` — читает два файла правил выше.
+## Структура репозитория
 
-**Плагин-обвязка (для раздачи по ссылке):**
-- `.claude-plugin/marketplace.json` — каталог; сюда ведёт ссылка при подключении.
-- `plugins/mycar-copy/.claude-plugin/plugin.json` — метаданные и версия.
+```
+.claude-plugin/marketplace.json        каталог (сюда ведёт ссылка)
+plugins/
+  mycar-copy/                          плагин: SKILL.md + правила (content-guide, date-time) внутри
+  mylo-docs/                           плагин: SKILL.md + references (methodology, doc-kit, library-index)
+figma/mycar-copy.md                    витрина mycar-copy для Figma (снимок)
+how-to-use.md                          инструкция пользователям (mycar-copy)
+HANDOFF.md                             заметки по размещению/раздаче
+eval-corpus.md, screens-audit.md/.json тест-корпуса/регрессия mycar-copy (для сопровождающих)
+open-questions.md                      журнал обкатки (внутреннее)
+```
 
-**Витрина Figma:**
-- `figma/mycar-copy.md` — самодостаточный снимок правил для Figma-скилла.
+## Добавить ещё инструмент
 
-**Для сопровождающих:** `eval-corpus.md` (золотой тест-корпус для регрессий) + `screens-audit.md`/`.json`
-(большой прогон по экранам). **Внутреннее:** `open-questions.md` (журнал обкатки).
-
-## Как раздаётся (Claude Code)
-
-Плагин-маркетплейс: коллега подключает репозиторий по ссылке одной командой и ставит плагин (см.
-`HANDOFF.md`). Правила лежат внутри плагина, поэтому обновляются вместе с ним.
-
-## Как обновлять правила
-
-1. Правишь `content-guide.md` (или `date-time-formats.md`) в папке скилла.
-2. Бампишь `version` в `plugins/mycar-copy/.claude-plugin/plugin.json`.
-3. `git commit` + `git push`.
-4. Коллеги: `/plugin marketplace update mycar-tools` (или авто-обновление, см. `HANDOFF.md`).
-5. Для Figma-витрины — пересобрать `figma/mycar-copy.md` и перепубликовать в Figma.
-
-## Статус
-
-- ✅ **Claude Code plugin `mycar-copy`** — готов, обкатан (42/43 ≈ 98% recall на двух флоу).
-- 🔜 **Figma skill** — снимок готов (`figma/mycar-copy.md`), опубликовать в Figma.
-- ❌ **Полноценный Figma-плагин** — не делаем (инструмент работает как скилл).
+Новый плагин: папка `plugins/<name>/` со своим `.claude-plugin/plugin.json` и `skills/<name>/` →
+дописать запись в `.claude-plugin/marketplace.json` → push. Коллеги подключают маркетплейс один раз,
+новые инструменты появляются в нём.

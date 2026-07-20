@@ -10,6 +10,11 @@
       "name": "mycar-copy",
       "source": "./plugins/mycar-copy",
       "description": "Проверка, генерация и улучшение интерфейсных текстов (RU) по гайду Mycar UX Content"
+    },
+    {
+      "name": "mylo-docs",
+      "source": "./plugins/mylo-docs",
+      "description": "Документация компонентов Figma для Mўlo Mobile Library (doc-фреймы для дизайнеров, Figma-only)"
     }
   ]
 }
