@@ -34,8 +34,8 @@
 **Витрина Figma:**
 - `figma/mycar-copy.md` — самодостаточный снимок правил для Figma-скилла.
 
-**Для сопровождающих:** `audit-eval.md` (тест-корпус для регрессий), `system-prompt.md`,
-`plugin-spec.md` (фаза 2). **Внутреннее:** `open-questions.md`, `audit-page-ekrany.md` (журналы обкатки).
+**Для сопровождающих:** `eval-corpus.md` (тест-корпус для регрессий), `system-prompt.md`,
+`plugin-spec.md` (фаза 2). **Внутреннее:** `open-questions.md`, `screens-audit.md` (журналы обкатки).
 
 ## Как раздаётся (Claude Code)
 
