@@ -1,6 +1,6 @@
 ---
 name: mylo-docs
-description: Write Figma component documentation for the Mўlo Mobile Library — design-system docs for designers (Figma-only, no code). Use whenever the user wants to document a Mўlo/Mylo component, says "Mylo: документируем X" or similar, shares a Mўlo Mobile Library Figma link, or works on the Mўlo doc frames. Covers the full build workflow, house-style, tokens, and QA.
+description: Пишет Figma-документацию компонентов для Mўlo Mobile Library — doc-фреймы для дизайнеров (Figma-only, без кода). Используй, когда пользователь хочет задокументировать компонент Mўlo/Mylo, говорит «Mylo: документируем X» и т.п., присылает ссылку на Figma-файл Mўlo Mobile Library или работает над doc-фреймами Mўlo. Покрывает весь воркфлоу сборки, house-style, токены и QA.
 ---
 
 # Mylo DS — component documentation
