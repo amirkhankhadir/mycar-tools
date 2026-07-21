@@ -1,0 +1,104 @@
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.wrap{padding:1rem 0;max-width:760px}
+.sum{font-size:14px;color:var(--text-primary);margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sum .sub{color:var(--text-secondary);font-size:13px;display:inline-flex;align-items:center;gap:5px}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.spacer{flex:1}
+.cols{display:flex;align-items:center;gap:6px}
+.lbl{font-size:12px;color:var(--text-muted)}
+button.chip{font-size:12px;padding:4px 10px;color:var(--text-secondary)}
+button.chip[aria-pressed="true"]{background:var(--surface-1);border-color:var(--border-strong);color:var(--text-primary)}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+td{font-size:13px;padding:9px 6px;border-bottom:.5px solid var(--border);vertical-align:top;line-height:1.5;word-wrap:break-word}
+tr.pick{cursor:pointer}
+tr.pick:hover td{background:var(--surface-1)}
+tr.sel td{background:var(--bg-accent)}
+.grp td{background:var(--surface-1);color:var(--text-secondary);font-size:12px;padding:7px 8px;font-weight:500;border-bottom:none}
+.colh td{font-size:12px;color:var(--text-secondary);padding:5px 6px;border-bottom:.5px solid var(--border-strong)}
+.num{color:var(--text-muted);white-space:nowrap;text-align:right}
+.mest{color:var(--text-secondary);white-space:nowrap;text-align:right}
+.sev{text-align:center;color:var(--text-warning)}
+.sev i{font-size:14px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--text-muted)}
+.was{color:var(--text-muted)}
+.now{color:var(--text-primary)}
+.why{color:var(--text-secondary);font-size:12px}
+.rule{color:var(--text-muted);font-size:12px;white-space:nowrap}
+.cwhy{width:0}
+.crule{width:0}
+#tbl.showwhy .cwhy{width:172px}
+#tbl.showrule .crule{width:104px}
+#tbl:not(.showwhy) .why{display:none}
+#tbl:not(.showrule) .rule{display:none}
+.el{font-weight:500}
+.apply{border-color:var(--border-accent);color:var(--text-accent)}
+#status{font-size:12px;color:var(--text-secondary);margin-top:10px;min-height:14px}
+input{margin:0}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Таблица правок аудита: отметьте строки и нажмите «Применить выбранные». Отмеченные строки подсвечены. Столбцы «Почему» и «Правило» можно показать переключателями.</h2>
+
+<div class="sum">
+  <span id="total">0 правок</span>
+  <span class="sub"><i class="ti ti-alert-triangle" style="color:var(--text-warning)" aria-hidden="true"></i><span id="cmajor">0</span> серьёзных</span>
+  <span class="sub"><span class="dot"></span><span id="cminor">0</span> стиль</span>
+</div>
+
+<div class="bar">
+  <button id="all">Выбрать все</button>
+  <button id="none">Снять</button>
+  <button id="major">Только серьёзные</button>
+  <span class="spacer"></span>
+  <span class="cols"><span class="lbl">Столбцы</span><button class="chip" id="tglwhy" aria-pressed="false">Почему</button><button class="chip" id="tglrule" aria-pressed="false">Правило</button></span>
+</div>
+
+<div class="scroll">
+<table id="tbl">
+<colgroup><col style="width:28px"><col style="width:28px"><col style="width:20px"><col style="width:88px"><col style="width:40px"><col><col><col class="cwhy"><col class="crule"></colgroup>
+<tbody id="body"></tbody>
+</table>
+</div>
+
+<div class="bar" style="margin-top:14px"><button id="apply" class="apply">Применить выбранные (0) ↗</button></div>
+<div id="status"></div>
+</div>
+
+<script>
+const G={s:'Системно · все экраны',f:'Экран фильтров и карточки лотов',p:'Сохранённые поиски и диалоги',o:'Онбординг · пустое состояние'};
+const DATA=[
+{n:1,sev:'minor',g:'s',el:'Числа и цены',m:40,was:'пробелы U+0020',now:'неразрывные U+00A0',why:'Пробел рвёт число при переносе',rule:'NUM-03·LOC-02'},
+{n:2,sev:'minor',g:'s',el:'Пропущенная «ё»',m:24,was:'сохранен · удален · Объем',now:'сохранён · удалён · Объём',why:'Норма бренда — писать «ё»',rule:'TYP-06'},
+{n:3,sev:'major',g:'f',el:'Характеристики',m:6,was:'2.5 л',now:'2,5 л',why:'В RU десятичный разделитель — запятая',rule:'NUM-02'},
+{n:4,sev:'minor',g:'f',el:'Лейбл поля',m:6,was:'цена,₸',now:'Цена, ₸',why:'Нет пробела после запятой; строчная',rule:'TYP-05·NUM-03'}
+];
+const HEAD='<td></td><td class="num">#</td><td class="sev">⚠</td><td>Элемент</td><td class="mest">Мест</td><td>Было</td><td>Станет</td><td class="why">Почему</td><td class="rule">Правило</td>';
+let cur='',html='';
+for(const d of DATA){
+  if(d.g!==cur){cur=d.g;html+='<tr class="grp"><td colspan="9">'+G[d.g]+'</td></tr><tr class="colh">'+HEAD+'</tr>';}
+  const sev=d.sev==='major'?'<i class="ti ti-alert-triangle" aria-hidden="true"></i>':'<span class="dot"></span>';
+  html+='<tr class="pick"><td><input type="checkbox" data-n="'+d.n+'" data-sev="'+d.sev+'" aria-label="Правка '+d.n+' — '+d.el+'"></td><td class="num">'+d.n+'</td><td class="sev">'+sev+'</td><td class="el">'+d.el+'</td><td class="mest">'+d.m+'</td><td class="was">'+d.was+'</td><td class="now">'+d.now+'</td><td class="why">'+d.why+'</td><td class="rule">'+d.rule+'</td></tr>';
+}
+document.getElementById('body').innerHTML=html;
+document.getElementById('total').textContent=DATA.length+' правок';
+document.getElementById('cmajor').textContent=DATA.filter(d=>d.sev==='major').length;
+document.getElementById('cminor').textContent=DATA.filter(d=>d.sev==='minor').length;
+
+const boxes=[...document.querySelectorAll('#body input')];
+const applyBtn=document.getElementById('apply');
+const status=document.getElementById('status');
+const tbl=document.getElementById('tbl');
+function sel(){return boxes.filter(b=>b.checked).map(b=>b.dataset.n)}
+function refresh(){boxes.forEach(b=>b.closest('tr').classList.toggle('sel',b.checked));applyBtn.textContent='Применить выбранные ('+sel().length+') ↗'}
+boxes.forEach(b=>b.addEventListener('change',refresh));
+document.querySelectorAll('tr.pick').forEach(tr=>{tr.addEventListener('click',e=>{if(e.target.tagName==='INPUT')return;const b=tr.querySelector('input');b.checked=!b.checked;refresh()})});
+document.getElementById('all').addEventListener('click',()=>{boxes.forEach(b=>b.checked=true);refresh()});
+document.getElementById('none').addEventListener('click',()=>{boxes.forEach(b=>b.checked=false);status.textContent='';refresh()});
+document.getElementById('major').addEventListener('click',()=>{boxes.forEach(b=>b.checked=b.dataset.sev==='major');refresh()});
+document.getElementById('tglwhy').addEventListener('click',function(){const on=tbl.classList.toggle('showwhy');this.setAttribute('aria-pressed',on?'true':'false')});
+document.getElementById('tglrule').addEventListener('click',function(){const on=tbl.classList.toggle('showrule');this.setAttribute('aria-pressed',on?'true':'false')});
+applyBtn.addEventListener('click',()=>{const s=sel();if(!s.length){status.textContent='Отметьте хотя бы одну правку';return}status.textContent='Отправляю в Figma: '+s.length+' правок…';sendPrompt('Применить правки из виджета: '+s.join(', '))});
+refresh();
+</script>
