@@ -28,23 +28,29 @@ tr.sel td{background:var(--bg-accent)}
 .rule{color:var(--text-muted);font-size:12px;white-space:nowrap}
 .cwhy{width:0}
 .crule{width:0}
-#tbl.showwhy .cwhy{width:172px}
+#tbl.showwhy .cwhy{width:150px}
 #tbl.showrule .crule{width:104px}
 #tbl:not(.showwhy) .why{display:none}
 #tbl:not(.showrule) .rule{display:none}
 .el{font-weight:500}
 .apply{border-color:var(--border-accent);color:var(--text-accent)}
 #status{font-size:12px;color:var(--text-secondary);margin-top:10px;min-height:14px}
+.sec2{margin-top:26px}
+.sec2 h3{font-size:14px;font-weight:500;color:var(--text-primary);margin:0 0 4px}
+.sec2 .hint{font-size:12px;color:var(--text-muted);margin:0 0 8px}
+.chk td{color:var(--text-secondary)}
+.rec{color:var(--text-primary)}
 input{margin:0}
 </style>
 
 <div class="wrap">
-<h2 class="sr-only">Таблица правок аудита: отметьте строки и нажмите «Применить выбранные». Отмеченные строки подсвечены. Столбцы «Почему» и «Правило» можно показать переключателями.</h2>
+<h2 class="sr-only">Аудит текстов. Секция «Правки» — отметьте строки и нажмите «Применить выбранные». Секция «Проверить» — наблюдения без автозамены.</h2>
 
 <div class="sum">
   <span id="total">0 правок</span>
   <span class="sub"><i class="ti ti-alert-triangle" style="color:var(--text-warning)" aria-hidden="true"></i><span id="cmajor">0</span> серьёзных</span>
   <span class="sub"><span class="dot"></span><span id="cminor">0</span> стиль</span>
+  <span class="sub" id="checkwrap"><i class="ti ti-eye" aria-hidden="true"></i><span id="ccheck">0</span> проверить</span>
 </div>
 
 <div class="bar">
@@ -57,22 +63,36 @@ input{margin:0}
 
 <div class="scroll">
 <table id="tbl">
-<colgroup><col style="width:28px"><col style="width:28px"><col style="width:20px"><col style="width:88px"><col style="width:40px"><col><col><col class="cwhy"><col class="crule"></colgroup>
+<colgroup><col style="width:28px"><col style="width:26px"><col style="width:20px"><col style="width:92px"><col style="width:36px"><col><col><col class="cwhy"><col class="crule"></colgroup>
 <tbody id="body"></tbody>
 </table>
 </div>
 
 <div class="bar" style="margin-top:14px"><button id="apply" class="apply">Применить выбранные (0) ↗</button></div>
 <div id="status"></div>
+
+<div class="sec2" id="sec2">
+<h3><i class="ti ti-eye" aria-hidden="true"></i> Проверить — решает дизайнер</h3>
+<p class="hint">Правила нет: рассинхроны и подозрительные данные. Автозамены нет — просто гляньте.</p>
+<div class="scroll">
+<table id="tbl2">
+<colgroup><col style="width:26px"><col style="width:120px"><col><col></colgroup>
+<tbody id="body2"></tbody>
+</table>
+</div>
+</div>
 </div>
 
 <script>
-const G={s:'Системно · все экраны',f:'Экран фильтров и карточки лотов',p:'Сохранённые поиски и диалоги',o:'Онбординг · пустое состояние'};
+const G={s:'Системно · все экраны',f:'Экран 1',p:'Экран 2',o:'Экран 3'};
 const DATA=[
-{n:1,sev:'minor',g:'s',el:'Числа и цены',m:40,was:'пробелы U+0020',now:'неразрывные U+00A0',why:'Пробел рвёт число при переносе',rule:'NUM-03·LOC-02'},
-{n:2,sev:'minor',g:'s',el:'Пропущенная «ё»',m:24,was:'сохранен · удален · Объем',now:'сохранён · удалён · Объём',why:'Норма бренда — писать «ё»',rule:'TYP-06'},
-{n:3,sev:'major',g:'f',el:'Характеристики',m:6,was:'2.5 л',now:'2,5 л',why:'В RU десятичный разделитель — запятая',rule:'NUM-02'},
-{n:4,sev:'minor',g:'f',el:'Лейбл поля',m:6,was:'цена,₸',now:'Цена, ₸',why:'Нет пробела после запятой; строчная',rule:'TYP-05·NUM-03'}
+{n:1,sev:'minor',g:'s',el:'Числа и цены',m:70,was:'22 000 000 ₸ (обычные пробелы)',now:'22 000 000 ₸ (неразрывные)',why:'Пробел рвёт число при переносе',rule:'NUM-03·LOC-02·TYP-03'},
+{n:2,sev:'major',g:'f',el:'Характеристики',m:18,was:'2.5 л',now:'2,5 л',why:'В RU десятичный разделитель — запятая',rule:'NUM-02'},
+{n:3,sev:'minor',g:'f',el:'Лейбл поля',m:7,was:'цена,₸',now:'цена, ₸',why:'Пробел после запятой, неразрывный перед ₸',rule:'TYP-05·NUM-03'}
+];
+const CHECK=[
+{k:'A',where:'Бренд',saw:'«WhatsApp» и «Whatsapp» одновременно',rec:'Единое написание бренда'},
+{k:'B',where:'Регистр',saw:'«все Лоты» / «Показать 12 лотов» — разнобой',rec:'Единый Sentence case; сверить с DS'}
 ];
 const HEAD='<td></td><td class="num">#</td><td class="sev">⚠</td><td>Элемент</td><td class="mest">Мест</td><td>Было</td><td>Станет</td><td class="why">Почему</td><td class="rule">Правило</td>';
 let cur='',html='';
@@ -82,9 +102,18 @@ for(const d of DATA){
   html+='<tr class="pick"><td><input type="checkbox" data-n="'+d.n+'" data-sev="'+d.sev+'" aria-label="Правка '+d.n+' — '+d.el+'"></td><td class="num">'+d.n+'</td><td class="sev">'+sev+'</td><td class="el">'+d.el+'</td><td class="mest">'+d.m+'</td><td class="was">'+d.was+'</td><td class="now">'+d.now+'</td><td class="why">'+d.why+'</td><td class="rule">'+d.rule+'</td></tr>';
 }
 document.getElementById('body').innerHTML=html;
+
+const sec2=document.getElementById('sec2');
+if(CHECK.length){
+  let h2='<tr class="colh"><td></td><td>Где</td><td>Что заметил</td><td>Рекомендация</td></tr>';
+  for(const c of CHECK){h2+='<tr class="chk"><td class="num">'+c.k+'</td><td class="el">'+c.where+'</td><td>'+c.saw+'</td><td class="rec">'+c.rec+'</td></tr>';}
+  document.getElementById('body2').innerHTML=h2;
+}else{sec2.style.display='none';document.getElementById('checkwrap').style.display='none';}
+
 document.getElementById('total').textContent=DATA.length+' правок';
 document.getElementById('cmajor').textContent=DATA.filter(d=>d.sev==='major').length;
 document.getElementById('cminor').textContent=DATA.filter(d=>d.sev==='minor').length;
+document.getElementById('ccheck').textContent=CHECK.length;
 
 const boxes=[...document.querySelectorAll('#body input')];
 const applyBtn=document.getElementById('apply');
