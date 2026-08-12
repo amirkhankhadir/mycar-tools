@@ -114,9 +114,9 @@ border/width/sm           VariableID:f7fbd0ea6622adff0b0d17fb33a1f526fc72da99/34
 bg-surface/neutral/base            VariableID:91490344d3ebe5f52ed9583a477dc0c9e27c6484/3446:226
 bg-surface/neutral/base-container  VariableID:0a3c000f5d25113ac09ed9c2c29611a15696b4c8/6026:156
 bg-surface/neutral/floating        VariableID:ae1e0e6e22356632487a893354b24fde8142ac68/6026:157
-bg-surface/semantic/success/tint   VariableID:740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682/6026:322
-bg-surface/semantic/warning/tint   VariableID:c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c/6026:324
-bg-surface/semantic/danger/tint    VariableID:aef2c53b3c6e2ca35b2707b36860c48e028cb3c8/6026:326
+bg-surface/semantic/success/tint   VariableID:740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682/8215:691
+bg-surface/semantic/warning/tint   VariableID:c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c/8215:693
+bg-surface/semantic/danger/tint    VariableID:aef2c53b3c6e2ca35b2707b36860c48e028cb3c8/8215:695
 text/neutral/primary      VariableID:2cf87952d5d6554bf01fb262baae2f564131bcc1/6026:158
 text/neutral/secondary    VariableID:359f4049cf5379da4dcae1291bec3ac1886deb6d/3446:230
 text/neutral/tertiary     VariableID:ef9f1d5a8836fadab96bac0324cd222c81342bba/6026:164
@@ -195,6 +195,20 @@ Page `🧩 alerts` = node `642:13165`, fileKey `UGCOeKehvfoEkWtbXr4Mav`.
 - **nav-bar** (bottom nav) main COMPONENT `3359:1942` (`brand=mycar, adaptive=no`), 393×90, ships a live number-badge on the "Сообщения" item — instance it for an in-context number example.
 - Old designer doc `badge-doc` `4567:4321` (1440-wide, raster product screenshots per type) predates ribbon. The 4 product screenshots are reusable via `node.clone()` — image rects: dot `4568:13295` · number `4568:13792` · filter `4568:14432` · text `4568:18046`. New doc reuses them framed in our cards ("В интерфейсе" real-examples section) rather than rebuilding bespoke product screens.
 
+### bottom-action-bar — COMPONENT_SET `3507:9485` on page `🧩 bottom-actions` (`3507:9890`) · **DOC finalized `15266:956`**, DEV NOTES — (не собран), linked ✅
+- description non-empty (RU, do NOT overwrite): "Компонент, закреплённый в нижней части экрана, содержит основное действие страницы и индикатор системы (Home indicator)."
+- **term:** «bottom action bar» / «панель действий» — по имени SET, не по подписи на канвасе.
+- public props: `bg` VARIANT [transparent (def), base-no-shadow, base-with-shadow] · `adaptive` VARIANT [false (def), true] · `show-home-indicator#4699:0` BOOL (def true).
+- variant node ids: transparent/false `3507:9484` · transparent/true `3507:9645` · base-with-shadow/false `3507:9531` · base-with-shadow/true `3507:9649` · base-no-shadow/false `3507:9588` · base-no-shadow/true `3507:9653`.
+- structure: VERTICAL → `buttons` (инстанс приватного сета) + системная зона. **adaptive=false → `iOS-general-home-indicator` (34, style black/white); adaptive=true → `iOS-safari-toolbar` (52, scrolled True/False, домен mycar.kz) = мобильный веб в Safari** (подтверждено дизайнером).
+- bg: transparent — без заливки/радиуса; base-no-shadow — fill `bg-surface/neutral/base-container` + верхние радиусы `corner-radius/lg`; base-with-shadow — то же + drop-shadow 0/−4 blur 24 @8% (effect style `S:ad9a26eb68013032d219d22f3c31425138a45658,`).
+- **`.bottom-action-bar/buttons` приватный SET `3596:1433`** (Скрыт, v2.0.0): `buttons-layout` VARIANT [1-button `3596:1440`, 2-buttons-vertical `3596:1434` (def), 2-buttons-horizontal `3596:1437`] · `show-slot#4499:36` BOOL (def false) + `slot#11781:0` SLOT (stretchChildOnInsert, дефолтный контент `.progress-bar-with-label`) · INSTANCE_SWAP по позициям: `button-type#3551:22`, `top-button-type#3551:6`, `bottom-button-type#3551:10`, `left-button-type#3551:14`, `right-button-type#3551:18`. Значения свопа: **primary-button `162:2365`, on-container-button `162:2373`**.
+- padding панели кнопок 12/16/12/16 (`space-3`/`space-4`), gap 12.
+- ⭐ **ПРАВИЛО ПРИОРИТЕТА (закодировано в компоненте):** в `2-buttons-vertical` primary — **снизу**, в `2-buttons-horizontal` — **справа**. Свопы позволяют это сломать → в доке обязателен Do/Don't на эту тему.
+- `primary-button` SET `3446:38100`: `size` [lg/md/sm] × `state` [rest/hover/pressed/disabled/loading], `is-focused#3446:606`, `label#3446:611`. У on-container-button ключ лейбла `label#3446:617`. **Фокус есть** (в отличие от inline-alert) и живёт на кнопке, не на панели.
+- **композиция:** панель уже встроена в `0.generic-modal-action-sheet` SET `5150:55595` (вариант `type=with-bottom-action-bar` `5150:55600`) и в `onboarding-modal` (`show-bottom-action-bar#5141:13`). ⚠️ Вариант `type=with-keyboard` `5150:55604` панели действий **не содержит** — клавиатура её заменяет; не выдумывать «панель поднимается над клавиатурой» для модалок.
+- старая дока `bottom-action-bar-doc` `4601:56838` (1440 шириной) — оставлена, удаляет дизайнер. Её содержание перенесено в новую.
+
 ### Mockup building blocks (real components — use these, don't hand-draw)
 Each component has its OWN page named `🧩 <name>`. Import a variant by key (`importComponentByKeyAsync`).
 - **top-nav** — SET `936:4441` on page `🧩 top-nav` (`928:9324`). Screen header w/ large title (393×172): key `dc4c19a0ccc5c1ec14956cfb598386d35ddc5fb2`; compact screen (393×106): `596c0f22a11ed5427e16b9e3e50c4955fe67430c`. Props: `lg-title#936:67`, `subtitle#936:43`, `show-subtitle#936:57`, `show-search`, `show-stepper-bar`, variants `style` (screen/large-modal), `show-lg-title`, `show-segmented-tabs`. Includes the iOS status bar (9:41 + icons). **Hide the nested `right-content` node** (`node.visible=false`) for a clean header — it defaults to a stray badge.
@@ -230,9 +244,9 @@ const V = {
   bgBase:'VariableID:91490344d3ebe5f52ed9583a477dc0c9e27c6484/3446:226',
   bgContainer:'VariableID:0a3c000f5d25113ac09ed9c2c29611a15696b4c8/6026:156',
   bgFloating:'VariableID:ae1e0e6e22356632487a893354b24fde8142ac68/6026:157',
-  successTint:'VariableID:740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682/6026:322',
-  warningTint:'VariableID:c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c/6026:324',
-  dangerTint:'VariableID:aef2c53b3c6e2ca35b2707b36860c48e028cb3c8/6026:326',
+  successTint:'VariableID:740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682/8215:691',
+  warningTint:'VariableID:c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c/8215:693',
+  dangerTint:'VariableID:aef2c53b3c6e2ca35b2707b36860c48e028cb3c8/8215:695',
   tPrimary:'VariableID:2cf87952d5d6554bf01fb262baae2f564131bcc1/6026:158',
   tSecondary:'VariableID:359f4049cf5379da4dcae1291bec3ac1886deb6d/3446:230',
   tTertiary:'VariableID:ef9f1d5a8836fadab96bac0324cd222c81342bba/6026:164',
@@ -335,6 +349,9 @@ Sibling reference: inline-alert's description is one ~180-char intent paragraph 
 - ⛔ **Empty / bring-your-own-content slots render as a transparent checkerboard** in docs (e.g. avatar `type=image` ships an empty image). Don't show the raw empty slot — swap the nested content instance to a realistic variant (see §5 avatar), or pick a type that has visible default content.
 - **Nested private-component variants aren't always exposed on the public component.** If a prop you need (e.g. avatar's `indicator-type`) isn't in `componentPropertyDefinitions`, reach into the instance: `inst.children.find(n=>n.name==='<layer>').setProperties({...})`. Editing a nested instance's variant is allowed and doesn't mutate the main component.
 - ⛔ **No fixed heights that clip; mind card width.** A ~360-wide half-width card can't hold a wide mobile component (it clips horizontally) — use a FULL-WIDTH card for wide/mobile previews, or set the instance to FILL the preview. Always re-screenshot and confirm nothing is cut.
+- ⛔ **Проверяй, что переменная реально нашлась: `getVariableByIdAsync` может вернуть `null`, и бинд молча не применится.** `setBoundVariableForPaint(paint, 'color', null)` возвращает исходный paint → на канвасе остаётся **чёрная** заливка, ошибки нет. Хелперы `fillVar`/`vbind`/`strokeVar` ОБЯЗАНЫ бросать на `null`. Так на bottom-action-bar все Do/Don't-карточки уехали в чёрный: ID тинтов из §2 были от другого файла (`/6026:*` вместо `/8215:*`). При расхождении — искать переменную **по имени** в коллекции (`col.variableIds` → `getVariableByIdAsync` → сверить `v.name`), а не подставлять ID вслепую.
+- ⛔ **Вложенные системные компоненты фиксированной ширины не сжимаются.** `iOS-safari-toolbar` (393) внутри панели при `inst.layoutSizingHorizontal='FILL'` в узкой колонке обрезается по краям (AA, «обновить»). Правило: если превью содержит элемент фиксированной ширины — **не ставить FILL**, показывать в натуральную величину. Для этого годится «широкая карточка»: `card` HORIZONTAL, `preview` FILL + текстовая колонка FIXED 200 → превью ≈476, внутренняя ширина ≈452 ≥ 393.
+- ⛔ **Три колонки в ряд не держат мобильный компонент.** 736 / 3 ≈ 235, внутри ≈203 → у `2-buttons-horizontal` подписи режутся пополам. Для превью шириной 393 максимум **2 колонки** (≈320) либо широкая карточка. Три колонки — только для коротких однокнопочных превью.
 
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
