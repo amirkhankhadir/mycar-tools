@@ -121,7 +121,7 @@ text/neutral/primary      VariableID:2cf87952d5d6554bf01fb262baae2f564131bcc1/60
 text/neutral/secondary    VariableID:359f4049cf5379da4dcae1291bec3ac1886deb6d/3446:230
 text/neutral/tertiary     VariableID:ef9f1d5a8836fadab96bac0324cd222c81342bba/6026:164
 text/neutral/disabled     VariableID:4fc8d84a088f0206148994b16f5a8f5a4ac48bdd/6026:160
-text/neutral/link         VariableID:e6df5c2111aa38070d9372ba6586d64b1b4f16f1/6026:362
+text/neutral/link         VariableID:e6df5c2111aa38070d9372ba6586d64b1b4f16f1/8215:807
 text/semantic/success     VariableID:e08969be55a6ec0d7680828372094e94f3476a00/6026:161
 text/semantic/warning     VariableID:a758ba4fcfaefd86b2b6586d6560584988d5a4aa/6026:162
 text/semantic/danger      VariableID:16c289e72cbfece76ef8dda363648ecfc3fdf1c9/6026:163
@@ -208,6 +208,16 @@ Page `🧩 alerts` = node `642:13165`, fileKey `UGCOeKehvfoEkWtbXr4Mav`.
 - `primary-button` SET `3446:38100`: `size` [lg/md/sm] × `state` [rest/hover/pressed/disabled/loading], `is-focused#3446:606`, `label#3446:611`. У on-container-button ключ лейбла `label#3446:617`. **Фокус есть** (в отличие от inline-alert) и живёт на кнопке, не на панели.
 - **композиция:** панель уже встроена в `0.generic-modal-action-sheet` SET `5150:55595` (вариант `type=with-bottom-action-bar` `5150:55600`) и в `onboarding-modal` (`show-bottom-action-bar#5141:13`). ⚠️ Вариант `type=with-keyboard` `5150:55604` панели действий **не содержит** — клавиатура её заменяет; не выдумывать «панель поднимается над клавиатурой» для модалок.
 - старая дока `bottom-action-bar-doc` `4601:56838` (1440 шириной) — оставлена, удаляет дизайнер. Её содержание перенесено в новую.
+
+### buttons (семейство) — страница `🧩 buttons` (`1:6`) · дока **CONCEPT `15287:28909`** (ждёт согласования), старая `buttons-doc` `4582:23247` (1440, удаляет дизайнер)
+- **11 COMPONENT_SET + 1 COMPONENT.** primary `3446:38100` · on-base `3446:38103` · on-container `3446:38102` · outline `3446:38108` · link `3446:38107` · inverse `3446:38105` · white `3576:13001` · blur `3446:38079` · success `38:1035` · **danger `15271:1893`** · **danger-link `15271:28749`** · integration-button COMPONENT `1430:15768`.
+- варианты: `size` [lg 56 / md 44 / sm 32] × `state` [rest/hover/pressed/disabled/loading] = 15. Имя варианта строго `size=lg, state=rest`. **Исключение — blur-button: только `size`, без `state`** (3 варианта) → искать вариант с фолбэком `'size=lg, state=rest' || 'size=lg' || children[0]`.
+- ключи свойств отличаются у каждого сета (`label#3446:611` у primary, `#3446:617` у on-container, `#3446:641` у link, `#3446:500` у danger) → **находить по `startsWith('label')`**, не хардкодить. Так же `show-leading-icon`, `show-trailing-icon`, `is-focused`.
+- внутренние слои (для анатомии): `focus-ring` FRAME (скрыт, включается `is-focused`) · `leading-icon` INSTANCE 24×24 @16,16 · `label-container` → TEXT `button-label` @44,18 · `trailing-icon` INSTANCE 24×24. У lg с двумя иконками и подписью «Продолжить» габарит 200×56.
+- **`integration-button` — НЕ платёжная кнопка** (легко ошибиться): составной компонент, внутри INSTANCE `primary-button` + FRAME `container` с логотипом партнёра. Props: `title#1430:2` TEXT (def «Title»), `show-logo#1430:1` BOOL (def true), `icon#1430:0` INSTANCE_SWAP (дефолт — логотип LiTRO). Описание у компонента **пустое**.
+- иконочные кнопки — отдельная страница `🧩 icon-buttons` (`3446:38101`), 8 сетов + **danger-icon-button `15271:29603`**; `shape` [circle/square] × `size` [xl 56/lg 44/md 32/sm 24] × `state` (4, **loading НЕТ**).
+- полезные ключи для превью: контрастная подложка `bg-surface/brand/strong` `bce37a7be3b78dd9892d31812298182a07ebc810`; подписи на ней — `text/neutral/on-fill` `7ef201c4f476c76d6fbd94d97ec093ee72962b7e`; чип для сравнения — SET `primary-chip` `3f4e0c29c55eae5a57b973ef9d3df299c75e84a8` (вариант `style=on-container, size=lg, is-selected=False, state=rest`); иконка корзины — `general/Delete` `dc55d51a6899b9cf993128f08761127937cc9fe7`.
+- danger-семейство добавлено 12.08.2026 клоном success/link + ремапом на `bg/semantic/danger/strong/*`, `text|icon/semantic/danger`. Прописано в свапы 27 пропертей 12 компонентов (bottom-action-bar, content-block, page-states, list-items, heading, chat, stepper, timeline).
 
 ### Mockup building blocks (real components — use these, don't hand-draw)
 Each component has its OWN page named `🧩 <name>`. Import a variant by key (`importComponentByKeyAsync`).
@@ -352,6 +362,10 @@ Sibling reference: inline-alert's description is one ~180-char intent paragraph 
 - ⛔ **Проверяй, что переменная реально нашлась: `getVariableByIdAsync` может вернуть `null`, и бинд молча не применится.** `setBoundVariableForPaint(paint, 'color', null)` возвращает исходный paint → на канвасе остаётся **чёрная** заливка, ошибки нет. Хелперы `fillVar`/`vbind`/`strokeVar` ОБЯЗАНЫ бросать на `null`. Так на bottom-action-bar все Do/Don't-карточки уехали в чёрный: ID тинтов из §2 были от другого файла (`/6026:*` вместо `/8215:*`). При расхождении — искать переменную **по имени** в коллекции (`col.variableIds` → `getVariableByIdAsync` → сверить `v.name`), а не подставлять ID вслепую.
 - ⛔ **Вложенные системные компоненты фиксированной ширины не сжимаются.** `iOS-safari-toolbar` (393) внутри панели при `inst.layoutSizingHorizontal='FILL'` в узкой колонке обрезается по краям (AA, «обновить»). Правило: если превью содержит элемент фиксированной ширины — **не ставить FILL**, показывать в натуральную величину. Для этого годится «широкая карточка»: `card` HORIZONTAL, `preview` FILL + текстовая колонка FIXED 200 → превью ≈476, внутренняя ширина ≈452 ≥ 393.
 - ⛔ **Три колонки в ряд не держат мобильный компонент.** 736 / 3 ≈ 235, внутри ≈203 → у `2-buttons-horizontal` подписи режутся пополам. Для превью шириной 393 максимум **2 колонки** (≈320) либо широкая карточка. Три колонки — только для коротких однокнопочных превью.
+
+- ⛔ **`node.screenshot()` рендерит в дефолтном режиме документа (`mycar-light`), а НЕ в том, в котором дизайнер смотрит файл.** У doc-фреймов `explicitVariableModes` пустой (наследование), и у канона тоже — поэтому инлайн-скриншот не воспроизведёт тёмную тему пользователя. Вывод: **визуальные баги в тёмной теме скриншотом не поймать**; проверять привязки токенов (что ни одна краска не осталась несвязанной), а для тёмного превью временно `sect.setExplicitVariableModeForCollection(coll, darkModeId)` → скриншот → `clearExplicitVariableModeForCollection`.
+- ⛔ **Свап кнопки в `2-buttons-vertical` у `.bottom-action-bar/buttons` сбрасывает размер вложенной кнопки в HUG** (92 вместо ширины панели); в `2-buttons-horizontal` FILL сохраняется. После свапа ставить `inst.layoutSizingHorizontal='FILL'` и заново находить узел (instance-edit churn). Подписи после свапа тоже дефолтные («Button») — задавать реальные.
+- ⛔ **Апостроф в `"Don't"` внутри одинарных кавычек ломает скрипт** (`SyntaxError: expecting ','`). Для строк Do & Don't использовать двойные кавычки.
 
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
