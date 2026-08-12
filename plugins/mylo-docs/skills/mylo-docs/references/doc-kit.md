@@ -21,6 +21,7 @@
 - [ ] **Only verified behavior.** No invented states/sizes (this component has NO focus state; close touch-area is 40×40). Guidance phrased as guidance, not "the component does X".
 - [ ] **Transparent structural frames** (`fills=[]`) so no white boxes on tinted cards.
 - [ ] **Realistic, non-redundant copy.** Comparison pairs use identical content except the illustrated variable.
+- [ ] **Ошибочный образец живёт ТОЛЬКО в Do & Don't.** В тематическом разделе показывай лишь корректные варианты. Проверено на buttons: три одинаково синие кнопки (`Смотреть все авто` / `Смотреть Все Авто` / `СМОТРЕТЬ ВСЕ АВТО`) с нейтральными подписями регистра читались как «все три допустимы» — дизайнер сразу это заметил. Правильная раскладка: правило + корректные образцы в разделе, сравнение с запретом — парой в Do & Don't (в «не так» можно положить два ошибочных образца сразу, `layoutWrap='WRAP'`).
 - [ ] **Russian typography pass** over ALL text before finalizing (§6a): nbsp after hanging prepositions/conjunctions, number+unit together (`3 дня`), no illogical breaks. See [[feedback_ru_typography]].
 - [ ] **Never mutate the component** — only its text properties.
 
