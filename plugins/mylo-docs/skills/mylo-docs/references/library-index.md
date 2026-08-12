@@ -37,7 +37,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | avatar | 🧩 avatars | 12581:799 | 12604:1452 | ✅ finalized | ✅ |
 | badges | 🧩 badges | 12608:1037 | 12629:1115 | ✅ finalized | ✅ |
 | bottom-action-bar | 🧩 bottom-actions | 15266:956 | — (не собран) | ✅ finalized | ✅ |
-| buttons (семейство, 12 компонентов) | 🧩 buttons | 15287:28909 | — | 🚧 built (awaiting approval) | — |
+| buttons (семейство, 12 компонентов) | 🧩 buttons | 15287:28909 | — | ✅ finalized | ✅ |
 
 > Добавляй строку при старте компонента; заполняй node-id по мере создания фреймов; меняй статус на
 > approval; ставь **Linked?** ✅ после того как `documentationLinks` задан и прочитан обратно.
