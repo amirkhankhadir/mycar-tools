@@ -8,7 +8,7 @@
 >
 > **All project decisions are settled:** mobile-width component previews, colored Do/Don't cards, all token-bound; **dev detail lives in a separate `DEV NOTES — [Component]` frame** (see that section); **finalized docs are tracked in `library-index.md`** (the component registry).
 >
-> ⚡ **Load `.claude/doc-kit.md` first.** It freezes the reusable references so we don't re-derive them each session: the exact house-style spec (frame **800px** wide — the canonical Accordion doc supersedes the old 720 figure), the variable-ID and text-style-ID maps (bind by ID, no harvest), status-icon keys, per-component prop tables, and paste-in JS snippet helpers. Only re-harvest if a bind actually fails.
+> ⚡ **Load `.claude/doc-kit.md` first.** It freezes the reusable references so we don't re-derive them each session: the exact house-style spec (frame **800px** wide — the canonical Accordion doc supersedes the old 720 figure), the variable-KEY and text-style-KEY maps (resolve by key via `importVariableByKeyAsync` / `importStyleByKeyAsync` — никогда не хардкодить `VariableID:.../local-id`), status-icon keys, per-component prop tables, and paste-in JS snippet helpers. Harvest (§7) только чтобы ДОБАВИТЬ токен в карту, не чтобы «обновить» id.
 
 ## Figma Documentation
 
@@ -83,7 +83,7 @@ Do **not** add "Stable", "Accessible", "Deprecated" badges to doc frames. They r
 
 Every text node must use a Mўlo text style — never hardcode `fontSize`/`fontWeight`/`lineHeight`. Fonts: **Okta Neue** (title/subtitle), **Inter Display** (body/action/label/caption).
 
-→ The **full text-style ramp and the exact per-element mapping** live in `doc-kit.md` §3 (style-ID map) and §1 (house-style: which style each doc element uses). Use those; don't restate values here.
+→ The **full text-style ramp and the exact per-element mapping** live in `doc-kit.md` §3 (style-KEY map) and §1 (house-style: which style each doc element uses). Use those; don't restate values here.
 
 ---
 
@@ -169,7 +169,7 @@ Never document the same behavior in two sections.
 
 ### Card visual style
 
-→ All exact card/frame/preview/pill/chip specs and the token values (fills, radii, padding, Do/Don't tints, status tokens) live in `doc-kit.md` §1 (house-style) with the ID maps in §2. Colored cards use fill only (no accent strips). Don't restate values here.
+→ All exact card/frame/preview/pill/chip specs and the token values (fills, radii, padding, Do/Don't tints, status tokens) live in `doc-kit.md` §1 (house-style) with the key maps in §2. Colored cards use fill only (no accent strips). Don't restate values here.
 
 ### Dos & Don'ts — structure
 
@@ -225,4 +225,4 @@ Two things happen on every finalize, without asking. The *code* lives once, in t
 
 ## Reference — Mўlo libraries & tokens
 
-→ Library fileKeys are in `library-index.md` (Files table). Token conventions, the exact `name→VariableID` / `name→StyleID` maps, spacing/radius/border scales, icon keys, and component props all live in **`doc-kit.md` §2–§5**. Single source — don't restate here.
+→ Library fileKeys are in `library-index.md` (Files table). Token conventions, the exact `name→variable key` / `name→style key` maps, spacing/radius/border scales, icon keys, and component props all live in **`doc-kit.md` §2–§5**. Single source — don't restate here.

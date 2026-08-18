@@ -2,7 +2,7 @@
 
 > **Purpose:** everything reusable across doc builds, frozen so we don't re-derive it every session (no re-reading the canonical doc, no re-harvesting variable/style IDs, no re-searching icons). Load this alongside `documentation.md` at the start of any Mylo doc build.
 >
-> **Staleness rule:** IDs below are stable per file but can change if variables/styles are republished or reorganized. Try by ID first; **only if a `setBoundVariable` / `setTextStyleIdAsync` fails, do a one-time re-harvest** (script at the bottom) and update this file. Don't re-harvest preemptively.
+> **Key rule (do NOT hardcode full IDs):** a `VariableID:<key>/<local-id>` or `S:<key>,<local-id>` pins the *imported copy inside one file*. When the library is republished or re-imported, the file gets a NEW copy and the old id keeps resolving to the **stale** one - pre-refactor values, missing modes (this is exactly how docs ended up bound to a 2-mode `light-mode/dark-mode` generation of Core after the brand-modes refactor). Below are **keys only** - the key is stable forever. Resolve at build time: `figma.variables.importVariableByKeyAsync(key)` / `figma.importStyleByKeyAsync(key)`. Re-harvest (§7) only to ADD tokens, never to "refresh" ids.
 >
 > Harvested from the canonical **`DOCUMENTATION — Accordion`** frame (node `12017:1595`) on 2026-07-07. That frame remains the visual canon — but the spec below replaces having to open it.
 
@@ -24,6 +24,7 @@
 - [ ] **Ошибочный образец живёт ТОЛЬКО в Do & Don't.** В тематическом разделе показывай лишь корректные варианты. Проверено на buttons: три одинаково синие кнопки (`Смотреть все авто` / `Смотреть Все Авто` / `СМОТРЕТЬ ВСЕ АВТО`) с нейтральными подписями регистра читались как «все три допустимы» — дизайнер сразу это заметил. Правильная раскладка: правило + корректные образцы в разделе, сравнение с запретом — парой в Do & Don't (в «не так» можно положить два ошибочных образца сразу, `layoutWrap='WRAP'`).
 - [ ] **Russian typography pass** over ALL text before finalizing (§6a): nbsp after hanging prepositions/conjunctions, number+unit together (`3 дня`), no illogical breaks. See [[feedback_ru_typography]].
 - [ ] **Never mutate the component** — only its text properties.
+- [ ] **Токены только по ключам.** Ни одного захардкоженного `VariableID:.../local-id` или `S:...,local-id` — только `importVariableByKeyAsync` / `importStyleByKeyAsync` (§2–§3). После сборки проверь: все цветовые привязки ведут в коллекцию с 4 модами (mycar/finance × light/dark), а не в старую с `light-mode/dark-mode`.
 
 ## 1. House-style spec (exact, token-bound)
 
@@ -39,7 +40,7 @@
 
 ### Header (first child of frame)
 - frame VERTICAL, gap `spacing/space-4` (16), no fill
-- **H1 title** — Okta Neue **Bold**, size **28**, lineHeight 34px, letterSpacing −0.5; fill `text/neutral/primary`; bind fontFamily → `font/family/title`. (No text style is applied to H1 in the canon.)
+- **H1 title** — Okta Neue **Bold**, size **28**, lineHeight 34px, letterSpacing −0.5; fill → `text/neutral/primary`; **fontFamily не привязываем** — в Core нет шрифтовых переменных (§2). (No text style is applied to H1 in the canon.)
 - **Description** — text style `body/md-regular`, fill `text/neutral/secondary`
 
 ### Divider under header
@@ -94,62 +95,62 @@ Structure: `card` → **`preview`** (the ONE gray stage: fill `bg-surface/neutra
 
 ---
 
-## 2. Variable ID map (name → VariableID) — bind by ID
+## 2. Variable key map (name → variable key) — resolve by key
 
 ```
-spacing/space-none        VariableID:ba8d43b1b56b7dc3cb1ce19b81ccd574bf14a894/3446:557
-spacing/space-0-5         VariableID:a673f28ad9d3275eb5b42175feefe3be3f763fa8/3446:567
-spacing/space-1           VariableID:5b7bf0e69bc86462c3b2a66586721a3b7fd531b4/3446:568
-spacing/space-2           VariableID:95a995834838340a78a4fac6f74e24bc706c5561/3446:569
-spacing/space-3           VariableID:877167ff6ec45f4f810c7209b2ea26c6f5328004/3446:570
-spacing/space-4           VariableID:01ba1b7ff120978666649d2373596b28068b9878/3446:571
-spacing/space-5           VariableID:6255e8c1449062570ba8c6926aa1ef4b5d397c33/3446:572
-spacing/space-8           VariableID:8dcdd5e669107a4b0328672e3108e44c8d10f662/3446:574
-spacing/space-10          VariableID:3915e09464eab6541733891095bb2480aee5f7ca/3446:575
-corner-radius/none        VariableID:064bedfef6073fed13edff771db35792d5a3c624/3446:645
-corner-radius/xs          VariableID:2701510418e802c3016442019b78740c09365915/3446:648
-corner-radius/sm          VariableID:0c6b1457ca082e148c02f6f135ed827848b6e891/3446:649
-corner-radius/lg          VariableID:93315ffd301899c05bd3f7140de83a20d90382d4/3446:651
-border/width/xs           VariableID:1ec96e3c5018f51131b1ac3bf7e99a577ec00c27/3474:5
-border/width/sm           VariableID:f7fbd0ea6622adff0b0d17fb33a1f526fc72da99/3446:697
-bg-surface/neutral/base            VariableID:91490344d3ebe5f52ed9583a477dc0c9e27c6484/3446:226
-bg-surface/neutral/base-container  VariableID:0a3c000f5d25113ac09ed9c2c29611a15696b4c8/6026:156
-bg-surface/neutral/floating        VariableID:ae1e0e6e22356632487a893354b24fde8142ac68/6026:157
-bg-surface/semantic/success/tint   VariableID:740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682/8215:691
-bg-surface/semantic/warning/tint   VariableID:c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c/8215:693
-bg-surface/semantic/danger/tint    VariableID:aef2c53b3c6e2ca35b2707b36860c48e028cb3c8/8215:695
-text/neutral/primary      VariableID:2cf87952d5d6554bf01fb262baae2f564131bcc1/6026:158
-text/neutral/secondary    VariableID:359f4049cf5379da4dcae1291bec3ac1886deb6d/3446:230
-text/neutral/tertiary     VariableID:ef9f1d5a8836fadab96bac0324cd222c81342bba/6026:164
-text/neutral/disabled     VariableID:4fc8d84a088f0206148994b16f5a8f5a4ac48bdd/6026:160
-text/neutral/link         VariableID:e6df5c2111aa38070d9372ba6586d64b1b4f16f1/8215:807
-text/semantic/success     VariableID:e08969be55a6ec0d7680828372094e94f3476a00/6026:161
-text/semantic/warning     VariableID:a758ba4fcfaefd86b2b6586d6560584988d5a4aa/6026:162
-text/semantic/danger      VariableID:16c289e72cbfece76ef8dda363648ecfc3fdf1c9/6026:163
-icon/neutral/primary      VariableID:6a7c11e71bcd216089e8c4f71d147990f8e34cd0/6026:194
-icon/neutral/secondary    VariableID:b98a5ae96600005278e01f18d0c0cd55ec03f2ed/6026:196
-icon/neutral/disabled     VariableID:b91c4b71acc4c641d12ad471dd57d8ec352cfbac/6026:198
-stroke/neutral/secondary  VariableID:50f4f96c80ef6740a68fd4d11439fee500b44312/6026:218
-stroke/focus-ring         VariableID:c3c2a7888da517c410113d5f214bfe6bfb9c25e6/6026:356
-font/family/title         VariableID:31e0d2a1721eb5e3ab67aaf45a6f6f6c9a3ee2b7/56:12
-font/family/body          VariableID:c69dadf7e8b9341e786015f126788b204b29979a/56:13
+spacing/space-none                  ba8d43b1b56b7dc3cb1ce19b81ccd574bf14a894
+spacing/space-0-5                   a673f28ad9d3275eb5b42175feefe3be3f763fa8
+spacing/space-1                     5b7bf0e69bc86462c3b2a66586721a3b7fd531b4
+spacing/space-2                     95a995834838340a78a4fac6f74e24bc706c5561
+spacing/space-3                     877167ff6ec45f4f810c7209b2ea26c6f5328004
+spacing/space-4                     01ba1b7ff120978666649d2373596b28068b9878
+spacing/space-5                     6255e8c1449062570ba8c6926aa1ef4b5d397c33
+spacing/space-8                     8dcdd5e669107a4b0328672e3108e44c8d10f662
+spacing/space-10                    3915e09464eab6541733891095bb2480aee5f7ca
+corner-radius/none                  064bedfef6073fed13edff771db35792d5a3c624
+corner-radius/xs                    2701510418e802c3016442019b78740c09365915
+corner-radius/sm                    0c6b1457ca082e148c02f6f135ed827848b6e891
+corner-radius/lg                    93315ffd301899c05bd3f7140de83a20d90382d4
+border/width/xs                     1ec96e3c5018f51131b1ac3bf7e99a577ec00c27
+border/width/sm                     f7fbd0ea6622adff0b0d17fb33a1f526fc72da99
+bg-surface/neutral/base             91490344d3ebe5f52ed9583a477dc0c9e27c6484
+bg-surface/neutral/base-container   0a3c000f5d25113ac09ed9c2c29611a15696b4c8
+bg-surface/neutral/floating         ae1e0e6e22356632487a893354b24fde8142ac68
+bg-surface/semantic/success/tint    740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682
+bg-surface/semantic/warning/tint    c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c
+bg-surface/semantic/danger/tint     aef2c53b3c6e2ca35b2707b36860c48e028cb3c8
+text/neutral/primary                2cf87952d5d6554bf01fb262baae2f564131bcc1
+text/neutral/secondary              359f4049cf5379da4dcae1291bec3ac1886deb6d
+text/neutral/tertiary               ef9f1d5a8836fadab96bac0324cd222c81342bba
+text/neutral/disabled               4fc8d84a088f0206148994b16f5a8f5a4ac48bdd
+text/neutral/link                   e6df5c2111aa38070d9372ba6586d64b1b4f16f1
+text/semantic/success               e08969be55a6ec0d7680828372094e94f3476a00
+text/semantic/warning               a758ba4fcfaefd86b2b6586d6560584988d5a4aa
+text/semantic/danger                16c289e72cbfece76ef8dda363648ecfc3fdf1c9
+icon/neutral/primary                6a7c11e71bcd216089e8c4f71d147990f8e34cd0
+icon/neutral/secondary              b98a5ae96600005278e01f18d0c0cd55ec03f2ed
+icon/neutral/disabled               b91c4b71acc4c641d12ad471dd57d8ec352cfbac
+stroke/neutral/secondary            50f4f96c80ef6740a68fd4d11439fee500b44312
+stroke/focus-ring                   c3c2a7888da517c410113d5f214bfe6bfb9c25e6
 ```
 
-## 3. Text style ID map (name → StyleID) — `setTextStyleIdAsync`
+**Font family:** Core has **no** font-family variables (checked: `brand-theme-semantics` 181, `display-semantics` 56, `global-primitives` — none match). Earlier versions of this kit bound `fontFamily` to a `typography` collection that is not part of Core and is not even available to the library file. **Do not bind `fontFamily` at all** — set `fontName` explicitly (`Okta Neue` / `Inter Display`) and load the font first.
+
+## 3. Text style key map (name → style key) — `importStyleByKeyAsync` → `setTextStyleIdAsync(style.id)`
 
 ```
-title/md-medium              S:78d1f5c755a6bfadc24a9623158e0901a51619e3,2003:27
-body/lg-regular              S:494cdfb8455c71f23cff383a73e7c6b10c1085ed,2003:33
-body/lg-regular-low-height   S:162a1bc9be3ae3a1e6b693042e4f60551113bc2b,2003:34
-body/lg-medium               S:dcc1d1cfc7c50da3e3655201f08e3227d1f5ef05,2003:35
-body/md-regular              S:4df58100c82dfaeb8b662e367d6ec7ad62f0c9c6,2003:36
-body/md-medium               S:17b7218d524a6642685cc6266900e037154fdbdf,2003:37   (Inter Display Medium — used for list-row titles)
-body/sm-regular              S:76873e37105711000f5c4b317e459166e75589fb,2003:38
-body/sm-medium               S:cc0fd582cd3d129454e704d74fb20351132cc48a,56:43
-caption/sm-medium            S:435f82a164907ded63ccaf3c63842e60044d36d9,2003:45
+title/md-medium               78d1f5c755a6bfadc24a9623158e0901a51619e3
+body/lg-regular               494cdfb8455c71f23cff383a73e7c6b10c1085ed
+body/lg-regular-low-height    162a1bc9be3ae3a1e6b693042e4f60551113bc2b
+body/lg-medium                dcc1d1cfc7c50da3e3655201f08e3227d1f5ef05
+body/md-regular               4df58100c82dfaeb8b662e367d6ec7ad62f0c9c6
+body/md-medium                17b7218d524a6642685cc6266900e037154fdbdf   (Inter Display Medium - used for list-row titles)
+body/sm-regular               76873e37105711000f5c4b317e459166e75589fb
+body/sm-medium                cc0fd582cd3d129454e704d74fb20351132cc48a
+caption/sm-medium             435f82a164907ded63ccaf3c63842e60044d36d9
 ```
 
-**H1 (no style):** `fontName {family:"Okta Neue", style:"Bold"}`, `fontSize 28`, `lineHeight {unit:"PIXELS", value:34}`, `letterSpacing {unit:"PIXELS", value:-0.5}`, fontFamily bound to `font/family/title`.
+**H1 (no style):** `fontName {family:"Okta Neue", style:"Bold"}`, `fontSize 28`, `lineHeight {unit:"PIXELS", value:34}`, `letterSpacing {unit:"PIXELS", value:-0.5}`, fill → `text/neutral/primary`. No text style and **no fontFamily binding**.
 
 ## 4. Icon component keys (Mўlo Icons lib `6hA6u3FBiihgDnyb9WGIBi`) — `importComponentByKeyAsync`
 
@@ -202,7 +203,7 @@ Page `🧩 alerts` = node `642:13165`, fileKey `UGCOeKehvfoEkWtbXr4Mav`.
 - public props: `bg` VARIANT [transparent (def), base-no-shadow, base-with-shadow] · `adaptive` VARIANT [false (def), true] · `show-home-indicator#4699:0` BOOL (def true).
 - variant node ids: transparent/false `3507:9484` · transparent/true `3507:9645` · base-with-shadow/false `3507:9531` · base-with-shadow/true `3507:9649` · base-no-shadow/false `3507:9588` · base-no-shadow/true `3507:9653`.
 - structure: VERTICAL → `buttons` (инстанс приватного сета) + системная зона. **adaptive=false → `iOS-general-home-indicator` (34, style black/white); adaptive=true → `iOS-safari-toolbar` (52, scrolled True/False, домен mycar.kz) = мобильный веб в Safari** (подтверждено дизайнером).
-- bg: transparent — без заливки/радиуса; base-no-shadow — fill `bg-surface/neutral/base-container` + верхние радиусы `corner-radius/lg`; base-with-shadow — то же + drop-shadow 0/−4 blur 24 @8% (effect style `S:ad9a26eb68013032d219d22f3c31425138a45658,`).
+- bg: transparent — без заливки/радиуса; base-no-shadow — fill `bg-surface/neutral/base-container` + верхние радиусы `corner-radius/lg`; base-with-shadow — то же + drop-shadow 0/−4 blur 24 @8% (effect style key `ad9a26eb68013032d219d22f3c31425138a45658` — импортировать через `figma.importStyleByKeyAsync`, затем `setEffectStyleIdAsync(style.id)`).
 - **`.bottom-action-bar/buttons` приватный SET `3596:1433`** (Скрыт, v2.0.0): `buttons-layout` VARIANT [1-button `3596:1440`, 2-buttons-vertical `3596:1434` (def), 2-buttons-horizontal `3596:1437`] · `show-slot#4499:36` BOOL (def false) + `slot#11781:0` SLOT (stretchChildOnInsert, дефолтный контент `.progress-bar-with-label`) · INSTANCE_SWAP по позициям: `button-type#3551:22`, `top-button-type#3551:6`, `bottom-button-type#3551:10`, `left-button-type#3551:14`, `right-button-type#3551:18`. Значения свопа: **primary-button `162:2365`, on-container-button `162:2373`**.
 - padding панели кнопок 12/16/12/16 (`space-3`/`space-4`), gap 12.
 - ⭐ **ПРАВИЛО ПРИОРИТЕТА (закодировано в компоненте):** в `2-buttons-vertical` primary — **снизу**, в `2-buttons-horizontal` — **справа**. Свопы позволяют это сломать → в доке обязателен Do/Don't на эту тему.
@@ -236,56 +237,60 @@ Each component has its OWN page named `🧩 <name>`. Import a variant by key (`i
 
 ## 6. Reusable snippet library (paste into use_figma)
 
-Compact helpers. `V` = variable-id map, `TS` = text-style map from above. Bind via IDs so no harvest is needed.
+Compact helpers. `V` = variable-KEY map, `TS` = text-style-KEY map from above. Everything resolves through `vv()` / `ss()` (import by key) — so a republished library can never leave the doc on a stale token copy.
 
 ```js
-// --- token maps (subset; extend from section 2/3) ---
+// --- token KEY maps (subset; extend from section 2/3). Keys only - never VariableID:.../local-id ---
 const V = {
-  s_none:'VariableID:ba8d43b1b56b7dc3cb1ce19b81ccd574bf14a894/3446:557',
-  s1:'VariableID:5b7bf0e69bc86462c3b2a66586721a3b7fd531b4/3446:568',
-  s2:'VariableID:95a995834838340a78a4fac6f74e24bc706c5561/3446:569',
-  s3:'VariableID:877167ff6ec45f4f810c7209b2ea26c6f5328004/3446:570',
-  s4:'VariableID:01ba1b7ff120978666649d2373596b28068b9878/3446:571',
-  s5:'VariableID:6255e8c1449062570ba8c6926aa1ef4b5d397c33/3446:572',
-  s8:'VariableID:8dcdd5e669107a4b0328672e3108e44c8d10f662/3446:574',
-  s10:'VariableID:3915e09464eab6541733891095bb2480aee5f7ca/3446:575',
-  rXs:'VariableID:2701510418e802c3016442019b78740c09365915/3446:648',
-  rSm:'VariableID:0c6b1457ca082e148c02f6f135ed827848b6e891/3446:649',
-  bwSm:'VariableID:f7fbd0ea6622adff0b0d17fb33a1f526fc72da99/3446:697',
-  bgBase:'VariableID:91490344d3ebe5f52ed9583a477dc0c9e27c6484/3446:226',
-  bgContainer:'VariableID:0a3c000f5d25113ac09ed9c2c29611a15696b4c8/6026:156',
-  bgFloating:'VariableID:ae1e0e6e22356632487a893354b24fde8142ac68/6026:157',
-  successTint:'VariableID:740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682/8215:691',
-  warningTint:'VariableID:c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c/8215:693',
-  dangerTint:'VariableID:aef2c53b3c6e2ca35b2707b36860c48e028cb3c8/8215:695',
-  tPrimary:'VariableID:2cf87952d5d6554bf01fb262baae2f564131bcc1/6026:158',
-  tSecondary:'VariableID:359f4049cf5379da4dcae1291bec3ac1886deb6d/3446:230',
-  tTertiary:'VariableID:ef9f1d5a8836fadab96bac0324cd222c81342bba/6026:164',
-  tSuccess:'VariableID:e08969be55a6ec0d7680828372094e94f3476a00/6026:161',
-  tWarning:'VariableID:a758ba4fcfaefd86b2b6586d6560584988d5a4aa/6026:162',
-  tDanger:'VariableID:16c289e72cbfece76ef8dda363648ecfc3fdf1c9/6026:163',
-  strokeSecondary:'VariableID:50f4f96c80ef6740a68fd4d11439fee500b44312/6026:218',
-  focusRing:'VariableID:c3c2a7888da517c410113d5f214bfe6bfb9c25e6/6026:356',
-  fTitle:'VariableID:31e0d2a1721eb5e3ab67aaf45a6f6f6c9a3ee2b7/56:12',
-  fBody:'VariableID:c69dadf7e8b9341e786015f126788b204b29979a/56:13',
+  s_none:'ba8d43b1b56b7dc3cb1ce19b81ccd574bf14a894', // spacing/space-none
+  s1:'5b7bf0e69bc86462c3b2a66586721a3b7fd531b4', // spacing/space-1
+  s2:'95a995834838340a78a4fac6f74e24bc706c5561', // spacing/space-2
+  s3:'877167ff6ec45f4f810c7209b2ea26c6f5328004', // spacing/space-3
+  s4:'01ba1b7ff120978666649d2373596b28068b9878', // spacing/space-4
+  s5:'6255e8c1449062570ba8c6926aa1ef4b5d397c33', // spacing/space-5
+  s8:'8dcdd5e669107a4b0328672e3108e44c8d10f662', // spacing/space-8
+  s10:'3915e09464eab6541733891095bb2480aee5f7ca', // spacing/space-10
+  rXs:'2701510418e802c3016442019b78740c09365915', // corner-radius/xs
+  rSm:'0c6b1457ca082e148c02f6f135ed827848b6e891', // corner-radius/sm
+  bwSm:'f7fbd0ea6622adff0b0d17fb33a1f526fc72da99', // border/width/sm
+  bgBase:'91490344d3ebe5f52ed9583a477dc0c9e27c6484', // bg-surface/neutral/base
+  bgContainer:'0a3c000f5d25113ac09ed9c2c29611a15696b4c8', // bg-surface/neutral/base-container
+  bgFloating:'ae1e0e6e22356632487a893354b24fde8142ac68', // bg-surface/neutral/floating
+  successTint:'740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682', // bg-surface/semantic/success/tint
+  warningTint:'c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c', // bg-surface/semantic/warning/tint
+  dangerTint:'aef2c53b3c6e2ca35b2707b36860c48e028cb3c8', // bg-surface/semantic/danger/tint
+  tPrimary:'2cf87952d5d6554bf01fb262baae2f564131bcc1', // text/neutral/primary
+  tSecondary:'359f4049cf5379da4dcae1291bec3ac1886deb6d', // text/neutral/secondary
+  tTertiary:'ef9f1d5a8836fadab96bac0324cd222c81342bba', // text/neutral/tertiary
+  tSuccess:'e08969be55a6ec0d7680828372094e94f3476a00', // text/semantic/success
+  tWarning:'a758ba4fcfaefd86b2b6586d6560584988d5a4aa', // text/semantic/warning
+  tDanger:'16c289e72cbfece76ef8dda363648ecfc3fdf1c9', // text/semantic/danger
+  strokeSecondary:'50f4f96c80ef6740a68fd4d11439fee500b44312', // stroke/neutral/secondary
+  focusRing:'c3c2a7888da517c410113d5f214bfe6bfb9c25e6', // stroke/focus-ring
 };
 const TS = {
-  lgMed:'S:dcc1d1cfc7c50da3e3655201f08e3227d1f5ef05,2003:35',
-  mdReg:'S:4df58100c82dfaeb8b662e367d6ec7ad62f0c9c6,2003:36',
-  smReg:'S:76873e37105711000f5c4b317e459166e75589fb,2003:38',
-  smMed:'S:cc0fd582cd3d129454e704d74fb20351132cc48a,56:43',
-  capMed:'S:435f82a164907ded63ccaf3c63842e60044d36d9,2003:45',
+  lgMed:'dcc1d1cfc7c50da3e3655201f08e3227d1f5ef05', // body/lg-medium
+  mdReg:'4df58100c82dfaeb8b662e367d6ec7ad62f0c9c6', // body/md-regular
+  mdMed:'17b7218d524a6642685cc6266900e037154fdbdf', // body/md-medium
+  smReg:'76873e37105711000f5c4b317e459166e75589fb', // body/sm-regular
+  smMed:'cc0fd582cd3d129454e704d74fb20351132cc48a', // body/sm-medium
+  capMed:'435f82a164907ded63ccaf3c63842e60044d36d9', // caption/sm-medium
 };
-async function vbind(node, prop, id){ const v=await figma.variables.getVariableByIdAsync(id); node.setBoundVariable(prop, v); }
-async function fillVar(node, id){ const v=await figma.variables.getVariableByIdAsync(id); const p=JSON.parse(JSON.stringify(node.fills&&node.fills.length?node.fills:[{type:'SOLID',color:{r:0,g:0,b:0}}])); node.fills=[figma.variables.setBoundVariableForPaint(p[0]||{type:'SOLID',color:{r:0,g:0,b:0}}, 'color', v)]; }
-async function strokeVar(node, id){ const v=await figma.variables.getVariableByIdAsync(id); const p={type:'SOLID',color:{r:0,g:0,b:0}}; node.strokes=[figma.variables.setBoundVariableForPaint(p,'color',v)]; }
+// resolve-by-key with cache. If a key throws, the token was renamed/removed in Core - fix the map, do NOT fall back to a hardcoded id.
+const _vc={}, _sc={};
+async function vv(key){ if(!_vc[key]) _vc[key]=await figma.variables.importVariableByKeyAsync(key); return _vc[key]; }
+async function ss(key){ if(!_sc[key]) _sc[key]=await figma.importStyleByKeyAsync(key); return _sc[key]; }
+async function vbind(node, prop, key){ node.setBoundVariable(prop, await vv(key)); }
+async function fillVar(node, key){ const v=await vv(key); const base=(node.fills&&node.fills.length)?JSON.parse(JSON.stringify(node.fills))[0]:{type:'SOLID',color:{r:0,g:0,b:0}}; node.fills=[figma.variables.setBoundVariableForPaint(base,'color',v)]; }
+async function strokeVar(node, key){ const v=await vv(key); node.strokes=[figma.variables.setBoundVariableForPaint({type:'SOLID',color:{r:0,g:0,b:0}},'color',v)]; }
 
 // text with style + color token. Inter Display / Okta Neue must be loaded first.
-async function T(chars, styleId, colorId){
+async function T(chars, styleKey, colorKey){
   const t=figma.createText();
-  await t.setTextStyleIdAsync(styleId);
+  const st=await ss(styleKey);            // import by key -> current copy
+  await t.setTextStyleIdAsync(st.id);
   t.characters=chars;
-  if(colorId) await fillVar(t, colorId);
+  if(colorKey) await fillVar(t, colorKey);
   return t;
 }
 // section: eyebrow + subtitle + content
@@ -391,7 +396,9 @@ Sibling reference: inline-alert's description is one ~180-char intent paragraph 
 
 Keep it deduplicated and terse. This file is the memory of "things I should never re-derive." If a session spent tokens rediscovering something stable, that's the signal it belonged here.
 
-## 7. Re-harvest script (run ONLY if a bind fails)
+## 7. Harvest script (run only to ADD tokens to the maps)
+
+Returns **keys**, never file-local ids. Run it in the library file, paste new rows into §2/§3.
 
 ```js
 const doc = await figma.getNodeByIdAsync('12017:1595'); // canonical accordion doc
@@ -399,8 +406,12 @@ const nodes = doc.findAll(()=>true); nodes.push(doc);
 const varMap={}, styleMap={}, seen={};
 for(const n of nodes){
   if(n.boundVariables) for(const k of Object.keys(n.boundVariables)){ let b=n.boundVariables[k]; b=Array.isArray(b)?b:[b];
-    for(const x of b){ if(x&&x.id&&!seen[x.id]){ seen[x.id]=1; const v=await figma.variables.getVariableByIdAsync(x.id); if(v) varMap[v.name]=x.id; } } }
-  if(n.type==='TEXT'&&n.textStyleId&&n.textStyleId!==figma.mixed){ const s=await figma.getStyleByIdAsync(n.textStyleId); if(s) styleMap[s.name]=n.textStyleId; }
+    for(const x of b){ if(x&&x.id&&!seen[x.id]){ seen[x.id]=1; const v=await figma.variables.getVariableByIdAsync(x.id);
+      if(v){ const c=await figma.variables.getVariableCollectionByIdAsync(v.variableCollectionId);
+        varMap[v.name]={key:v.key, collection:c?c.name:null, modes:c?c.modes.length:null}; } } } }
+  if(n.type==='TEXT'&&n.textStyleId&&n.textStyleId!==figma.mixed){ const st=await figma.getStyleByIdAsync(n.textStyleId); if(st) styleMap[st.name]=st.key; }
 }
 return {varMap, styleMap};
 ```
+
+**Sanity check after harvesting:** every colour variable must report the current Core collection with **4 modes** (`mycar-light, mycar-dark, finance-light, finance-dark`). A 2-mode `light-mode/dark-mode` result means the node you harvested from is itself bound to a stale generation — rebind it first, then re-harvest.
