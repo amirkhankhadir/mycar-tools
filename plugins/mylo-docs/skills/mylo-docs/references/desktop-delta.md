@@ -113,7 +113,7 @@
 
 | Компонент | Оси |
 |---|---|
-| breadcrumbs | `#-of-pages: 2–5, #-of-items5, #-of-items6` |
+| breadcrumbs | `#-of-pages: 2–5, #-of-items5, #-of-items6` — ⚠️ значения считают РАЗНОЕ: 2–5 = все элементы вместе с текущей страницей, `#-of-items5/6` = только кликабельные ссылки. Приватные части: `.breadcrumbs/page-item` `8049:539`, `/current-page-item` `8011:13944`, `/divider-item` `8049:526`. Узла `.breadcrumb-separator 8011:12656` больше НЕТ |
 | primary-chip | `style: on-container/outline` · `size: md/sm/xs` · `is-selected` · `state: rest/hover/pressed/disabled` |
 | specialty/autocheck-chip | `size: md/sm` · `is-selected` · `state: rest/hover/pressed/disabled` |
 | chips-group | `type: on-container/outline` |
@@ -166,6 +166,10 @@ segmented-controls (4 набора кнопок), breadcrumbs (page-item).
 - `layoutPositioning='ABSOLUTE'` и ⛔ **`constraints = {horizontal:'STRETCH', vertical:'STRETCH'}`** —
   без этого кольцо не тянется за компонентом, который хагает содержимое
 - ⛔ у компонента нужно снять `clipsContent`, иначе внешнее кольцо срезается клипом
+
+⚠️ **Исключение — `brand-link`:** его кольцо раздуто только по горизонтали (x=-2, высота равна высоте
+компонента). Это не ошибка сборки, а особенность текстовой ссылки — при копировании паттерна
+на текстовые элементы проверяй, не выглядит ли равномерное раздутие хуже.
 
 В доках фокус описывается как свойство, независимое от оси `state`: оно может совпасть с любым состоянием.
 
