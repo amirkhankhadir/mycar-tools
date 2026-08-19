@@ -122,7 +122,7 @@
 | on-container-dropdown-button | `width: auto/custom` |
 | text-input | `style: on-container/on-base` · `size: lg/md` · `state: rest/hover/focused/disabled` · `filled` · `error` |
 | text-area-input | то же, `size: lg` только |
-| brand-link | `type: standalone/inline` — состояний нет |
+| brand-link | `type: standalone/inline` — на публичном компоненте больше ничего. ⚠️ **Состояния есть**, но на вынесенном вложенном инстансе `link`: `size` md/sm/xs, `state` rest/hover/pressed/disabled, `is-focused`, у inline ещё `is-visited`. Набора `.old-reference 8050:963` в файле НЕТ |
 | modal-with-overlay | `full-height` |
 | specialty/select-city-modal | `state: default/filtered/search-loading/search/search-no-results` |
 | OTP-input | `type: on-container/on-base` · `filled` · `disabled` — hover нет |
