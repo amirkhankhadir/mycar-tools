@@ -423,6 +423,15 @@ Sibling reference: inline-alert's description is one ~180-char intent paragraph 
 - ⛔ **У `.documentation/tap` (COMPONENT `4552:55767`, key `3adc08a67d28e87052613429c76c58139e2d5e3f`) непрозрачное ядро.** Поставленный по центру контрола, он его полностью закрывает. Класть на пустую часть строки (`bi.x + bi.width - 40`) и вставлять `insertChild(0, tap)`, чтобы строка рисовалась поверх.
 - **Тофу в чипах.** `␣` (U+2423) в Inter Display нет — в чипах писать `Space` / `Tab` словами. `⇥` рендерится, но без пары выглядит случайно.
 
+### Смена TEXT-свойства схлопывает range-стили (consent-text, 20.08.2026)
+
+Присвоение нового значения TEXT-свойству инстанса **стирает всю посимвольную разметку** внутри строки: подчёркивания, цвета диапазонов, `hyperlink`. Текст становится одним ровным диапазоном, ссылки исчезают.
+
+Следствия:
+- Компоненты, у которых ссылка сделана диапазоном внутри абзаца (`consent-text` и подобные), после правки копии требуют **ручного восстановления разметки**. Пишите это в доке явно — дизайнер иначе теряет ссылки молча.
+- Тот же эффект даёт прогон RU-типографики, если он переписывает `characters`. Порядок один: сначала типографика, **ссылки и подчёркивания — последними**.
+- Не проверяйте наличие ссылки по виду: `hyperlink` у диапазона может быть не задан вовсе, а подчёркивание быть просто оформлением. Адрес в таких компонентах живёт в коде.
+
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
 - **Hit-zone / overlay shown in full, not a clipped ripple.** `clipsContent` crops a touch illustration to a square — show the whole clickable area (highlight/overlay + glyph), not a corner sliver.
