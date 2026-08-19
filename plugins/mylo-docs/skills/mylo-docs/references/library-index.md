@@ -42,6 +42,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | icon-buttons (семейство, 9 компонентов) | 🧩 icon-buttons | 15321:1138 | — | ✅ finalized | ✅ |
 | checkbox (item + block) | 🧩 checkbox | 15505:725 | — (не нужен) | ✅ finalized | ✅ |
 | chips (primary · inverse · group · autocheck) | 🧩 chips | 15506:27876 | — (не нужен) | ✅ finalized | ✅ |
+| description-lists (vertical + horizontal) | 🧩 description-lists | 15528:1534 | — (не нужен) | ✅ finalized | ✅ |
 
 > Добавляй строку при старте компонента; заполняй node-id по мере создания фреймов; меняй статус на
 > approval; ставь **Linked?** ✅ после того как `documentationLinks` задан и прочитан обратно.
