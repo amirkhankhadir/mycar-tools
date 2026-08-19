@@ -55,7 +55,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 |---|---|---|---|---|---|
 | breadcrumbs | 🧩 breadcrumbs | — | — | ⬜ not started | — |
 | primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | — | — | ⬜ not started | — |
-| color-picker | 🧩 color-picker | — | — | ⛔ не документируем (решение дизайнера 19.08.2026) | — |
+| color-picker | 🧩 color-picker | — | — | 📍 только блок-указатель на Mobile (решение дизайнера 19.08.2026) | — |
 | dropdown-input · menu-item · menu-category-item · range-dropdown-input · dropdown-menu (default/no-results/loading) · on-container-dropdown-button | 🧩 dropdowns | — | — | ⬜ not started | — |
 | empty-state | 🧩 empty-state | — | — | ⬜ not started | — |
 | text-input · text-area-input · range-input | 🧩 input-fields | — | — | ⬜ not started | — |
