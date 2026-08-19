@@ -69,6 +69,7 @@ Default to a **guide-complete** doc: include every section below that genuinely 
 
 ### What to Skip
 
+- ⛔ **Никогда не пиши о том, что заложено в прототипе Figma** — какие переходы разведены, каких нет, что «прототипом не собрано». Это внутренняя кухня файла, а не документация: прототип — черновой инструмент дизайнера, он меняется и не является контрактом. Поведение описывай на продуктовом уровне («наведение подсвечивает поле», «кнопка очистки стирает запрос»), независимо от того, разведено это в прототипе или нет. Прототип по-прежнему **читаем** при изучении компонента — он помогает понять замысел, — но в текст доки не попадает. (Пользователь, 19.08.2026.)
 - Everything **inspectable** — exact token values, measurements/spacing, the full variant enumeration → all visible in Dev Mode.
 - Developer-facing detail Dev Mode can't show (prop meaning/defaults, behavioral contracts) does **NOT** go in the designer doc either — it belongs in the separate **`DEV NOTES` frame**.
 
