@@ -53,17 +53,17 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 
 | Component | Page | Doc frame node-id | Dev-frame node-id | Status | Linked? |
 |---|---|---|---|---|---|
-| breadcrumbs | 🧩 breadcrumbs | — | — | ⬜ not started | — |
+| breadcrumbs | 🧩 breadcrumbs | 8501:8415 | — | ✅ finalized | ✅ (старая дока 8054:4400 — удаляет дизайнер) |
 | primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | — | — | ⬜ not started | — |
 | color-picker | 🧩 color-picker | — | — | ⏸ отложено: сейчас только блок-указатель на Mobile; полную доку возможно сделаем позже | — |
 | dropdown-input · menu-item · menu-category-item · range-dropdown-input · dropdown-menu (default/no-results/loading) · on-container-dropdown-button | 🧩 dropdowns | — | — | ⬜ not started | — |
-| empty-state | 🧩 empty-state | — | — | ⬜ not started | — |
+| empty-state | 🧩 page-states (страница переименована) | 8502:667 | — | ✅ finalized | ✅ |
 | text-input · text-area-input · range-input | 🧩 input-fields | — | — | ⬜ not started | — |
 | brand-link | 🧩 links | — | — | ⬜ not started | — |
 | modal · modal-with-overlay · status-modal · overlay · select-city-modal | 🧩 modals | — | — | ⬜ not started | — |
 | OTP-input | 🧩 OTP-input | — | — | ⬜ not started | ⚠️ ссылка ведёт в MOBILE (`4699-3824`) — заменить на десктопную при финализации |
-| pagination-panel | 🧩 pagination | — | — | ⬜ not started | — |
+| pagination-panel | 🧩 pagination | 8502:5319 | — | ✅ finalized | ✅ |
 | progress-bar · segmented-progress-bar | 🧩 progress-indicators | — | — | ⬜ not started | — |
 | search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
 | text-segmented-control · icon-segmented-control | 🧩 segmented-controls | — | — | ⬜ not started | — |
-| scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | — | — | ⬜ not started | — |
+| scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | 8501:8405 | — | ✅ finalized | ✅ |
