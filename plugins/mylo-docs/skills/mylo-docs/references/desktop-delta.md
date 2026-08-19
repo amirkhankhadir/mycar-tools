@@ -1,0 +1,120 @@
+# Desktop delta — надстройка для Mўlo Desktop Library
+
+> **File roles (one fact, one home):** этот файл = **только переопределения для Desktop**. Методология
+> (что/зачем/когда документировать, набор секций, тон, lifecycle) остаётся в `methodology.md`;
+> исполнение (хаус-стайл, карты ключей, сниппеты, §0 QA, гоча) — в `doc-kit.md`;
+> fileKeys и реестры — в `library-index.md`. Здесь **не повторять** правила, которые не меняются:
+> если пункта нет ниже — он действует в мобильной формулировке.
+>
+> **Когда читать:** при работе в файле `dzG9fy1i8Z2Gdb5hyRYsPU` — вместе со SKILL.md и обоими
+> референсами, до первого `use_figma` на запись.
+
+## D1. Файл, токены, финализация
+
+- Целевой файл: **Mўlo Desktop Components Library**, fileKey `dzG9fy1i8Z2Gdb5hyRYsPU`.
+- ⛔ **Finalize-сниппет `doc-kit` §6 содержит мобильный fileKey в URL.** В Desktop подставлять
+  `dzG9fy1i8Z2Gdb5hyRYsPU`, иначе `documentationLinks` живого Desktop-компонента уедет на мобильный
+  файл. Это **единственная** ошибка из всей дельты, которую не видно на скриншоте — read-back ссылки
+  после установки обязателен.
+- Токены и текст-стили — **те же**, Desktop подписан на те же Core Variables и Text Styles.
+  Карты ключей `doc-kit` §2–§3 применимы без изменений, свой набор ключей заводить не нужно.
+- ⛔ **Только по ключам, `importVariableByKeyAsync` / `importStyleByKeyAsync`.** Проверено 19.08.2026
+  на этом файле: старые хардкод-ID вида `VariableID:<key>/6026:xxx` в Desktop **резолвятся успешно**,
+  но ведут на другую импортированную копию, не на актуальную. По ключу те же токены приходят
+  в `brand-theme-semantics` с 4 модами (`mycar-light/dark`, `finance-light/dark`) и другими local-id
+  (`text/neutral/primary` → `8215:802`, `bg-surface/neutral/base-container` → `8215:768`,
+  `stroke/focus-ring` → `8215:725`). Спейсинги совпали (`display-semantics` не переиздавался) — именно
+  поэтому баг тихий: половина привязок выглядит правильной. Пункт §0 «все цветовые привязки ведут
+  в коллекцию с 4 модами» на Desktop проверять особенно строго.
+
+## D2. Превью: телефона нет, карточки шире
+
+- ⛔ **Отменяется правило `doc-kit` §6a «composition / real example → внутрь телефонного фрейма ~360»**
+  вместе с рецептом сборки телефона со status-bar `9:41`. На Desktop телефонная рамка не строится.
+- Контекстный пример = **фрагмент десктопной поверхности**: auto-layout, ширина по содержимому
+  до 736, фон `bg-surface/neutral/base`, радиус `corner-radius/lg`, `clipsContent: true`,
+  паддинг `space-4`. Без имитации окна браузера и без фейковой шапки.
+- **Ширина карточек инвертируется относительно мобильной доки:** по умолчанию **full-width карточка**
+  для любого превью компонента. Ряд 2×360 остаётся для текстовых карточек и для Do/Don't мелких
+  атомов (chip, scrollbar, link). Причина: `dropdown-input`, `text-input`, модалки
+  и `segmented-control` в 360 не помещаются и клипаются, а §0 клиппинг запрещает.
+- Правило «равновысокие сравнительные карточки» (§0) не меняется и на full-width парах тоже.
+
+## D3. Состояния: hover первичен — но только там, где он есть
+
+- В **States** порядок изложения для Desktop: `rest → hover → pressed / focused → disabled`.
+  Hover — главное состояние, а не приписка.
+- ⛔ **Verify-don't-invent строже обычного.** Перед написанием прочитать `variantGroupProperties`
+  набора. Оси `state` нет — так и писать: «интерактивных состояний компонент не несёт, их отрабатывает
+  родитель». Hover компоненту без hover не дорисовывать, даже если в вебе он очевидно будет.
+- Реальный разрыв библиотеки проговаривать честно: у **чипов и menu-item** есть `pressed`, но нет
+  `focused`; у **полей ввода и dropdown** — наоборот. Это состояние библиотеки, не дефект доки.
+  Выглядит как пробел в компоненте — флагать дизайнеру, компонент не трогать.
+- Демо-фокус рисуется тем же токеном `stroke/focus-ring`.
+
+## D4. Чипы взаимодействия: курсор и клавиатура вместо тача
+
+- ⛔ Отменяется «touch первичен (tap / long-press / swipe), клавиатура дополнением»
+  (`doc-kit` §1, methodology → Keyboard/touch illustrations).
+- На Desktop первично **указательное + клавиатура**. Глифы: `⇥ Tab`, `↵ Enter`, `␣ Space`, `Esc`,
+  `↑ ↓` (навигация по меню), `click`, `hover`, `right-click` — где применимо.
+- Указывать **тип курсора**, если он не дефолтный (`pointer`, `text`, `col-resize`): на Desktop это
+  часть аффорданса и в Dev Mode не видно.
+- Чипы `tap` / `long-press` / `swipe` на Desktop не используются.
+
+## D5. Секция 10 — «Ресайз и ширина» вместо «Responsive»
+
+- ⛔ Убрать `safe-area`, `orientation`, «mobile-first».
+- Покрывать: ось `width: auto / custom` (есть у `on-container-dropdown-button`,
+  `text-segmented-control`, `icon-segmented-control`), min/max-ширину, поведение длинной русской
+  строки (перенос / усечение / растяжение), поведение при ресайзе окна, появление скролла.
+- Счётные оси (`#-of-pages` у breadcrumbs, `#-of-buttons` у segmented-control) описывать здесь же:
+  до скольких элементов набор рассчитан и что делать за пределом.
+
+## D6. Секция 9 Accessibility — другой набор
+
+- ⛔ Убрать `touch-target`, VoiceOver / TalkBack.
+- Покрывать: порядок обхода Tab, видимость focus-visible, роль и доступное имя, поведение Esc
+  для оверлеев, скринридеры NVDA / JAWS.
+- Объём прежний — **кратко**, не полный WCAG-аудит.
+
+## D7. Секция 14 «Behavior by platform» — вопрос переворачивается
+
+На Mobile спрашивали «используется ли компонент ещё и на десктопе». Здесь наоборот: **есть ли
+у компонента мобильный близнец** (вероятные кандидаты: `text-input`, `search-input`, чипы, `modal`).
+Если да — секция описывает отличия десктопного поведения, и две доки не должны противоречить друг
+другу. Обязательный вопрос дизайнеру в пред-чеках остаётся, в этой формулировке.
+
+## D8. Проверенные оси Desktop-компонентов
+
+Снято с файла 19.08.2026. Отправная точка, а не замена проверке — перед финализацией перечитывать
+`variantGroupProperties` компонента.
+
+| Компонент | Оси |
+|---|---|
+| breadcrumbs | `#-of-pages: 2–5, #-of-items5, #-of-items6` |
+| primary-chip | `style: on-container/outline` · `size: md/sm/xs` · `is-selected` · `state: rest/hover/pressed/disabled` |
+| specialty/autocheck-chip | `size: md/sm` · `is-selected` · `state: rest/hover/pressed/disabled` |
+| chips-group | `type: on-container/outline` |
+| dropdown-input | `combobox` · `size: lg/md` · `state: rest/hover/focused/disabled` · `filled` · `error` · `menu-position: collapsed/below-default/above` |
+| menu-item | `is-selected` · `state: rest/hover/pressed/disabled` |
+| on-container-dropdown-button | `width: auto/custom` |
+| text-input | `style: on-container/on-base` · `size: lg/md` · `state: rest/hover/focused/disabled` · `filled` · `error` |
+| text-area-input | то же, `size: lg` только |
+| brand-link | `type: standalone/inline` — состояний нет |
+| modal-with-overlay | `full-height` |
+| specialty/select-city-modal | `state: default/filtered/search-loading/search/search-no-results` |
+| OTP-input | `type: on-container/on-base` · `filled` · `disabled` — hover нет |
+| progress-bar, segmented-progress-bar | `with-label` |
+| search-input | `style` · `size: lg/md` · `state: rest/hover/focused` — disabled нет |
+| text-segmented-control, icon-segmented-control | `size: lg/md` · `width: auto/custom` · `#-of-buttons: 2–5` |
+| scrollbar-vertical / horizontal | `position` |
+
+## D9. Что НЕ меняется — явным списком
+
+Фрейм 800 / колонка 736 / гэп 16; шапка, дивайдер, карточка, pill, chip, рецепт анатомии; привязка
+токенов и текст-стилей по ключам; «каждое поведение — с визуальным примером»; реалистичный контент
+вместо «Label»; instance-swap осмысленных иконок; ошибочный образец только в Do & Don't; Do/Don't
+парами в конце; запрет статус-бейджей; DEV NOTES отдельным фреймом; строить **справа**
+и **на странице компонента**; §0 QA-чеклист перед каждым скриншотом; RU-типографика перед
+финализацией; компонент не мутировать, старую доку не трогать.

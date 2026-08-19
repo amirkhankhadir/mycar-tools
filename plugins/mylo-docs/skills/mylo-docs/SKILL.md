@@ -1,22 +1,23 @@
 ---
 name: mylo-docs
-description: Пишет Figma-документацию компонентов для Mўlo Mobile Library — doc-фреймы для дизайнеров (Figma-only, без кода). Используй, когда пользователь хочет задокументировать компонент Mўlo/Mylo, говорит «Mylo: документируем X» и т.п., присылает ссылку на Figma-файл Mўlo Mobile Library или работает над doc-фреймами Mўlo. Покрывает весь воркфлоу сборки, house-style, токены и QA.
+description: Пишет Figma-документацию компонентов для библиотек Mўlo — Mobile и Desktop — doc-фреймы для дизайнеров (Figma-only, без кода). Используй, когда пользователь хочет задокументировать компонент Mўlo/Mylo, говорит «Mylo: документируем X» и т.п., присылает ссылку на Figma-файл Mўlo Mobile или Desktop Library или работает над doc-фреймами Mўlo. Покрывает весь воркфлоу сборки, house-style, токены и QA.
 ---
 
 # Mylo DS — component documentation
 
-Build **Figma documentation for designers** in the Mўlo Mobile Library (fileKey `UGCOeKehvfoEkWtbXr4Mav`). Figma-only — the source of truth is the component itself + designer intent.
+Build **Figma documentation for designers** in a Mўlo library — **Mobile** (fileKey `UGCOeKehvfoEkWtbXr4Mav`) or **Desktop** (fileKey `dzG9fy1i8Z2Gdb5hyRYsPU`). Figma-only — the source of truth is the component itself + designer intent.
 
 ## On kickoff (works from a one-line prompt like "Mylo: документируем <component> <link>")
 
 1. **Read the references now** (they ship with this skill — read via the `Read` tool; if `${CLAUDE_SKILL_DIR}` doesn't expand, they're in the `references/` folder next to this SKILL.md):
    - `${CLAUDE_SKILL_DIR}/references/methodology.md` — what/when/why to document, canonical section set & order, voice, dev-notes, lifecycle.
-   - `${CLAUDE_SKILL_DIR}/references/doc-kit.md` — execution: exact tokens/styles/icons/props, snippet helpers, the **§0 pre-show QA checklist**, and build gotchas. **Bind tokens by ID** (no re-harvest unless a bind fails).
-   - `${CLAUDE_SKILL_DIR}/references/library-index.md` — fileKeys of the Mўlo libraries, reference guides, and the component registry.
+   - `${CLAUDE_SKILL_DIR}/references/doc-kit.md` — execution: exact tokens/styles/icons/props, snippet helpers, the **§0 pre-show QA checklist**, and build gotchas. **Resolve tokens by KEY** (`importVariableByKeyAsync` / `importStyleByKeyAsync`) — никогда не хардкодить `VariableID:.../local-id`; harvest (§7) только чтобы ДОБАВИТЬ токен.
+   - `${CLAUDE_SKILL_DIR}/references/library-index.md` — fileKeys of the Mўlo libraries, reference guides, and the component registries.
+   - 🖥 **Если файл — Desktop (`dzG9fy1i8Z2Gdb5hyRYsPU`), читай ещё `${CLAUDE_SKILL_DIR}/references/desktop-delta.md`** — переопределения D1–D9 (finalize-fileKey, превью без телефона, hover как первичное состояние, курсор/клавиатура вместо тача, «Ресайз и ширина» вместо Responsive, другой набор a11y). Всё, чего в дельте нет, действует в мобильной формулировке.
    - ⛔ **Сверь версию установленной копии с репо ПЕРЕД чтением.** Референсы читаются из кеша плагина (`~/.claude/plugins/cache/mycar-tools/mylo-docs/<version>/`), а он отстаёт от рабочего репо `GitHub/UX-Writing-Guide/plugins/mylo-docs/` (см. `.claude-plugin/plugin.json` → `version`). Если версии расходятся — читай референсы **из репо** и скажи пользователю обновить плагин (`/plugin update mylo-docs@mycar-tools`). Иначе поедешь на устаревшей карте ID: так 12.08.2026 повторился уже записанный баг с чёрными Do/Don't-карточками (кеш 0.1.1 против исправленного 0.1.2).
 2. **Study the component** in Figma (variants, states, props, slots, prototype).
 3. **Check for an existing doc** on the component's page — preserve its info re-expressed in our format; never edit/delete it (the designer deletes the old one). **Also read the component's `description`** (on the COMPONENT_SET/COMPONENT) — note whether it's empty; you'll fill it on finalize if so.
-4. **Three pre-checks** (methodology → "Before writing"), incl. the mandatory question: **mobile-only or multi-platform?**
+4. **Three pre-checks** (methodology → "Before writing"), incl. the mandatory question: **mobile-only or multi-platform?** (в Desktop вопрос переворачивается — см. desktop-delta D7).
 5. **Build a CONCEPT** frame `DOCUMENTATION CONCEPT — <Component>` to the RIGHT of any existing doc, **on the component's own page** (`await figma.setCurrentPageAsync(page)` first — `use_figma` resets to the file's first page). Fully token-bound.
 6. **Present the structure for approval.** Never finalize without an explicit "ok".
 7. **On approval:** remove the CONCEPT chip, rename to `DOCUMENTATION — <Component>`, add a `DEV NOTES` frame only if there's non-inspectable dev info, **link + describe the component** (set `documentationLinks`, and `description` if it was empty — via the doc-kit §6 finalize snippet; rules in methodology → "Auto-link + description on finalize"), add a row to the registry in `references/library-index.md`.

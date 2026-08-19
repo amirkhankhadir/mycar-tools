@@ -14,7 +14,7 @@
     {
       "name": "mylo-docs",
       "source": "./plugins/mylo-docs",
-      "description": "Документация компонентов Figma для Mўlo Mobile Library (doc-фреймы для дизайнеров, Figma-only)"
+      "description": "Документация компонентов Figma для библиотек Mўlo (Mobile + Desktop) — doc-фреймы для дизайнеров, Figma-only"
     }
   ]
 }

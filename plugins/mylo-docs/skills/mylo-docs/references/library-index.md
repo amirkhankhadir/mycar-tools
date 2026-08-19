@@ -1,4 +1,4 @@
-# Mўlo Mobile Library — индекс (fileKeys · гайды · реестр)
+# Mўlo libraries — индекс (fileKeys · гайды · реестры)
 
 > Индекс для скилла `mylo-docs`: fileKeys библиотек, ссылки на референс-гайды и реестр
 > документированных компонентов.
@@ -11,6 +11,7 @@
 | Library | fileKey |
 |---|---|
 | Mўlo Mobile Library (компоненты + доки — строим здесь) | `UGCOeKehvfoEkWtbXr4Mav` |
+| Mўlo Desktop Library (компоненты + доки — строим здесь; см. `desktop-delta.md`) | `dzG9fy1i8Z2Gdb5hyRYsPU` |
 | Mўlo Core Variables & Styles | `jXo59TFA8kmeIVzJf2fh9l` |
 | Mўlo Text Styles | `O6u2I2dRfC9T5Z508Edy40` |
 | Mўlo Icons | `6hA6u3FBiihgDnyb9WGIBi` |
@@ -25,7 +26,7 @@
 - **DS onboarding deck** (архитектура, 3 слоя переменных, категории цвета, версии/статусы, темы) —
   https://www.figma.com/slides/6MpmUsPVGwXxgf9MsO6GkZ
 
-## Component registry
+## Component registry — Mobile (`UGCOeKehvfoEkWtbXr4Mav`)
 
 Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` · `✅ finalized`
 
@@ -42,3 +43,24 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 
 > Добавляй строку при старте компонента; заполняй node-id по мере создания фреймов; меняй статус на
 > approval; ставь **Linked?** ✅ после того как `documentationLinks` задан и прочитан обратно.
+
+## Component registry — Desktop (`dzG9fy1i8Z2Gdb5hyRYsPU`)
+
+Те же статусы. Мобильные и десктопные строки не смешивать: `documentationLinks` ведёт в свой файл.
+
+| Component | Page | Doc frame node-id | Dev-frame node-id | Status | Linked? |
+|---|---|---|---|---|---|
+| breadcrumbs | 🧩 breadcrumbs | — | — | ⬜ not started | — |
+| primary-chip · autocheck-chip · chips-group | 🧩 chips | — | — | ⬜ not started | — |
+| color-picker | 🧩 color-picker | — | — | ⬜ not started | — |
+| dropdown-input · menu-item · menu-category-item · range-dropdown-input · dropdown-menu (default/no-results/loading) · on-container-dropdown-button | 🧩 dropdowns | — | — | ⬜ not started | — |
+| empty-state | 🧩 empty-state | — | — | ⬜ not started | — |
+| text-input · text-area-input · range-input | 🧩 input-fields | — | — | ⬜ not started | — |
+| brand-link | 🧩 links | — | — | ⬜ not started | — |
+| modal · modal-with-overlay · status-modal · overlay · select-city-modal | 🧩 modals | — | — | ⬜ not started | — |
+| OTP-input | 🧩 OTP-input | — | — | ⬜ not started | — |
+| pagination-panel | 🧩 pagination | — | — | ⬜ not started | — |
+| progress-bar · segmented-progress-bar | 🧩 progress-indicators | — | — | ⬜ not started | — |
+| search-input | 🧩 search-input | — | — | ⬜ not started | — |
+| text-segmented-control · icon-segmented-control | 🧩 segmented-controls | — | — | ⬜ not started | — |
+| scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | — | — | ⬜ not started | — |
