@@ -61,9 +61,9 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | text-input · text-area-input · range-input | 🧩 input-fields | — | — | ⬜ not started | — |
 | brand-link | 🧩 links | — | — | ⬜ not started | — |
 | modal · modal-with-overlay · status-modal · overlay · select-city-modal | 🧩 modals | — | — | ⬜ not started | — |
-| OTP-input | 🧩 OTP-input | — | — | ⬜ not started | ⚠️ ссылка ведёт в MOBILE (`4699-3824`) — заменить на десктопную при финализации |
+| OTP-input | 🧩 OTP-input | 8528:1099 | — | ✅ finalized | ✅ (ссылка переведена с Mobile) |
 | pagination-panel | 🧩 pagination | 8502:5319 | — | ✅ finalized | ✅ |
 | progress-bar · segmented-progress-bar | 🧩 progress-indicators | — | — | ⬜ not started | — |
 | search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
-| text-segmented-control · icon-segmented-control | 🧩 segmented-controls | — | — | ⬜ not started | — |
+| text-segmented-control · icon-segmented-control | 🧩 tabs (страница переименована) | 8529:6766 | — | ✅ finalized | ✅ |
 | scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | 8501:8405 | — | ✅ finalized | ✅ |
