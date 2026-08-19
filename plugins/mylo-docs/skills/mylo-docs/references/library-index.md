@@ -40,6 +40,8 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | bottom-action-bar | 🧩 bottom-actions | 15266:956 | — (не собран) | ✅ finalized | ✅ |
 | buttons (семейство, 12 компонентов) | 🧩 buttons | 15287:28909 | — | ✅ finalized | ✅ |
 | icon-buttons (семейство, 9 компонентов) | 🧩 icon-buttons | 15321:1138 | — | ✅ finalized | ✅ |
+| checkbox (item + block) | 🧩 checkbox | 15505:725 | — (не нужен) | ✅ finalized | ✅ |
+| chips (primary · inverse · group · autocheck) | 🧩 chips | 15506:27876 | — (не нужен) | ✅ finalized | ✅ |
 
 > Добавляй строку при старте компонента; заполняй node-id по мере создания фреймов; меняй статус на
 > approval; ставь **Linked?** ✅ после того как `documentationLinks` задан и прочитан обратно.
@@ -51,7 +53,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | Component | Page | Doc frame node-id | Dev-frame node-id | Status | Linked? |
 |---|---|---|---|---|---|
 | breadcrumbs | 🧩 breadcrumbs | — | — | ⬜ not started | — |
-| primary-chip · autocheck-chip · chips-group | 🧩 chips | — | — | ⬜ not started | — |
+| primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | — | — | ⬜ not started | — |
 | color-picker | 🧩 color-picker | — | — | ⬜ not started | — |
 | dropdown-input · menu-item · menu-category-item · range-dropdown-input · dropdown-menu (default/no-results/loading) · on-container-dropdown-button | 🧩 dropdowns | — | — | ⬜ not started | — |
 | empty-state | 🧩 empty-state | — | — | ⬜ not started | — |

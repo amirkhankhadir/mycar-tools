@@ -24,6 +24,7 @@
 - [ ] **Ошибочный образец живёт ТОЛЬКО в Do & Don't.** В тематическом разделе показывай лишь корректные варианты. Проверено на buttons: три одинаково синие кнопки (`Смотреть все авто` / `Смотреть Все Авто` / `СМОТРЕТЬ ВСЕ АВТО`) с нейтральными подписями регистра читались как «все три допустимы» — дизайнер сразу это заметил. Правильная раскладка: правило + корректные образцы в разделе, сравнение с запретом — парой в Do & Don't (в «не так» можно положить два ошибочных образца сразу, `layoutWrap='WRAP'`).
 - [ ] **Russian typography pass** over ALL text before finalizing (§6a): nbsp after hanging prepositions/conjunctions, number+unit together (`3 дня`), no illogical breaks. See [[feedback_ru_typography]].
 - [ ] **Never mutate the component** — only its text properties.
+- [ ] **Платформенная развилка проверена фактом.** Открыт список страниц другой библиотеки, и выбран верный вариант: секция «Поведение по платформам» (компонент общий) ИЛИ блок-указатель на другой файл (компоненты разные) — §1, `methodology.md`. Не оба сразу.
 - [ ] **Токены только по ключам.** Ни одного захардкоженного `VariableID:.../local-id` или `S:...,local-id` — только `importVariableByKeyAsync` / `importStyleByKeyAsync` (§2–§3). После сборки проверь: все цветовые привязки ведут в коллекцию с 4 модами (mycar/finance × light/dark), а не в старую с `light-mode/dark-mode`.
 
 ## 1. House-style spec (exact, token-bound)
@@ -84,6 +85,15 @@
 - fill `bg-surface/neutral/floating`, stroke `stroke/neutral/secondary` weight sm
 - text `body/sm-medium`, `text/neutral/primary`; glyphs: `⇥ Tab`, `↵ Enter`, `␣ Space` (keyboard) — for touch use tap/long-press/swipe chips
 - Focus ring on demo instances = color token `stroke/focus-ring` applied as a stroke.
+
+### Блок-указатель на другую платформу — `section-десктоп` / `section-мобилка`
+Нужен, когда у платформ РАЗНЫЕ компоненты в РАЗНЫХ файлах (развилка — `methodology.md` → «Разные компоненты на разных платформах»). Эталон: chips `15519:1866`.
+- Ставится последней содержательной секцией — **перед Do & Don't**.
+- eyebrow `<COMPONENT> НА ДЕСКТОПЕ` (или `… НА МОБИЛКЕ`); subtitle **«Там другие компоненты — не переносите макет как есть»** — формулировка обкатана, менять без причины не надо.
+- один обычный `card`, внутри две строки:
+  1. текст `body/sm-regular` / `text/neutral/secondary`: какая библиотека, какая страница, и что **эта** дока описывает свою платформу. Образец: «Десктопные чипсы — самостоятельные компоненты в Mўlo Desktop Library, на своей странице 🧩 chips. Эта документация описывает мобильные.»
+  2. строка-ссылка «Открыть страницу `<page>` в Mўlo Desktop Library»: `body/sm-medium`, цвет `text/neutral/link`, `t.setRangeTextDecoration(0, t.characters.length, 'UNDERLINE')` и `t.hyperlink = {type:'URL', value:'<url>'}`. Без подчёркивания и цвета ссылка читается как обычный текст (craft-правило ниже).
+- URL: fileKey из `library-index.md` + `node-id` **страницы** другой библиотеки — брать из её `figma.root.children`, не угадывать. Desktop `🧩 chips` = `8160:6203` → `…/M%D1%9Elo-Desktop-Library?node-id=8160-6203`.
 
 ### Anatomy — exact canon recipe (match precisely; a common miss)
 Structure: `card` → **`preview`** (the ONE gray stage: fill `bg-surface/neutral/base`, radius xs, padding `space-4`, align center) → **`diagram`** (a `layoutMode:'NONE'` frame, **`fills=[]` transparent**, fixed size ≈ 664 wide — just a positioning canvas for the instance + pins + leaders) → then **`legend`** → optional note.
@@ -220,6 +230,14 @@ Page `🧩 alerts` = node `642:13165`, fileKey `UGCOeKehvfoEkWtbXr4Mav`.
 - иконочные кнопки — отдельная страница `🧩 icon-buttons` (`3446:38101`), 8 сетов + **danger-icon-button `15271:29603`**; `shape` [circle/square] × `size` [xl 56/lg 44/md 32/sm 24] × `state` (4, **loading НЕТ**).
 - полезные ключи для превью: контрастная подложка `bg-surface/brand/strong` `bce37a7be3b78dd9892d31812298182a07ebc810`; подписи на ней — `text/neutral/on-fill` `7ef201c4f476c76d6fbd94d97ec093ee72962b7e`; чип для сравнения — SET `primary-chip` `3f4e0c29c55eae5a57b973ef9d3df299c75e84a8` (вариант `style=on-container, size=lg, is-selected=False, state=rest`); иконка корзины — `general/Delete` `dc55d51a6899b9cf993128f08761127937cc9fe7`.
 - danger-семейство добавлено 12.08.2026 клоном success/link + ремапом на `bg/semantic/danger/strong/*`, `text|icon/semantic/danger`. Прописано в свапы 27 пропертей 12 компонентов (bottom-action-bar, content-block, page-states, list-items, heading, chat, stepper, timeline).
+
+### checkbox (семейство) — страница `🧩 checkbox` (`235:1760`) · дока **CONCEPT `15505:725`** (ждёт согласования), старая `checkbox-doc` `4644:1414` (1440, удаляет дизайнер)
+- **`checkbox-button-item`** SET `240:423`, v1.0.0. Props: `state` [rest/hover/pressed/disabled] · `is-selected` [false/true] · `is-indeterminate` [false/true]. **12 вариантов — комбинации `is-selected=true + is-indeterminate=true` НЕТ.** Габарит 28×28, визуальный квадрат — Vector 21×21 внутри. Ключевые варианты: rest/unsel `240:422` · rest/sel `242:60` · rest/ind `242:119` · pressed/unsel `240:426` · pressed/sel `242:64` · disabled/unsel `240:428` · disabled/sel `242:66`.
+- **`checkbox-button-block`** COMPONENT `710:13687` (не SET!), v1.0.1, 233×41. Props: `label#3474:0` TEXT · `supporting-text#3474:1` TEXT · `show-supporting-text#710:1` BOOL (def **true**). Внутри HORIZONTAL gap 8, `counterAxisAlignItems='MIN'` (контрол прижат к верху); label = `body/lg-regular-low-height`, supporting = `body/sm-regular`.
+- ⚠️ **Блок НЕ выставляет наружу `state`/`is-selected`/`is-indeterminate`** — выбранную строку в доке ставим через вложенный инстанс: `i.children.find(n=>n.name==='checkbox-button-item').setProperties({'is-selected':'true'})`. Флаг дизайнеру: стоит вынести в exposed nested properties.
+- **verified прототип:** rest →ON_HOVER→ hover →ON_PRESS→ pressed →ON_CLICK→ переключение. disabled — 0 реакций. ⚠️ `pressed/is-indeterminate` по клику ведёт в **не выбран** (`242:125` → `240:422`), хотя дизайнер подтвердил норму «тап по родителю выделяет всю группу» → в доке пишем норму, разводку правит дизайнер.
+- **Состояния по токенам:** невыбранный — прозрачный + `stroke/neutral/primary`, фон `bg/on-container/{hover,pressed,disabled}`; выбранный/частичный — `bg/brand/{rest,hover,pressed,disabled}`, глиф `icon/neutral/on-fill`. **Состояния «фокус» в наборе нет.**
+- анатомия блока: 1 контрол (обязательно) · 2 лейбл (обязательно) · 3 описание (опционально, `show-supporting-text`). Multi-platform — дизайнер подтвердил mobile + desktop → секция «Поведение по платформам» обязательна.
 
 ### Mockup building blocks (real components — use these, don't hand-draw)
 Each component has its OWN page named `🧩 <name>`. Import a variant by key (`importComponentByKeyAsync`).
@@ -374,6 +392,18 @@ Sibling reference: inline-alert's description is one ~180-char intent paragraph 
 - ⛔ **`node.screenshot()` рендерит в дефолтном режиме документа (`mycar-light`), а НЕ в том, в котором дизайнер смотрит файл.** У doc-фреймов `explicitVariableModes` пустой (наследование), и у канона тоже — поэтому инлайн-скриншот не воспроизведёт тёмную тему пользователя. Вывод: **визуальные баги в тёмной теме скриншотом не поймать**; проверять привязки токенов (что ни одна краска не осталась несвязанной), а для тёмного превью временно `sect.setExplicitVariableModeForCollection(coll, darkModeId)` → скриншот → `clearExplicitVariableModeForCollection`.
 - ⛔ **Свап кнопки в `2-buttons-vertical` у `.bottom-action-bar/buttons` сбрасывает размер вложенной кнопки в HUG** (92 вместо ширины панели); в `2-buttons-horizontal` FILL сохраняется. После свапа ставить `inst.layoutSizingHorizontal='FILL'` и заново находить узел (instance-edit churn). Подписи после свапа тоже дефолтные («Button») — задавать реальные.
 - ⛔ **Апостроф в `"Don't"` внутри одинарных кавычек ломает скрипт** (`SyntaxError: expecting ','`). Для строк Do & Don't использовать двойные кавычки.
+
+### Выравнивание высот и «убежавшие» превью (checkbox, 19.08.2026)
+- ⛔ **Ось высоты зависит от направления автолейаута.** У HORIZONTAL-превью высота — это **counter**-ось (`counterAxisSizingMode`), а `primaryAxisSizingMode` управляет ШИРИНОЙ. Отпускать высоту в hug надо той осью, которая за неё отвечает, иначе «сброс перед пересчётом» ничего не сбрасывает и максимум замеряется по битому состоянию. Универсальные хелперы: `hugH(n)` → `n.layoutMode==='HORIZONTAL' ? counterAxisSizingMode='AUTO' : primaryAxisSizingMode='AUTO'`; `fixH(n,h)` → `resize(n.width,h)` + та же ось в `'FIXED'`.
+- ⛔ **Выравнивай высоты ТОЛЬКО после того как секция добавлена в doc-фрейм.** Пока строка висит открепленной, она hug-ширины (сильно шире 736) → замеренный максимум не соответствует финальной вёрстке.
+- ⛔ **`layoutSizingHorizontal='FILL'` на инстансе внутри hug-превью даёт рант-эвей.** На checkbox-блоке это дало превью высотой **1236 px**: инстанс тянется за родителем, родитель — за инстансом. Ширину инстанса задавать `resize(320, inst.height)`, FILL не использовать.
+
+### Иконки в пилюлях и tap-иллюстрация (checkbox, 19.08.2026)
+- ⛔ **`resetOverrides()` на инстансе иконки стирает привязку цвета.** Так предупреждающий треугольник посерел. Если ресетишь — сразу перебинди: `icon/semantic/warning` (key `99c79f8e4731136bbb90cc510040040ff5c93429`), `icon/semantic/success` `ff3ee0a7973d74e1a6c7df21f908455f719bf23d`, `icon/semantic/danger` `0189c4ccd51c4033a59b1ba778142d3773649d63`.
+- **`general/Info Filled` уже нейтрально-серый — НЕ перекрашивай.** Заливка всех его векторов в `icon/neutral/secondary` превращает иконку в тёмный квадрат-кляксу. Ставь инстанс 20×20 как есть.
+- **Не рисуй глиф-заменитель вместо иконки.** Текстовый `ℹ` рендерится цветным эмодзи и выбивается из house-style — только компонент из §4.
+- ⛔ **У `.documentation/tap` (COMPONENT `4552:55767`, key `3adc08a67d28e87052613429c76c58139e2d5e3f`) непрозрачное ядро.** Поставленный по центру контрола, он его полностью закрывает. Класть на пустую часть строки (`bi.x + bi.width - 40`) и вставлять `insertChild(0, tap)`, чтобы строка рисовалась поверх.
+- **Тофу в чипах.** `␣` (U+2423) в Inter Display нет — в чипах писать `Space` / `Tab` словами. `⇥` рендерится, но без пары выглядит случайно.
 
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.

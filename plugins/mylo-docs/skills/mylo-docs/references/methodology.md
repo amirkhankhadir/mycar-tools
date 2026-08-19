@@ -56,6 +56,17 @@ Default to a **guide-complete** doc: include every section below that genuinely 
 2. **Broaden — "what else is worth documenting?"** The section list is a floor, not a ceiling. On every component do a quick pass for behavior / intent / edge-cases worth capturing beyond our sections and propose additions — design evolves, so look wider than these instructions.
 3. **Confirm platform scope with the designer.** Some components are stored as one component but used on **mobile AND desktop**. Before writing, **ask whether this component is mobile-only or multi-platform** (make it a routine question — the designer will help). If multi-platform, add the **"Behavior by platform"** section for where behavior/layout differs (the `iOS/*` / `Android/*` token maps exist for exactly this).
 
+### Разные компоненты на разных платформах — блок-указатель, а не общая дока
+
+Ответ на обязательный вопрос о платформах разветвляется на два разных решения, и перепутать их нельзя:
+
+- **Один и тот же компонент живёт и на мобилке, и на десктопе** → одна дока, внутри **секция 14 «Поведение по платформам»** с отличиями (курсор/hover против тача, клавиатура, тап-зона). Так у `checkbox`: в Mўlo Desktop Library страницы checkbox нет вообще, компонент переиспользуется.
+- **У платформ РАЗНЫЕ компоненты, и они лежат в РАЗНЫХ файлах** → секцию «Поведение по платформам» **НЕ пишем**: она утверждала бы, что это один компонент, и дизайнер потащил бы мобильный макет на десктоп. Вместо неё — **блок-указатель на другую библиотеку** со ссылкой на нужную страницу (рецепт в `doc-kit.md` §1). Так у `chips`: мобильные `primary-chip` / `inverse-chip` / `chips-group` / `autocheck-chip` и десктопные чипсы — независимые компоненты в разных файлах.
+
+⛔ **Развилку определяй фактом, а не памятью:** открой список страниц другой библиотеки (`figma.root.children` на её fileKey, см. `library-index.md`) и посмотри, есть ли там страница этого компонента. Наличие `state=hover` в мобильном компоненте само по себе ничего не доказывает.
+
+Правило симметрично: дока в Desktop-файле ставит такой же блок-указатель на Mobile-библиотеку (см. `desktop-delta.md` D7). Две доки не должны противоречить друг другу.
+
 ### What to Skip
 
 - Everything **inspectable** — exact token values, measurements/spacing, the full variant enumeration → all visible in Dev Mode.
