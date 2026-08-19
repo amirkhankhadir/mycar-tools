@@ -61,7 +61,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | text-input · text-area-input · range-input | 🧩 input-fields | — | — | ⬜ not started | — |
 | brand-link | 🧩 links | — | — | ⬜ not started | — |
 | modal · modal-with-overlay · status-modal · overlay · select-city-modal | 🧩 modals | — | — | ⬜ not started | — |
-| OTP-input | 🧩 OTP-input | — | — | ⬜ not started | — |
+| OTP-input | 🧩 OTP-input | — | — | ⬜ not started | ⚠️ ссылка ведёт в MOBILE (`4699-3824`) — заменить на десктопную при финализации |
 | pagination-panel | 🧩 pagination | — | — | ⬜ not started | — |
 | progress-bar · segmented-progress-bar | 🧩 progress-indicators | — | — | ⬜ not started | — |
 | search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
