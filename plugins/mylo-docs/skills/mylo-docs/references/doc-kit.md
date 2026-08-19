@@ -432,6 +432,12 @@ Sibling reference: inline-alert's description is one ~180-char intent paragraph 
 - Тот же эффект даёт прогон RU-типографики, если он переписывает `characters`. Порядок один: сначала типографика, **ссылки и подчёркивания — последними**.
 - Не проверяйте наличие ссылки по виду: `hyperlink` у диапазона может быть не задан вовсе, а подчёркивание быть просто оформлением. Адрес в таких компонентах живёт в коде.
 
+### Порядок сборки TEXT и невидимые стенды (tabs, 20.08.2026)
+
+- **TEXT, оформленный до `appendChild`, изредка выпадает из автолейаута** (уезжает в x=y=0 и растягивается на всю ширину). Надёжный порядок: `appendChild` → текст-стиль → `characters` → `textAutoResize='HEIGHT'` → `resize(avail)` → `layoutSizingHorizontal='FILL'`.
+- **Компонент с нейтральной поверхностью невидим на сером стенде** — трек `segmented-control` залит тем же `bg-surface/neutral/base`, что и стенд. Клади внутрь стенда белую подложку-экран; менять цвет самого стенда на белый нельзя вслепую, он ломает другие превью (например белый круг `user-placeholder`).
+- **Ключ `.documentation/tap` не импортируется в Mobile-файле** (`Component with key not found`) — tap-иллюстрацию там не строить.
+
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
 - **Hit-zone / overlay shown in full, not a clipped ripple.** `clipsContent` crops a touch illustration to a square — show the whole clickable area (highlight/overlay + glyph), not a corner sliver.
