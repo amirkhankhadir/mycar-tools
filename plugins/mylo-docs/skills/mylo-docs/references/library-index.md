@@ -54,7 +54,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | Component | Page | Doc frame node-id | Dev-frame node-id | Status | Linked? |
 |---|---|---|---|---|---|
 | breadcrumbs | 🧩 breadcrumbs | 8501:8415 | — | ✅ finalized | ✅ (старая дока 8054:4400 — удаляет дизайнер) |
-| primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | — | — | ⬜ not started | — |
+| primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | 8529:727 | — | ✅ finalized | ✅ |
 | color-picker | 🧩 color-picker | — | — | ⏸ отложено: сейчас только блок-указатель на Mobile; полную доку возможно сделаем позже | — |
 | dropdown-input · menu-item · menu-category-item · range-dropdown-input · dropdown-menu (default/no-results/loading) · on-container-dropdown-button | 🧩 dropdowns | — | — | ⬜ not started | — |
 | empty-state | 🧩 page-states (страница переименована) | 8502:667 | — | ✅ finalized | ✅ |
