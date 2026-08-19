@@ -23,6 +23,7 @@
 - [ ] **Realistic, non-redundant copy.** Comparison pairs use identical content except the illustrated variable.
 - [ ] **Ошибочный образец живёт ТОЛЬКО в Do & Don't.** В тематическом разделе показывай лишь корректные варианты. Проверено на buttons: три одинаково синие кнопки (`Смотреть все авто` / `Смотреть Все Авто` / `СМОТРЕТЬ ВСЕ АВТО`) с нейтральными подписями регистра читались как «все три допустимы» — дизайнер сразу это заметил. Правильная раскладка: правило + корректные образцы в разделе, сравнение с запретом — парой в Do & Don't (в «не так» можно положить два ошибочных образца сразу, `layoutWrap='WRAP'`).
 - [ ] **Russian typography pass** over ALL text before finalizing (§6a): nbsp after hanging prepositions/conjunctions, number+unit together (`3 дня`), no illogical breaks. See [[feedback_ru_typography]].
+- [ ] **Пилюли собраны с иконкой, а не голым текстом.** Каждая `pill` = иконка-компонент `general/Info Filled` 20×20 (§4) + текст, `counterAxisAlignItems='MIN'`. Голая рамка с текстом — не пилюля, а карточка; текстовый глиф (`!`, `ℹ`) вместо иконки запрещён (§6a). Ошибка проехала во все 4 доки волны A, потому что её не было в эталоне (пользователь, 19.08.2026).
 - [ ] **Нет выдуманных нормативов.** Пороги, максимумы и «не длиннее N px» пиши ТОЛЬКО если они есть в компоненте или их дал дизайнер. Отдельно про ширину: если у компонента нет оси ширины — это НЕ значит «ширину задаёт только родитель», её можно и зафиксировать вручную; не превращай наблюдение в правило (пользователь, 19.08.2026).
 - [ ] **Ни слова о прототипе.** В тексте нет «прототипом разведено/не собрано», перечисления триггеров файла и т.п. Поведение — на продуктовом уровне (`methodology.md` → What to Skip).
 - [ ] **Never mutate the component** — only its text properties.
@@ -78,7 +79,8 @@
 - pair Do | Don't per row, max 2 per row; reuse the SAME realistic content on both sides.
 
 ### Note / info / warning pill — `pill`
-- frame HORIZONTAL, padding `spacing/space-4` (16), gap `spacing/space-3` (12), radius `corner-radius/xs` (8)
+- ⛔ **Иконка обязательна**, не «по желанию»: без неё пилюля визуально неотличима от карточки и теряет смысл акцента.
+- frame HORIZONTAL, padding `spacing/space-4` (16), gap `spacing/space-3` (12), radius `corner-radius/xs` (8), `counterAxisAlignItems='MIN'` (иконка держится первой строки)
 - info → fill `bg-surface/neutral/floating` or `semantic/{info}`; warning → `bg-surface/semantic/warning/tint` with ⚠ in `text/semantic/warning`
 - icon/glyph (`body/sm-medium`, semantic color) + text (`body/sm-regular` or `sm-medium`, `text/neutral/secondary`)
 
