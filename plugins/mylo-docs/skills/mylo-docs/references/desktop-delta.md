@@ -131,6 +131,27 @@
 | text-segmented-control, icon-segmented-control | `size: lg/md` · `width: auto/custom` · `#-of-buttons: 2–5` |
 | scrollbar-vertical / horizontal | `position` |
 
+## D8a. Справка по задокументированным Desktop-компонентам
+
+### search-input — SET `8378:1067` на странице `🧩 search-input` (`8245:1218`) · **DOC finalized `8442:722`**, linked ✅
+- 24 варианта: `style` (on-container/on-base) × `size` (lg/md) × `state` (rest/hover/focused) × `filled`.
+- **verified:** состояний `disabled` и `error` НЕТ (в отличие от `text-input`) — не дорисовывать.
+  Кнопка очистки `.input-button` существует только при `filled=true`. Хинт — инстанс `.input-hint-text`,
+  скрыт по умолчанию (`show-hint`), дефолтный текст английский «Hint text» — заменять на русский.
+  `placeholder` и `value` — два отдельных TEXT-свойства. Оси ширины нет.
+- анатомия: иконка поиска (обязательно) · плейсхолдер/значение (обязательно) · кнопка очистки (при
+  filled) · подсказка (опционально).
+
+### ⛔ Стенд подбирается под `style`, иначе превью растворяется
+`on-container` на сером `bg-surface/neutral/base` — это серое на сером, поле исчезает целиком
+(поймано на search-input). Правило: во всех обычных секциях ставь `on-base` на серый стенд;
+в секции «Типы», где смысл именно в поверхности, крась стенд под каждый тип — `on-base` на
+`bg-surface/neutral/base`, `on-container` на `bg-surface/neutral/base-container`.
+
+### ⛔ Эмодзи в тексте доки не рендерятся
+🧩 и подобные в Inter Display дают пустое место. В блоке-указателе и везде в тексте писать имя
+страницы словами, без эмодзи (ср. тофу-гоча про `␣` в `doc-kit` §6a).
+
 ## D9. Что НЕ меняется — явным списком
 
 Фрейм 800 / колонка 736 / гэп 16; шапка, дивайдер, карточка, pill, chip, рецепт анатомии; привязка

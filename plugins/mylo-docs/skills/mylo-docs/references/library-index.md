@@ -63,6 +63,6 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | OTP-input | 🧩 OTP-input | — | — | ⬜ not started | — |
 | pagination-panel | 🧩 pagination | — | — | ⬜ not started | — |
 | progress-bar · segmented-progress-bar | 🧩 progress-indicators | — | — | ⬜ not started | — |
-| search-input | 🧩 search-input | — | — | ⬜ not started | — |
+| search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
 | text-segmented-control · icon-segmented-control | 🧩 segmented-controls | — | — | ⬜ not started | — |
 | scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | — | — | ⬜ not started | — |

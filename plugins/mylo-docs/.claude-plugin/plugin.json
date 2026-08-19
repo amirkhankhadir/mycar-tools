@@ -1,7 +1,7 @@
 {
   "name": "mylo-docs",
   "description": "Документация компонентов Figma для библиотек Mўlo (Mobile + Desktop) — doc-фреймы для дизайнеров (Figma-only, без кода)",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "author": {
     "name": "Mycar Design"
   }
