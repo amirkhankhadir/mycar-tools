@@ -479,6 +479,19 @@ while (t.characters.indexOf(bad) >= 0) {
 - собирай секцию за вызов, а не элемент за вызов;
 - RU-типографику и простановку ссылок делай последними двумя вызовами — если лимит кончится раньше, недоделанной останется только отделка, а не содержание.
 
+### ⛔ Node-id из реестра проверять перед простановкой ссылки (enter-OTP-page, 20.08.2026)
+
+`library-index.md` отстал от разноса библиотек: часть записей указывает на узлы, которых больше нет. Пойманный случай — `inline-alert` числился в Mobile как `12107:771`, а на деле переехал в Shared (сет `13:15084`, дока `13:15110`). Ссылка в доке выглядела живой и вела в никуда.
+
+Перед `setRangeHyperlink` **всегда** проверяй цель:
+
+```js
+const target = await figma.getNodeByIdAsync(id);
+if (!target) throw new Error('мёртвый node-id из реестра: ' + id);
+```
+
+Если компонент мог переехать — ищи его в Shared, а не только в своём файле.
+
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
 - **Hit-zone / overlay shown in full, not a clipped ripple.** `clipsContent` crops a touch illustration to a square — show the whole clickable area (highlight/overlay + glyph), not a corner sliver.
