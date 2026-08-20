@@ -462,6 +462,23 @@ while (t.characters.indexOf(bad) >= 0) {
 - **Вложенный вариант переключается через поиск по имени слоя:** `inst.children.find(n => n.name === 'direction-indicator').setProperties({...})` — когда свойство наружу не выведено.
 - **Локальные компоненты файла** (неопубликованные) по ключу не импортируются — только `comp.createInstance()` или `.clone()` мастера.
 
+### Дети SLOT инвалидируются после setProperties (feedback-state, 20.08.2026)
+
+После каждого `setProperties` на вложенном инстансе внутри SLOT остальные дети слота становятся мёртвыми: повторный `findOne` с только что перечитанного родителя отдаёт устаревшие id, и `getNodeByIdAsync` возвращает `null` уже на втором элементе. Ни `slot.children[i]`, ни перечитывание родителя по id внутри одного скрипта не спасают.
+
+Рабочие пути:
+- один элемент слота за один вызов `use_figma`;
+- либо клонировать готовый инстанс из `ready-to-copy-templates`, где подписи уже расставлены — так быстрее и надёжнее.
+
+Симптом, по которому это ловится в QA: в превью остались дефолтные подписи («Chip», «Label») вместо осмысленных.
+
+### Лимит вызовов Figma MCP — планируй сборку под него
+
+Лимит на seat расходуется на весь сеанс, включая чтения. Крупная дока съедает 60–90 вызовов. Поэтому:
+- разведку (дерево, свойства, токены) делай ОДНИМ вызовом с полным дампом, а не десятью точечными;
+- собирай секцию за вызов, а не элемент за вызов;
+- RU-типографику и простановку ссылок делай последними двумя вызовами — если лимит кончится раньше, недоделанной останется только отделка, а не содержание.
+
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
 - **Hit-zone / overlay shown in full, not a clipped ripple.** `clipsContent` crops a touch illustration to a square — show the whole clickable area (highlight/overlay + glyph), not a corner sliver.
