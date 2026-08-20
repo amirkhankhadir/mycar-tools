@@ -29,7 +29,7 @@
 
 ## Component registry — Shared (`LxMK9OD6jvgPWPVg25EZAM`) — ✅ БИБЛИОТЕКА ФИНАЛИЗИРОВАНА 20.08.2026
 
-64 публичных компонента: у всех заполнено `description` с префиксом `[Shared]`, у всех живой `documentationLinks`, чипов CONCEPT нет, битых ссылок нет.
+65 публичных компонентов: у всех заполнено `description` с префиксом `[Shared]`, у всех живой `documentationLinks`, чипов CONCEPT нет, битых ссылок нет.
 
 | Страница | Doc frame | Компоненты |
 |---|---|---|
@@ -43,6 +43,7 @@
 | 🧩 file-upload | `46:2102` | file-upload-input · file-card · file-placeholder · media-placeholder |
 | 🧩 headings | `134:9194` | heading |
 | 🧩 icon-buttons | `4:6379` | 9 компонентов семейства |
+| 🧩 links | `175:12723` | brand-link (ось `type [standalone\|inline]`) |
 | 🧩 loaders | `84:9888` | loading-spinner |
 | 🧩 page-states | `13:17371` (empty-state) · `96:1802` (status + loading) | empty-state · status-state · loading-state |
 | 🧩 progress-indicators | `46:7279` | progress-circle · segmented-progress-circle · progress-circle-with-label |
@@ -53,6 +54,8 @@
 | 🧩 timeline | `68:835` | timeline-vertical |
 | 🧩 tooltip | `54:1186` | tooltip |
 | 🧩 toggle-switch | `63:850` | toggle-switch |
+
+⚠️ `brand-link` **приехал из Desktop** 20.08.2026: ссылка на доку переставлена, литералы `&nbsp;` в описаниях приватных наборов заменены на настоящий U+00A0, добавлена секция «Ссылка или кнопка-ссылка» `191:1541` и указатель на неё из доки кнопок. Примеры многострочного переноса **склонированы из старой доки** `links-doc` — своими средствами перенос в Figma не воспроизводится.
 
 ⚠️ `toast` **уехал в Mobile** 20.08.2026 (страница и дока целиком). Десктопный тост будут делать отдельно. При переезде компонента менять префикс в `description`.
 
