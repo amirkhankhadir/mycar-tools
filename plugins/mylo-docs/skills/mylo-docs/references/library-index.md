@@ -10,6 +10,7 @@
 
 | Library | fileKey |
 |---|---|
+| Mўlo Shared Library (компоненты для обеих платформ; см. `shared-delta.md`) | `LxMK9OD6jvgPWPVg25EZAM` |
 | Mўlo Mobile Library (компоненты + доки — строим здесь) | `UGCOeKehvfoEkWtbXr4Mav` |
 | Mўlo Desktop Library (компоненты + доки — строим здесь; см. `desktop-delta.md`) | `dzG9fy1i8Z2Gdb5hyRYsPU` |
 | Mўlo Core Variables & Styles | `jXo59TFA8kmeIVzJf2fh9l` |
@@ -25,6 +26,37 @@
   Behavior (см. `methodology.md` → «Date & time content»).
 - **DS onboarding deck** (архитектура, 3 слоя переменных, категории цвета, версии/статусы, темы) —
   https://www.figma.com/slides/6MpmUsPVGwXxgf9MsO6GkZ
+
+## Component registry — Shared (`LxMK9OD6jvgPWPVg25EZAM`) — ✅ БИБЛИОТЕКА ФИНАЛИЗИРОВАНА 20.08.2026
+
+64 публичных компонента: у всех заполнено `description` с префиксом `[Shared]`, у всех живой `documentationLinks`, чипов CONCEPT нет, битых ссылок нет.
+
+| Страница | Doc frame | Компоненты |
+|---|---|---|
+| 🧩 accordions | `13:11904` | accordion-item |
+| 🧩 alerts | `13:15110` | inline-alert |
+| 🧩 avatars | `4:8732` | avatar · avatar-profile-placeholder |
+| 🧩 badges | `4:9770` | badges |
+| 🧩 buttons | `4:3152` | 13 компонентов семейства |
+| 🧩 checkbox | `4:4946` | checkbox-button-item · checkbox-button-block |
+| 🧩 consent-text | `88:658` | consent-text |
+| 🧩 file-upload | `46:2102` | file-upload-input · file-card · file-placeholder · media-placeholder |
+| 🧩 headings | `134:9194` | heading |
+| 🧩 icon-buttons | `4:6379` | 9 компонентов семейства |
+| 🧩 loaders | `84:9888` | loading-spinner |
+| 🧩 page-states | `13:17371` (empty-state) · `96:1802` (status + loading) | empty-state · status-state · loading-state |
+| 🧩 progress-indicators | `46:7279` | progress-circle · segmented-progress-circle · progress-circle-with-label |
+| 🧩 radio | `61:7968` | radio-button-item · radio-button-block |
+| 🧩 skeleton | `84:9991` | skeleton-shimmer |
+| 🧩 steppers | `46:7335` | stepper-vertical · stepper-vertical-sm · stepper-horizontal |
+| 🧩 tags | `42:6127` | 13 тегов: 3 статусных · 5 нейтральных · 5 фирменных |
+| 🧩 timeline | `68:835` | timeline-vertical |
+| 🧩 tooltip | `54:1186` | tooltip |
+| 🧩 toggle-switch | `63:850` | toggle-switch |
+
+⚠️ `toast` **уехал в Mobile** 20.08.2026 (страница и дока целиком). Десктопный тост будут делать отдельно. При переезде компонента менять префикс в `description`.
+
+⚠️ Пороги ожидания заданы ОДИН раз — в доке `loaders` `84:9888`, секция «КОГДА ЧТО ПОКАЗЫВАТЬ» `145:1143`. `skeleton` и `progress-indicators` на неё ссылаются, чисел не дублируют.
 
 ## Component registry — Mobile (`UGCOeKehvfoEkWtbXr4Mav`)
 
