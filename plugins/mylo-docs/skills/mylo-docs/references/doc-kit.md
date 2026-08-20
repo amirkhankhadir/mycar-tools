@@ -454,6 +454,14 @@ while (t.characters.indexOf(bad) >= 0) {
 
 После любой такой правки прогоняй проверку: собери все токены `/[A-Za-z]+-[A-Za-z][A-Za-z-]*/` и `/[А-Яа-яЁё]+-[А-Яа-яЁё]+/` по фрейму и сверь со списком настоящих имён — сдвинутый дефис глазами в длинной доке не виден.
 
+### Превью и равные высоты — порядок операций (maps, 20.08.2026)
+
+- **Равные высоты карточек в ряду** даёт `layoutSizingVertical='FILL'` на самой карточке. `layoutAlign='STRETCH'` здесь не срабатывает.
+- **Центрировать инстанс в превью можно только ПОСЛЕ** того как ряд и карточки получили FILL: до этого ширина превью ещё дефолтная (696), и содержимое уезжает за край.
+- **Автолейаут-обёртки клипуют тень** — белая метка с тенью превращается в серый квадрат. Ставь `clipsContent=false` на всех обёртках превью.
+- **Вложенный вариант переключается через поиск по имени слоя:** `inst.children.find(n => n.name === 'direction-indicator').setProperties({...})` — когда свойство наружу не выведено.
+- **Локальные компоненты файла** (неопубликованные) по ключу не импортируются — только `comp.createInstance()` или `.clone()` мастера.
+
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
 - **Hit-zone / overlay shown in full, not a clipped ripple.** `clipsContent` crops a touch illustration to a square — show the whole clickable area (highlight/overlay + glyph), not a corner sliver.
