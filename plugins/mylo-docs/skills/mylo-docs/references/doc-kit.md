@@ -438,6 +438,22 @@ Sibling reference: inline-alert's description is one ~180-char intent paragraph 
 - **Компонент с нейтральной поверхностью невидим на сером стенде** — трек `segmented-control` залит тем же `bg-surface/neutral/base`, что и стенд. Клади внутрь стенда белую подложку-экран; менять цвет самого стенда на белый нельзя вслепую, он ломает другие превью (например белый круг `user-placeholder`).
 - **Ключ `.documentation/tap` не импортируется в Mobile-файле** (`Component with key not found`) — tap-иллюстрацию там не строить.
 
+### Имена компонентов в тексте — только обычный дефис (OTP-input, 20.08.2026)
+
+Не заменяй дефис в имени компонента на неразрывный U+2011, даже чтобы имя не рвалось по строкам: имя должно остаться копируемым и находимым поиском по файлу. Неразрывный дефис уместен в обычных словах, не в идентификаторах.
+
+**Правка строк — по одной замене за раз.** Пакетная схема «сначала все `insertCharacters`, потом все `deleteCharacters`» ломает текст: каждая вставка сдвигает последующие индексы, и удаление съедает соседний символ (получается `inpu-tfields` вместо `input-fields`). Надёжно так:
+
+```js
+while (t.characters.indexOf(bad) >= 0) {
+  const i = t.characters.indexOf(bad);          // индекс заново на каждой итерации
+  t.insertCharacters(i, good, 'BEFORE');
+  t.deleteCharacters(i + good.length, i + good.length + bad.length);
+}
+```
+
+После любой такой правки прогоняй проверку: собери все токены `/[A-Za-z]+-[A-Za-z][A-Za-z-]*/` и `/[А-Яа-яЁё]+-[А-Яа-яЁё]+/` по фрейму и сверь со списком настоящих имён — сдвинутый дефис глазами в длинной доке не виден.
+
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
 - **Hit-zone / overlay shown in full, not a clipped ripple.** `clipsContent` crops a touch illustration to a square — show the whole clickable area (highlight/overlay + glyph), not a corner sliver.
