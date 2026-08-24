@@ -492,6 +492,16 @@ if (!target) throw new Error('мёртвый node-id из реестра: ' + id
 
 Если компонент мог переехать — ищи его в Shared, а не только в своём файле.
 
+### Мёртвые свойства обрезки: ENDING + maxLines при HUG (Mobile, 20.08.2026)
+
+Повторяющийся дефект набора, встретился уже трижды: у текста стоят `textTruncation='ENDING'` и `maxLines=1`, но сайзинг `HUG` / `textAutoResize='WIDTH_AND_HEIGHT'` — и обрезка НЕ срабатывает. Текст просто вылезает за пределы контейнера, а свойства выглядят настроенными.
+
+Где поймано: `description-list`, заголовок развёрнутого месяца в `date-picker-block`, подпись сегмента в `segmented-control`.
+
+Следствие для доки: **нельзя писать «обрезается многоточием» только потому, что свойства выставлены.** Проверять надо связку: `textTruncation` + `maxLines` + `layoutSizingHorizontal`. Обрезка работает лишь когда ширина ограничена — `FILL` внутри ограниченного родителя или явный `maxWidth`.
+
+Если поймали мёртвую пару — в доке описываем реальное поведение (вылезает), а сам дефект в бэклог.
+
 ### Craft rules migrated from the accordion session (canonical here now)
 - **Don't `resize()` a cloned annotated block / pins.** Cloned anatomy annotations drift on resize (lines miss the parts). Build pins yourself from each part's real `absoluteBoundingBox`, or keep native size.
 - **Hit-zone / overlay shown in full, not a clipped ripple.** `clipsContent` crops a touch illustration to a square — show the whole clickable area (highlight/overlay + glyph), not a corner sliver.

@@ -82,7 +82,12 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 > Добавляй строку при старте компонента; заполняй node-id по мере создания фреймов; меняй статус на
 > approval; ставь **Linked?** ✅ после того как `documentationLinks` задан и прочитан обратно.
 
-## Component registry — Desktop (`dzG9fy1i8Z2Gdb5hyRYsPU`)
+## Component registry — Desktop (`dzG9fy1i8Z2Gdb5hyRYsPU`) — ✅ ГОТОВ К ПУБЛИКАЦИИ 20.08.2026
+
+12 страниц, 30 публичных компонентов: описания с префиксом `[Desktop]`, статус «готов-к-разработке», ссылки на доки живые, чипов CONCEPT нет, битых инстансов нет, все привязки цвета в текущем поколении.
+⚠️ Единственное исключение: `color-picker` без доки — по решению пользователя её не пишем, на странице только указатель на Mobile.
+⚠️ `brand-link` (страница `🧩 links`) **уехал в Shared** 20.08.2026.
+
 
 Те же статусы. Мобильные и десктопные строки не смешивать: `documentationLinks` ведёт в свой файл.
 
@@ -91,14 +96,15 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | breadcrumbs | 🧩 breadcrumbs | 8501:8415 | — | ✅ finalized | ✅ (старая дока 8054:4400 — удаляет дизайнер) |
 | primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | 8529:727 | — | ✅ finalized | ✅ |
 | color-picker | 🧩 color-picker | — | — | ⏸ отложено: сейчас только блок-указатель на Mobile; полную доку возможно сделаем позже | — |
-| dropdown-input · menu-item · menu-category-item · range-dropdown-input · dropdown-menu (default/no-results/loading) · on-container-dropdown-button | 🧩 dropdowns | — | — | ⬜ not started | — |
+| dropdowns (8 публичных) | 🧩 dropdowns | 8562:2978 | — | ✅ finalized | ✅ |
 | empty-state | 🧩 page-states (страница переименована) | 8502:667 | — | ✅ finalized | ✅ |
-| text-input · text-area-input · range-input | 🧩 input-fields | — | — | ⬜ not started | — |
-| brand-link | 🧩 links | — | — | ⬜ not started | — |
-| modal · modal-with-overlay · status-modal · overlay · select-city-modal | 🧩 modals | — | — | ⬜ not started | — |
+| text-input · text-area-input · range-input | 🧩 input-fields | 8562:775 | — | ✅ finalized | ✅ |
+| ~~brand-link~~ | — | — | — | ↗️ уехал в Shared | — |
+| modal · modal-with-overlay · status-modal · overlay | 🧩 modals | 8562:7906 | — | ✅ finalized | ✅ |
+| specialty/select-city-modal | 🧩 modals | 8672:2509 (отдельная дока семейства) | — | ✅ finalized | ✅ |
 | OTP-input | 🧩 OTP-input | 8528:1099 | — | ✅ finalized | ✅ (ссылка переведена с Mobile) |
 | pagination-panel | 🧩 pagination | 8502:5319 | — | ✅ finalized | ✅ |
-| progress-bar · segmented-progress-bar | 🧩 progress-indicators | — | — | ⬜ not started | — |
+| progress-bar · segmented-progress-bar | 🧩 progress-indicators | 8562:7911 | — | ✅ finalized | ✅ |
 | search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
 | text-segmented-control · icon-segmented-control | 🧩 tabs (страница переименована) | 8529:6766 | — | ✅ finalized | ✅ |
 | scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | 8501:8405 | — | ✅ finalized | ✅ |
