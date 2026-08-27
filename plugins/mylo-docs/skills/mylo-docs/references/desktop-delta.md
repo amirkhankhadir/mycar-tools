@@ -137,6 +137,7 @@
 | progress-bar, segmented-progress-bar | `with-label` |
 | search-input | `style` · `size: lg/md` · `state: rest/hover/focused` — disabled нет |
 | text-segmented-control, icon-segmented-control | `size: lg/md` · `width: auto/custom` · `#-of-buttons: 2–5` |
+| tabbar (слотовый) | у публичного компонента осей НЕТ — только слот `tabs-slot` (minChildren 2, allowPreferredValuesOnly, дефолт — 3 вкладки). Оси у приватного `.tabbar-item`: `state: rest/hover/disabled` (⚠️ `pressed` нет) · `is-selected` (⚠️ пар «hover + True» и «disabled + True» нет) · `is-focused` · `tab-title` · `show-leading-icon` + swap · `show-badge`. Линия под рядом — обводка на слоте, выключателя нет |
 | scrollbar-vertical / horizontal | `position` |
 
 ## D8a. Справка по задокументированным Desktop-компонентам
@@ -149,6 +150,22 @@
   `placeholder` и `value` — два отдельных TEXT-свойства. Оси ширины нет.
 - анатомия: иконка поиска (обязательно) · плейсхолдер/значение (обязательно) · кнопка очистки (при
   filled) · подсказка (опционально).
+
+### tabs (семейство) — страница `🧩 tabs` (`8012:7247`) · дока **CONCEPT `8743:1546`** (семейная, ждёт согласования)
+- **Два публичных компонента:** `tabbar` COMPONENT `8738:2473` (слотовый, не сет) + `text-segmented-control` / `icon-segmented-control`.
+  Приватная вкладка — `.tabbar-item` SET `8723:2117` (4 варианта).
+- **verified 27.08.2026:** высота 40 (`sizing/size-10`), паддинги 16 (`spacing/space-4`), верхние радиусы `corner-radius/xs`,
+  подпись `action/md-medium`, индикатор — нижняя обводка 2 (`stroke/neutral/strong`), линия под рядом — обводка на слоте
+  (`stroke/neutral/secondary` + `border/width/sm`). Счётчик — инстанс **Shared** `badges` → `.number-badge`
+  (ключи `dbda6cf858961e3b886efd58e9b4a8424275f09a` / `825bf132a86a2f30d5d7d646198ef61fb2482120`; НЕ мобильные — у мобильного
+  `.number-badge` ключ `7a69157f77e9c16203806e03d28e666cf91f94bc`). У активной вкладки счётчик брендовый, у остальных нейтральный.
+- **verified поведение ширины:** у корня ширина фиксированная — при вставке вкладки в слот бар НЕ расширяется, хвост уходит
+  за край, пока бар не растянут вручную. Вкладки хагают подписи и прижаты влево, линия идёт по всей ширине бара.
+- ⚠️ **расхождение с семейством, озвучено дизайнеру:** наведение залито `bg-surface/neutral/pressed-overlay`, тогда как
+  сегмент-контролы используют `bg/on-base/hover` для наведения, а `pressed-overlay` — для нажатия.
+- **Старая дока сегмент-контролов `8529:6766` удалена дизайнером 27.08.2026**; её содержание целиком перенесено в семейную доку
+  **клонированием** фрейма (не переписыванием) — приём дешевле и без потерь, когда новая дока поглощает финализированную.
+  Eyebrow'ы клонированных секций переименованы в «… ПЕРЕКЛЮЧАТЕЛЯ», чтобы не путались с семейным «два компонента».
 
 ### ⛔ Стенд подбирается под `style`, иначе превью растворяется
 `on-container` на сером `bg-surface/neutral/base` — это серое на сером, поле исчезает целиком

@@ -510,6 +510,22 @@ if (!target) throw new Error('мёртвый node-id из реестра: ' + id
 - **Instance-edit churn → re-query loop.** Editing an instance's text/props rebuilds its internal nodes, so a pre-collected node list goes stale (`Node ... not found`). Edit one at a time, re-finding each layer each step; for positional numbering filter by EFFECTIVE visibility (hidden layers skew the order).
 - **Don't trust the old doc blindly.** Check it shows the component correctly/fully; if it's wrong or incomplete, do it right our way; if it's pointless, propose better rather than copy.
 
+- ⛔ **Слотовый компонент переносит РОВНО ОДНУ правку слота за вызов `use_figma`.** Проверено 27.08.2026 на десктопном `tabbar` (слот `tabs-slot`, дефолтный контент — 3 инстанса `.tabbar-item`). Любая мутация содержимого слота у инстанса (`setProperties` на ребёнке, `remove()`, `appendChild`) убивает хендлы ВСЕХ соседних дефолтных детей: следующее обращение падает с «Node ... not found», и переполучение инстанса по id не помогает — в одном прогоне скрипта дерево не обновляется. Признак: первая правка проходит, вторая падает; чтение `slot.children[i].width` после мутации падает тоже.
+  **Рецепт для превью в доке — детач обёртки, а вкладки остаются живыми инстансами:**
+  ```js
+  function bar(parent, specs){                       // specs: [{title, selected, state, icon, badge, focused}]
+    const inst = comp.createInstance(); parent.appendChild(inst);
+    const f = inst.detachInstance();                 // обёртка -> FRAME: высота, паддинги и привязанная линия сохраняются
+    const slot = f.children[0];                      // бывший SLOT -> обычный FRAME, дети редактируются свободно
+    const olds = slot.children.slice();
+    for (const s of specs) slot.appendChild(mkItem(s.title, s));  // свойства ставим ДО appendChild
+    for (const o of olds) o.remove();
+    return f;                                        // в auto-layout-превью: f.layoutSizingHorizontal='FILL'
+  }
+  ```
+  Цена: обёртка перестаёт быть инстансом (изменения геометрии компонента в превью не подтянутся), вложенные вкладки — подтянутся. Это осознанный компромисс: альтернатива — по 3–4 вызова `use_figma` на каждое превью. В отчёте дизайнеру про детач сказать.
+- ⛔ **`layoutSizingHorizontal='FILL'` ставится ТОЛЬКО после `appendChild` в auto-layout-родителя.** В хелперах вида `async function block(...)`, которые возвращают узел, порядок легко перевернуть — тогда падает «FILL can only be set on children of auto-layout frames». Правило: сначала `parent.appendChild(node)`, потом сайзинг (поймано дважды за одну сборку доки tabs).
+
 ## 6b. ⚙️ Maintenance rule — audit & grow this kit (run periodically)
 
 **Trigger:** at the end of every component doc build (and any time a build needed a fresh harvest, a new icon, a new component's props, or hit a gotcha not listed here).
