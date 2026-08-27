@@ -106,5 +106,5 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | pagination-panel | 🧩 pagination | 8502:5319 | — | ✅ finalized | ✅ |
 | progress-bar · segmented-progress-bar | 🧩 progress-indicators | 8562:7911 | — | ✅ finalized | ✅ |
 | search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
-| tabbar · text-segmented-control · icon-segmented-control | 🧩 tabs (`8012:7247`) | 8743:1546 — семейная дока на оба компонента | — | 🕗 CONCEPT, ждёт согласования | ✅ все три ведут на новую доку; старая 8529:6766 удалена дизайнером 27.08.2026 |
+| tabbar · text-segmented-control · icon-segmented-control | 🧩 tabs (`8012:7247`) | 8743:1546 — семейная дока на оба компонента | — | ✅ finalized 27.08.2026 | ✅ все три ведут на семейную доку; старая 8529:6766 удалена дизайнером |
 | scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | 8501:8405 | — | ✅ finalized | ✅ |
