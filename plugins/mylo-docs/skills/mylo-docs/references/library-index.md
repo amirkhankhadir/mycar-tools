@@ -87,6 +87,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 12 страниц, 30 публичных компонентов: описания с префиксом `[Desktop]`, статус «готов-к-разработке», ссылки на доки живые, чипов CONCEPT нет, битых инстансов нет, все привязки цвета в текущем поколении.
 ⚠️ Единственное исключение: `color-picker` без доки — по решению пользователя её не пишем, на странице только указатель на Mobile.
 ⚠️ `brand-link` (страница `🧩 links`) **уехал в Shared** 20.08.2026.
+⚠️ С 28.08.2026 в файле появились ещё две страницы, которых нет в таблице ниже: `🧩 date-picker` (`8762:6426`) — не документирована, и `🧩 filters` (`8792:30735`) — документирована.
 
 
 Те же статусы. Мобильные и десктопные строки не смешивать: `documentationLinks` ведёт в свой файл.
@@ -108,3 +109,4 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
 | tabbar · text-segmented-control · icon-segmented-control | 🧩 tabs (`8012:7247`) | 8743:1546 — семейная дока на оба компонента | — | ✅ finalized 27.08.2026 | ✅ все три ведут на семейную доку; старая 8529:6766 удалена дизайнером |
 | scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | 8501:8405 | — | ✅ finalized | ✅ |
+| filters-panel · filter-button · filter-dropdown-menu/default · /no-results · /loading | 🧩 filters (`8792:30735`) | 8812:1096 — семейная дока на все пять | — | ✅ finalized 28.08.2026 | ✅ все пять ведут на семейную доку; старой доки на странице не было |

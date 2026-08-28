@@ -139,6 +139,10 @@
 | text-segmented-control, icon-segmented-control | `size: lg/md` · `width: auto/custom` · `#-of-buttons: 2–5` |
 | tabbar (слотовый) | у публичного компонента осей НЕТ — только слот `tabs-slot` (minChildren 2, allowPreferredValuesOnly, дефолт — 3 вкладки). Оси у приватного `.tabbar-item`: `state: rest/hover/disabled` (⚠️ `pressed` нет) · `is-selected` (⚠️ пар «hover + True» и «disabled + True» нет) · `is-focused` · `tab-title` · `show-leading-icon` + swap · `show-badge`. Линия под рядом — обводка на слоте, выключателя нет |
 | scrollbar-vertical / horizontal | `position` |
+| filter-button | `is-multi-select` · `is-quick-filter` · `state: rest/hover/pressed/selected` · `is-applied` + булев `is-focused`, TEXT `label#8811:0`, INSTANCE_SWAP `menu-type#8810:179`. 22 варианта: у быстрого фильтра НЕТ `selected`, пары «мульти + быстрый» тоже нет, `disabled` не существует. ⚠️ `pressed` и `selected` залиты одним `bg/on-container/pressed` — различает только присутствие меню |
+| filters-panel | осей НЕТ — только слот `filters-slot` (HORIZONTAL, **`layoutWrap: WRAP`**, гэп 12, `allowPreferredValuesOnly: false`, preferred = filter-button + search-input). Дефолт слота: search-input 300 + 2 кнопки + быстрый фильтр |
+| filter-dropdown-menu/default | `show-search` (def true) · `show-scrollbar` (def false) · `show-button` (def true, гасит сразу `button-spacer` и `button-container`) · слот `list-slot` (`allowPreferredValuesOnly: true`, только `dropdown-menu-items/base` и `/category`) |
+| filter-dropdown-menu/no-results · /loading | свойств НЕТ вовсе; 300×112, поиск `filled=true, focused`, текст «Ничего не найдено» / «Загрузка…» |
 
 ## D8a. Справка по задокументированным Desktop-компонентам
 
@@ -166,6 +170,15 @@
 - **Старая дока сегмент-контролов `8529:6766` удалена дизайнером 27.08.2026**; её содержание целиком перенесено в семейную доку
   **клонированием** фрейма (не переписыванием) — приём дешевле и без потерь, когда новая дока поглощает финализированную.
   Eyebrow'ы клонированных секций переименованы в «… ПЕРЕКЛЮЧАТЕЛЯ», чтобы не путались с семейным «два компонента».
+
+### filters (семейство) — страница `🧩 filters` (`8792:30735`) · дока **finalized `8812:1096`** (семейная, на все пять), linked ✅
+- **Пять публичных компонентов:** `filters-panel` COMPONENT `8800:53651` · `filter-button` SET `8792:50407` · `filter-dropdown-menu/default` COMPONENT `8792:46839` · `/no-results` `8810:54011` · `/loading` `8810:54012`. Старой доки на странице не было — переносить было нечего.
+- **verified 28.08.2026:** `state=selected` — это РАСКРЫТОЕ МЕНЮ: инстанс меню вшит в вариант, `layoutPositioning='ABSOLUTE'`, `x=0, y=44`, приходит с `show-button=false`, сам вариант с `clipsContent=false`. Свап меню сделан ссылкой `componentPropertyReferences.mainComponent → menu-type`.
+- **verified:** `is-applied=true` меняет заливку на `bg/accent/blue/tint/rest` + `stroke/brand` и заменяет шеврон парой «`badges` (number, sm, brand) + `click-target-container` 24×24 с `general/Close`»; правый паддинг падает с `space-3` до `space-2`. Габарит 40, радиус `corner-radius/md`, обводка 2 `stroke/neutral/primary`, подпись `action/md-medium`.
+- ⚠️ **Разница одиночного и мульти-выбора видна ТОЛЬКО внутри меню:** у одиночного строки идут с `show-checkmark=true`, у мульти — `show-selector=true`. Сама кнопка в покое идентична, дефолт счётчика 1 против 3. В доке это проговаривать явно, иначе по макету панели тип не угадать.
+- **Правила дизайнера (28.08.2026):** крестик применённого фильтра при наведении показывает подсказку «Очистить фильтр» (компонент `tooltip` из Shared) — обязательно в доке. Кнопка «Очистить фильтр» ВНУТРИ меню стоит только пока выбран хотя бы один вариант; очищать нечего — кнопки нет. Состояние `disabled` кнопке не нужно (кейса нет).
+- **Правки компонента по согласованию:** `is-milti-select` → `is-multi-select` (`editComponentProperty` на SET) и вывод подписи наружу свойством `label#8811:0`. Дефолты остались английские («Filter» у кнопки, «Option» у строк меню) — дизайнер сознательно ограничил правку.
+- ⛔ **Мобильная страница `🧩 filters` тоже существует** (`4142:23916`), и там ТОЖЕ есть компонент с именем `filters-panel` — но это другой компонент (393×56, иконочные кнопки + ряд чипсов). Ставим блок-указатель, а совпадение имён в нём проговариваем отдельно. Указатель в мобильной доке `15657:31486` при этом устарел («страницы filters на десктопе нет») — поправлен 28.08.2026 в обе стороны.
 
 ### ⛔ Стенд подбирается под `style`, иначе превью растворяется
 `on-container` на сером `bg-surface/neutral/base` — это серое на сером, поле исчезает целиком
