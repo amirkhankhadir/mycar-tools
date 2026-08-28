@@ -128,7 +128,8 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 ⚠️ Единственное исключение: `color-picker` без доки — по решению пользователя её не пишем, на странице только указатель на Mobile.
 ⚠️ `brand-link` (страница `🧩 links`) **уехал в Shared** 20.08.2026.
 ⚠️ 28.08.2026 на страницу `🧩 dropdowns` добавлен `on-base-dropdown-button` (дубликат on-container, перекрашен на `bg/on-base/*`); дока и описания обновлены, раздел «Компактные кнопки» теперь про пару.
-⚠️ С 28.08.2026 в файле появились ещё две страницы, которых нет в таблице ниже: `🧩 date-picker` (`8762:6426`) — не документирована, и `🧩 filters` (`8792:30735`) — документирована.
+⚠️ Обе страницы, добавленные 28.08.2026, документированы: `🧩 date-picker` (`8762:6426`) и `🧩 filters` (`8792:30735`).
+⚠️ Семейство фильтр-меню переименовано в файле: `filter-dropdown-menu/*` → **`filter-menu/*`**, и у него появился шестой компонент `filter-menu/date` (SET `8866:70753`) — в семейной доке фильтров `8812:1096` его ещё нет, это хвост.
 
 
 Те же статусы. Мобильные и десктопные строки не смешивать: `documentationLinks` ведёт в свой файл.
@@ -150,4 +151,5 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | search-input | 🧩 search-input | 8442:722 | — (не нужен) | ✅ finalized | ✅ |
 | tabbar · text-segmented-control · icon-segmented-control | 🧩 tabs (`8012:7247`) | 8743:1546 — семейная дока на оба компонента | — | ✅ finalized 27.08.2026 | ✅ все три ведут на семейную доку; старая 8529:6766 удалена дизайнером |
 | scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | 8501:8405 | — | ✅ finalized | ✅ |
-| filters-panel · filter-button · filter-dropdown-menu/default · /no-results · /loading | 🧩 filters (`8792:30735`) | 8812:1096 — семейная дока на все пять | — | ✅ finalized 28.08.2026 | ✅ все пять ведут на семейную доку; старой доки на странице не было |
+| filters-panel · filter-button · filter-menu/default · /no-results · /loading | 🧩 filters (`8792:30735`) | 8812:1096 — семейная дока на все пять | — | ✅ finalized 28.08.2026 | ✅ все пять ведут на семейную доку; старой доки на странице не было. ⚠️ `filter-menu/date` в доку не входит |
+| date-picker-input (+ приватный календарь) | 🧩 date-picker (`8762:6426`) | 8874:7199 | — (не нужен) | ✅ finalized 28.08.2026 | ✅ ссылка у набора; у приватного `.dropdown-menu/calendar` оставлена своя ссылка на MUI |

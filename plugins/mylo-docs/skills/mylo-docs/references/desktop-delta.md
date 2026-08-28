@@ -141,10 +141,25 @@
 | scrollbar-vertical / horizontal | `position` |
 | filter-button | `is-multi-select` · `is-quick-filter` · `state: rest/hover/pressed/selected` · `is-applied` + булев `is-focused`, TEXT `label#8811:0`, INSTANCE_SWAP `menu-type#8810:179`. 22 варианта: у быстрого фильтра НЕТ `selected`, пары «мульти + быстрый» тоже нет, `disabled` не существует. ⚠️ `pressed` и `selected` залиты одним `bg/on-container/pressed` — различает только присутствие меню |
 | filters-panel | осей НЕТ — только слот `filters-slot` (HORIZONTAL, **`layoutWrap: WRAP`**, гэп 12, `allowPreferredValuesOnly: false`, preferred = filter-button + search-input). Дефолт слота: search-input 300 + 2 кнопки + быстрый фильтр |
-| filter-dropdown-menu/default | `show-search` (def true) · `show-scrollbar` (def false) · `show-button` (def true, гасит сразу `button-spacer` и `button-container`) · слот `list-slot` (`allowPreferredValuesOnly: true`, только `dropdown-menu-items/base` и `/category`) |
-| filter-dropdown-menu/no-results · /loading | свойств НЕТ вовсе; 300×112, поиск `filled=true, focused`, текст «Ничего не найдено» / «Загрузка…» |
+| date-picker-input | `range-picker` · `size: 56/48` · `state: rest/hover/focused/disabled` · `filled` · `error` · `menu-position: collapsed/below-default/above/**external**` + булевы `show-label#8863:205` (def true), `show-hint#84:26`, `is-clearable#8119:19`, TEXT `label#3657:35` / `value#3657:109` / `range-label#8765:23` / `range-value#8765:96`. 88 вариантов |
+| .dropdown-menu/calendar (приватный) | свойств-осей нет: BOOL `show-week-6#187:1` (def true) + TEXT `month-title#8765:22`. Габарит 280×336 |
+| .dropdown-menu/calendar/day (приватный) | `state: rest/hover/disabled` · `is-selected` · `is-today` · `range-state: none/start/middle/end` · `is-outside-month` + булев `is-focused#8765:6`. 16 вариантов |
+| filter-menu/default | `show-search` (def true) · `show-scrollbar` (def false) · `show-button` (def true, гасит сразу `button-spacer` и `button-container`) · слот `list-slot` (`allowPreferredValuesOnly: true`, только `dropdown-menu-items/base` и `/category`) |
+| filter-menu/no-results · /loading | свойств НЕТ вовсе; 300×112, поиск `filled=true, focused`, текст «Ничего не найдено» / «Загрузка…» |
 
 ## D8a. Справка по задокументированным Desktop-компонентам
+
+### date-picker-input — SET `8762:6427` на странице `🧩 date-picker` (`8762:6426`) · **DOC finalized `8874:7199`**, linked ✅
+- Дока построена как **дельта к MUI**, а не как полный набор секций: карточка «Поведение взято у MUI X» со ссылкой + секция «Отличия от MUI» из шести пунктов, дальше только наше (размеры, состояния, встраивание, тексты, доступность). Разбор строки, min/max, недоступные дни и локаль намеренно НЕ переписаны — на них ссылка. Приём годится любому компоненту, у которого есть внешний первоисточник.
+- **verified 28.08.2026:** кнопки-триггера нет, иконка календаря декоративная; одна месячная сетка и для одной даты, и для периода; заголовок календаря не кликается (views только day); дни соседних месяцев скрыты; шесть строк недель всегда; отступ поле↔календарь 4; календарь всегда 280 и прижат влево (`calX=0`, `counterAxisAlignItems=MIN`) независимо от ширины поля; у поля оси ширины нет, мастер 361.
+- ⚠️ **`show-label` разведён не во всех вариантах:** 68 из 88. В 20 вариантах (`filled=false` + `rest`/`hover`/`disabled`) у слоя `label` нет ссылки `visible`, и подпись остаётся видимой — в пустом покое она работает плейсхолдером. Похоже на осознанный выбор, дизайнеру озвучено. Следствие для доки: пример «выключили подпись» строить на `filled=true`, иначе свойство молча не сработает.
+- ⚠️ **`is-clearable=true` добавляет крестик РЯДОМ с иконкой календаря**, а не вместо неё: `clear-button-container` (HORIZONTAL, `clipsContent=false`) расширяется с 24 до 64. Проверено временным инстансом.
+- **Разделитель периода исправлен 28.08.2026:** было длинное тире с обычными пробелами (`03.08.2026 — 13.08.2026`), стало среднее `–` (U+2013) с узкими неразрывными пробелами (U+202F) — по `TYP-02`/`NUM-04`/`DT-16` гайда mycar-copy. Правились дефолт `range-value#8765:96` через `editComponentProperty` и 12 текстовых слоёв `placeholder`/`text-value` в вариантах `range-picker=true`. U+202F в Inter Display рендерится нормально, тофу нет. В `filter-menu/date` строка наследуется — своих копий там не оказалось.
+- Поле — floating label: в покое и пустое подпись стоит по центру вместо значения (`label-container` 20), в фокусе и заполненном — уезжает наверх, под ней маска `ДД.ММ.ГГГГ` или значение (`label-container` 40). Маска — не свойство.
+- Подсказка и ошибка — вложенные инстансы `.input-hint-text` / `.input-error-text` со своими TEXT-свойствами (`hint-text#3657:34`, `error-text#3657:32`), дефолты английские «Hint text» / «Error text».
+- Заливки: `bg/on-container/*` — значит стенд под превью белый `bg-surface/neutral/base-container` + обводка (серое на сером иначе).
+- **Правка компонента по согласованию (28.08.2026):** 16 вариантов `state=focused, menu-position=collapsed` переименованы в `menu-position=external` — служебное значение для встраивания, когда календарь рисует контейнер (`filter-menu/date`). Комбинации «в фокусе и без календаря» в наборе больше нет. После правки библиотеку надо переопубликовать.
+
 
 ### search-input — SET `8378:1067` на странице `🧩 search-input` (`8245:1218`) · **DOC finalized `8442:722`**, linked ✅
 - 24 варианта: `style` (on-container/on-base) × `size` (lg/md) × `state` (rest/hover/focused) × `filled`.
