@@ -109,6 +109,55 @@ Structure: `card` → **`preview`** (the ONE gray stage: fill `bg-surface/neutra
 
 ---
 
+---
+
+## 1a. Размерная сетка и нейминг размеров (система, 28.08.2026)
+
+**Правило: значение варианта `size` — это высота контрола в пикселях.** У квадратных контролов —
+сторона. Одинаковое имя в любом семействе означает одинаковую высоту.
+
+**Общая лестница высот:** 24 · 32 · 40 · 44 · 48 · 56.
+
+**Кому какая ступень:**
+
+| | button | icon-button |
+|---|---|---|
+| мобилка | 56 · 44 · 32 | 56 · 44 · 32 · 24 |
+| десктоп | 56 · 48 · 40 · 32 | 56 · 48 · 40 · 32 · 24 |
+
+44 — мобильный тач-таргет, на десктопе не используется. 40 и 48 — десктопные, на мобилке не нужны.
+
+**Спецификация ступени `button`** (высота: радиус, горизонтальный паддинг, текст, иконка):
+
+```
+56  corner-radius/lg  spacing/space-4  action/lg-medium  24
+48  corner-radius/md  spacing/space-4  action/lg-medium  24
+44  corner-radius/md  spacing/space-3  action/md-medium  24
+40  corner-radius/md  spacing/space-3  action/md-medium  20
+32  corner-radius/sm  spacing/space-2  action/sm-medium  20
+зазор иконка-подпись: spacing/space-1 на 56/48/44/40, spacing/space-none на 32
+```
+
+**Спецификация `icon-button`** (сторона: радиус при `shape=square`, иконка):
+
+```
+56  corner-radius/lg  24      40  corner-radius/md  24
+48  corner-radius/md  24      32  corner-radius/sm  20
+44  corner-radius/md  24      24  corner-radius/xs  16
+shape=circle -> corner-radius/round на всех ступенях
+```
+
+**Чипсы и теги** — радиус от высоты: 56 `lg` · 48 и 40 `md` · 32 `sm` · 24 `xs`.
+
+**Что осознанно осталось буквенным:** `heading`, `brand-link`, `progress-bar`,
+`progress-circle-with-label`, `.number-badge` — там `size` означает шкалу текста, толщину или
+диаметр, а не высоту контрола в ряду.
+
+**Как писать в доке.** Подзаголовок секции «РАЗМЕРЫ» — по шаблону
+«N размеров; имя размера — это его высота в пикселях». Подписи под превью — голое число (`56`,
+а не `lg · 56`). После правки прогонять по всему doc-фрейму проверку на остатки:
+`/\b(xs|sm|md|lg|xl)\b/` — должно быть пусто.
+
 ## 2. Variable key map (name → variable key) — resolve by key
 
 ```
@@ -593,3 +642,29 @@ return {varMap, styleMap};
 ```
 
 **Sanity check after harvesting:** every colour variable must report the current Core collection with **4 modes** (`mycar-light, mycar-dark, finance-light, finance-dark`). A 2-mode `light-mode/dark-mode` result means the node you harvested from is itself bound to a stale generation — rebind it first, then re-harvest.
+
+
+### Переименование оси `size` — порядок значений и потеря свойств (28.08.2026)
+
+Три грабли, проверены на 456 вариантах кнопок и иконочных кнопок:
+
+1. **`variantOptions` не следует за порядком детей сам.** После переименования или вставки новых
+   вариантов список в панели остаётся в старом порядке, а новые значения дописываются в конец.
+   Лечение — два прохода **с чтением между ними**: переименовать все `size=N` → `size=zN`,
+   **прочитать** `componentPropertyDefinitions` (это форсирует пересчёт), затем вернуть `zN` → `N`.
+   Без чтения между проходами порядок не пересобирается.
+2. **`clone()` варианта НЕ кладёт копию в набор** — она оказывается на странице. Обязательно
+   `set.insertChild(index, clone)` или `set.appendChild(clone)`, иначе на странице остаются
+   осиротевшие `COMPONENT`.
+3. **Клон теряет `componentPropertyReferences`** — у нового варианта пропадают `label`, иконки,
+   `is-focused`. Лечение: обойти исходный вариант и клон плоскими списками узлов и скопировать
+   `componentPropertyReferences` по индексу (деревья идентичны). Проверять инстансом:
+   `createInstance()` → `componentProperties` должен отдать все свойства.
+
+Инстансы переименование переживают: они ссылаются на узел варианта, а не на строку значения, —
+оверрайды и привязки сохраняются. Но в **файлах-потребителях** старые имена остаются до republish
+библиотеки-источника.
+
+**Правки русских строк в доках:** внутри строк живут неразрывные пробелы, поэтому шаблон с обычным
+пробелом молча не совпадает. Матчить через `[\s\u00A0]` либо по токенам (`/\blg\b/`), а после
+замены обязательно перечитывать результат.

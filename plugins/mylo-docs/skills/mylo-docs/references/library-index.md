@@ -27,6 +27,41 @@
 - **DS onboarding deck** (архитектура, 3 слоя переменных, категории цвета, версии/статусы, темы) —
   https://www.figma.com/slides/6MpmUsPVGwXxgf9MsO6GkZ
 
+### ⚠️ Размерная сетка 2.0 (28.08.2026) — ось `size` переведена на числа
+
+Правило и полная спецификация — в `doc-kit.md` §1a; технические грабли переименования — в §6a.
+Затронуто 45 наборов в трёх библиотеках.
+
+| Библиотека | Наборы | Было → стало |
+|---|---|---|
+| Shared | button ×12 | lg→56, md→44, sm→32 · **новые 48 и 40** |
+| Shared | icon-button ×9 | xl→56, lg→44, md→32, sm→24 · **новые 48 и 40** |
+| Shared | tag ×8 | md→32, sm→24 |
+| Desktop | text-input, dropdown-input, date-picker-input | lg→56, md→48 |
+| Desktop | text-area-input | lg→76 |
+| Desktop | search-input | lg→56, md→48, sm→40 |
+| Desktop | primary-chip, autocheck-chip | md→40, sm→32, xs→24 |
+| Desktop | text-/icon-segmented-control | lg→40, md→32 |
+| Desktop | `.on-container-dropdown-button` | md→40, sm→32 |
+| Mobile | text-input, cvv-input, date-input | lg→56, md→48 |
+| Mobile | primary-chip, inverse-chip | xl→56, lg→48, md→40, sm→32, xs→24 |
+| Mobile | `.top-nav/square-button` | sm→32 |
+
+Версии `button` и `icon-button` подняты до **2.0.0**. Отчёт для разработчиков (с машиночитаемым
+блоком) — фрейм `319:1787` на `📖 start-here` в Shared.
+
+Попутно исправлено: Mobile `primary-chip` и `inverse-chip` на высоте 40 имели радиус
+`corner-radius/sm` вместо `md` — выровнено с десктопными чипсами. У `primary-button` удалены два
+дублирующихся бейджа версии; в описаниях `on-container-button` / `on-base-button` литералы
+`&amp;nbsp;` заменены на настоящие неразрывные пробелы.
+
+Доки, переписанные под числа: Shared Buttons `4:3152`, Icon Buttons `4:6379`, Tags `42:6127`;
+Desktop input-fields `8562:775`, dropdowns `8562:2978`, chips `8529:727`, tabs `8743:1546`,
+search-input `8442:722`; Mobile Chips `15506:27876`.
+
+⛔ **Не сделано:** три библиотеки нужно republish (Shared → Mobile → Desktop). Версии наборов
+второй волны (поля, чипсы, теги, сегментед) не подняты — решение за дизайнером.
+
 ## Component registry — Shared (`LxMK9OD6jvgPWPVg25EZAM`) — ✅ БИБЛИОТЕКА ФИНАЛИЗИРОВАНА 20.08.2026
 
 65 публичных компонентов: у всех заполнено `description` с префиксом `[Shared]`, у всех живой `documentationLinks`, чипов CONCEPT нет, битых ссылок нет.
@@ -73,8 +108,8 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | avatar | 🧩 avatars | 12581:799 | 12604:1452 | ✅ finalized | ✅ |
 | badges | 🧩 badges | 12608:1037 | 12629:1115 | ✅ finalized | ✅ |
 | bottom-action-bar | 🧩 bottom-actions | 15266:956 | — (не собран) | ✅ finalized | ✅ |
-| buttons (семейство, 12 компонентов) | 🧩 buttons | 15287:28909 | — | ✅ finalized | ✅ |
-| icon-buttons (семейство, 9 компонентов) | 🧩 icon-buttons | 15321:1138 | — | ✅ finalized | ✅ |
+| ~~buttons (семейство)~~ | — | — | — | ↗️ уехало в Shared: страница `🧩 buttons` (`3:1392`), дока `4:3152` | — |
+| ~~icon-buttons (семейство)~~ | — | — | — | ↗️ уехало в Shared: страница `🧩 icon-buttons` (`4:5483`), дока `4:6379` | — |
 | checkbox (item + block) | 🧩 checkbox | 15505:725 | — (не нужен) | ✅ finalized | ✅ |
 | chips (primary · inverse · group · autocheck) | 🧩 chips | 15506:27876 | — (не нужен) | ✅ finalized | ✅ |
 | description-lists (vertical + horizontal) | 🧩 description-lists | 15528:1534 | — (не нужен) | ✅ finalized | ✅ |
