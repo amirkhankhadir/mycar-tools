@@ -130,6 +130,14 @@ border/width/sm                     f7fbd0ea6622adff0b0d17fb33a1f526fc72da99
 bg-surface/neutral/base             91490344d3ebe5f52ed9583a477dc0c9e27c6484
 bg-surface/neutral/base-container   0a3c000f5d25113ac09ed9c2c29611a15696b4c8
 bg-surface/neutral/floating         ae1e0e6e22356632487a893354b24fde8142ac68
+bg/on-base/rest                     afd9f3c950f39ddc2fec60aa4dadfda2bec50d60
+bg/on-base/hover                    6aa8e32445bbe7d74ed745fad4e26fa37f7a9f73
+bg/on-base/pressed                  c759d21ed6321db45c5f9354ff805123ce8ea996
+bg/on-base/disabled                 54b85b2a128e0ac95445fb897b84acc40d48858c
+bg/on-container/rest                048551c0c6f541859cef827869fba221f8620a53
+bg/on-container/hover               0d424559c105e991c8f0d946f6570c70025fdd80
+bg/on-container/pressed             be16f19beb7c27332f4e92ab0b472b4ff9a34ee9
+bg/on-container/disabled            94823130a2c3f7b661fc17ef98de184d2203afdc
 bg-surface/semantic/success/tint    740ee592d0a4a2ab7ad8b0f4872f7e96fd15e682
 bg-surface/semantic/warning/tint    c2055dd61a62b6932a0a0c16c6cfdf6e3cc02b5c
 bg-surface/semantic/danger/tint     aef2c53b3c6e2ca35b2707b36860c48e028cb3c8
@@ -535,6 +543,23 @@ if (!target) throw new Error('мёртвый node-id из реестра: ' + id
 - **Детач меню внутри `state=selected` требует ДВУХ детачей:** сначала обёртка-кнопка (`btn.detachInstance()` → FRAME), потом вложенное меню (оно осталось INSTANCE) — только тогда дети `list-slot` правятся свободно. Свойства слотового меню (`show-button` и т.п.) после детача ставятся напрямую видимостью слоёв `button-spacer` / `button-container`.
 - ⛔ **После `appendChild` в новый контейнер id узла может не совпасть с тем, что вернул предыдущий вызов** (поймано на переносе превью панели в белую подложку: `getNodeByIdAsync` вернул `null`, а на канвасе тот же узел жил под другим id и снова как INSTANCE). Не кэшируй id между вызовами через переупаковку — перечитывай детей контейнера.
 - **Сравнивать русский текст по `indexOf` после RU-прогона нельзя** — внутри уже стоят U+00A0, и совпадения не будет. Искать по `strip = s => s.replace(/\s|\u00A0/g,'')` либо по нормализованной копии.
+
+### Пара on-base / on-container — заливка и стенд (dropdowns, 28.08.2026)
+
+Когда компонент дублируют, чтобы сделать вторую поверхность, отличие ровно одно — семейство фона. Проверено на `on-base-dropdown-button`, эталон взят с обычных `on-base-button` / `on-container-button` из Shared:
+
+| состояние | on-container | on-base |
+|---|---|---|
+| rest · hover · pressed | `bg/on-container/{rest,hover,pressed}` | `bg/on-base/{rest,hover,pressed}` |
+| disabled И loading | `bg/on-container/disabled` | `bg/on-base/disabled` |
+| selected (только у dropdown-кнопки) | `bg/on-container/pressed` | `bg/on-base/pressed` |
+
+Подпись, иконка и кольцо фокуса в обеих одинаковые (`text/neutral/primary` · `text/neutral/disabled` · `icon/neutral/primary` · `icon/neutral/disabled` · `stroke/focus-ring`) — не трогать.
+
+- ⛔ **Заливка сидит НЕ на корне варианта**, а на слое `main-container` — у корня `fills=[]`. Читая цвета набора, обязательно спускаться внутрь, иначе получишь «все варианты одинаковые».
+- ⛔ **Стенд под превью подбирается под поверхность каждой кнопки**, иначе одна из пары исчезает: `on-base` на белой карточке — белое на белом (поймано в реестре семейства), `on-container` на сером стенде — серое на сером (D8a). В сравнительной карточке крась стенды по отдельности: `bg-surface/neutral/base` под on-base, `bg-surface/neutral/base-container` (+ обводка `stroke/neutral/secondary`, иначе стенд не отличить от карточки) под on-container.
+- **Добавить компонент в существующий реестр семейства дешевле клоном:** `item.clone()` → `inst.swapComponent(newVariant)` → правка подписи. Стили подписи и раскладка приезжают сами.
+- **Дубликат наследует описание и `documentationLinks` источника** — оба почти всегда врут (у нас копия описания указывала на `base-container`, а ссылка приватного набора вела в МОБИЛЬНУЮ доку кнопок). Проверять и переписывать оба; хэштеги поиска (`#button #btn #кнопка …`) сохранять — это findability в Assets.
 
 ## 6b. ⚙️ Maintenance rule — audit & grow this kit (run periodically)
 

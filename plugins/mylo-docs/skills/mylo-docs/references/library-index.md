@@ -87,6 +87,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 12 страниц, 30 публичных компонентов: описания с префиксом `[Desktop]`, статус «готов-к-разработке», ссылки на доки живые, чипов CONCEPT нет, битых инстансов нет, все привязки цвета в текущем поколении.
 ⚠️ Единственное исключение: `color-picker` без доки — по решению пользователя её не пишем, на странице только указатель на Mobile.
 ⚠️ `brand-link` (страница `🧩 links`) **уехал в Shared** 20.08.2026.
+⚠️ 28.08.2026 на страницу `🧩 dropdowns` добавлен `on-base-dropdown-button` (дубликат on-container, перекрашен на `bg/on-base/*`); дока и описания обновлены, раздел «Компактные кнопки» теперь про пару.
 ⚠️ С 28.08.2026 в файле появились ещё две страницы, которых нет в таблице ниже: `🧩 date-picker` (`8762:6426`) — не документирована, и `🧩 filters` (`8792:30735`) — документирована.
 
 
@@ -97,7 +98,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | breadcrumbs | 🧩 breadcrumbs | 8501:8415 | — | ✅ finalized | ✅ (старая дока 8054:4400 — удаляет дизайнер) |
 | primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | 8529:727 | — | ✅ finalized | ✅ |
 | color-picker | 🧩 color-picker | — | — | ⏸ отложено: сейчас только блок-указатель на Mobile; полную доку возможно сделаем позже | — |
-| dropdowns (8 публичных) | 🧩 dropdowns | 8562:2978 | — | ✅ finalized | ✅ |
+| dropdowns (9 публичных) | 🧩 dropdowns | 8562:2978 | — | ✅ finalized | ✅ |
 | empty-state | 🧩 page-states (страница переименована) | 8502:667 | — | ✅ finalized | ✅ |
 | text-input · text-area-input · range-input | 🧩 input-fields | 8562:775 | — | ✅ finalized | ✅ |
 | ~~brand-link~~ | — | — | — | ↗️ уехал в Shared | — |

@@ -127,7 +127,7 @@
 | chips-group | `type: on-container/outline` |
 | dropdown-input | `combobox` · `size: lg/md` · `state: rest/hover/focused/disabled` · `filled` · `error` · `menu-position: collapsed/below-default/above` |
 | menu-item | `is-selected` · `state: rest/hover/pressed/disabled` |
-| on-container-dropdown-button | `width: auto/custom` |
+| on-container-dropdown-button · **on-base-dropdown-button** | `width: auto/custom` у публичной обёртки. Вся визуальная работа — в приватных наборах `.on-container-dropdown-button` `8146:6479` / `.on-base-dropdown-button` `8836:56668`: `size: md/sm` · `state: rest/hover/pressed/disabled/loading/selected` · `menu: none/bottom-left-default/bottom-right/top-left/top-right` + `is-focused`, `show-leading-icon`, `leading-icon`, `label#3446:617`. 18 вариантов; `selected` = открытое меню |
 | text-input | `style: on-container/on-base` · `size: lg/md` · `state: rest/hover/focused/disabled` · `filled` · `error` |
 | text-area-input | то же, `size: lg` только |
 | brand-link | `type: standalone/inline` — на публичном компоненте больше ничего. ⚠️ **Состояния есть**, но на вынесенном вложенном инстансе `link`: `size` md/sm/xs, `state` rest/hover/pressed/disabled, `is-focused`, у inline ещё `is-visited`. Набора `.old-reference 8050:963` в файле НЕТ |
