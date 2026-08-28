@@ -42,13 +42,13 @@
 | Desktop | search-input | lg→56, md→48, sm→40 |
 | Desktop | primary-chip, autocheck-chip | md→40, sm→32, xs→24 |
 | Desktop | text-/icon-segmented-control | lg→40, md→32 |
-| Desktop | `.on-container-dropdown-button` | md→40, sm→32 |
+| Desktop | `.on-container-dropdown-button`, `.on-base-dropdown-button` | md→40, sm→32 |
 | Mobile | text-input, cvv-input, date-input | lg→56, md→48 |
 | Mobile | primary-chip, inverse-chip | xl→56, lg→48, md→40, sm→32, xs→24 |
 | Mobile | `.top-nav/square-button` | sm→32 |
 
-Версии `button` и `icon-button` подняты до **2.0.0**. Отчёт для разработчиков (с машиночитаемым
-блоком) — фрейм `319:1787` на `📖 start-here` в Shared.
+Версии **всех переименованных семейств** подняты до **2.0.0** (46 наборов). Отчёт для разработчиков (с машиночитаемым
+блоком) — фрейм `323:803` на отдельной странице `📖 release-notes` (`323:802`) в Shared.
 
 Попутно исправлено: Mobile `primary-chip` и `inverse-chip` на высоте 40 имели радиус
 `corner-radius/sm` вместо `md` — выровнено с десктопными чипсами. У `primary-button` удалены два
@@ -59,8 +59,13 @@
 Desktop input-fields `8562:775`, dropdowns `8562:2978`, chips `8529:727`, tabs `8743:1546`,
 search-input `8442:722`; Mobile Chips `15506:27876`.
 
-⛔ **Не сделано:** три библиотеки нужно republish (Shared → Mobile → Desktop). Версии наборов
-второй волны (поля, чипсы, теги, сегментед) не подняты — решение за дизайнером.
+⚠️ Публикация сделана дизайнером 28.08.2026 **до** финальной правки: `.on-base-dropdown-button`
+был найден с буквенными размерами уже после паблиша и переименован — **Desktop нужен повторный
+republish**. Shared и Mobile после паблиша получили только бейджи версий (аннотации на странице,
+не компоненты) — им republish не нужен.
+
+Финальный свип по всем трём библиотекам: буквенных значений `size` у контролов не осталось.
+У `.top-nav/square-button` бейджа версии нет — поднимать нечего.
 
 ## Component registry — Shared (`LxMK9OD6jvgPWPVg25EZAM`) — ✅ БИБЛИОТЕКА ФИНАЛИЗИРОВАНА 20.08.2026
 
