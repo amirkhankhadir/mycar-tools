@@ -118,6 +118,9 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | checkbox (item + block) | 🧩 checkbox | 15505:725 | — (не нужен) | ✅ finalized | ✅ |
 | chips (primary · inverse · group · autocheck) | 🧩 chips | 15506:27876 | — (не нужен) | ✅ finalized | ✅ |
 | description-lists (vertical + horizontal) | 🧩 description-lists | 15528:1534 | — (не нужен) | ✅ finalized | ✅ |
+| payment-success-page | 📱 templates/payments | 16257:913 | — (не нужен) | ✅ finalized 02.09.2026 | ✅ |
+
+⚠️ У приватного `.payment-success-page/animated-video` (`16248:2512`) в `documentationLinks` оставлена **своя** ссылка — архив с исходниками роликов на файлообменнике, а не дока (тот же приём, что у `.dropdown-menu/calendar`). Ссылка на доку стоит только у публичного `payment-success-page`.
 
 > Добавляй строку при старте компонента; заполняй node-id по мере создания фреймов; меняй статус на
 > approval; ставь **Linked?** ✅ после того как `documentationLinks` задан и прочитан обратно.
