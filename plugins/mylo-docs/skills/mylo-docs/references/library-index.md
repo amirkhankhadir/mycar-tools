@@ -119,6 +119,10 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | chips (primary · inverse · group · autocheck) | 🧩 chips | 15506:27876 | — (не нужен) | ✅ finalized | ✅ |
 | description-lists (vertical + horizontal) | 🧩 description-lists | 15528:1534 | — (не нужен) | ✅ finalized | ✅ |
 | payment-success-page | 📱 templates/payments | 16257:913 | — (не нужен) | ✅ finalized 02.09.2026 | ✅ |
+| swipe-card (+ приватные `.swipe-actions/*`) | 🧩 swipe-actions (`4544:9945`) | 15672:33619 | — (не нужен) | ✅ finalized; секция «ПОЛНЫЙ СВАЙП» добавлена 03.09.2026 | ✅ |
+| sliders: range-slider · carousel-slider · **slider** | 🧩 sliders (`1048:637`) | 15672:33529 — семейная дока на все три (ЧАСТЬ 1 / 2 / 3) | — (не нужен) | ✅ finalized; ЧАСТЬ 3 про `slider` добавлена 02.09.2026 | ✅ все три ведут на семейную доку |
+
+⚠️ `slider` (`16287:15147`) — одиночный ползунок на одно значение, до 02.09.2026 лежал безымянным (`Frame 2`). Имя взято с его же бейджа `.component-version`. Наружу выведены только `show-heading` и `show-input`; заголовок и значение правятся во вложенных инстансах. Появление компонента сделало неверными две фразы старой семейной доки («одиночного ползунка в библиотеке нет») — они переписаны, шапка доки теперь про три компонента.
 
 ⚠️ У приватного `.payment-success-page/animated-video` (`16248:2512`) в `documentationLinks` оставлена **своя** ссылка — архив с исходниками роликов на файлообменнике, а не дока (тот же приём, что у `.dropdown-menu/calendar`). Ссылка на доку стоит только у публичного `payment-success-page`.
 
