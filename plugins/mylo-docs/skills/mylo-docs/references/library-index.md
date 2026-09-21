@@ -138,6 +138,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 ⚠️ Единственное исключение: `color-picker` без доки — по решению пользователя её не пишем, на странице только указатель на Mobile.
 ⚠️ `brand-link` (страница `🧩 links`) **уехал в Shared** 20.08.2026.
 ⚠️ 28.08.2026 на страницу `🧩 dropdowns` добавлен `on-base-dropdown-button` (дубликат on-container, перекрашен на `bg/on-base/*`); дока и описания обновлены, раздел «Компактные кнопки» теперь про пару.
+⚠️ 21.09.2026 на страницу `🧩 dropdowns` добавлен `dropdown-menu-items/quantity-select` (SET `9028:4008`) + два приватных счётчика `.menu-item/quantity-selector-*`; описание переписано (было скопировано у `base`), в доку добавлена секция «СТРОКА СО СЧЁТЧИКОМ», обновлены реестр семейства, подпись пина в «как собирается меню» и четвёртая пара Do & Don't. Дефекты набора — в `desktop-delta.md` D8a.
 ⚠️ Обе страницы, добавленные 28.08.2026, документированы: `🧩 date-picker` (`8762:6426`) и `🧩 filters` (`8792:30735`).
 ⚠️ Семейство фильтр-меню переименовано в файле: `filter-dropdown-menu/*` → **`filter-menu/*`**, и у него появился шестой компонент `filter-menu/date` (SET `8866:70753`) — в семейной доке фильтров `8812:1096` его ещё нет, это хвост.
 
@@ -149,7 +150,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | breadcrumbs | 🧩 breadcrumbs | 8501:8415 | — | ✅ finalized | ✅ (старая дока 8054:4400 — удаляет дизайнер) |
 | primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | 8529:727 | — | ✅ finalized | ✅ |
 | color-picker | 🧩 color-picker | — | — | ⏸ отложено: сейчас только блок-указатель на Mobile; полную доку возможно сделаем позже | — |
-| dropdowns (9 публичных) | 🧩 dropdowns | 8562:2978 | — | ✅ finalized | ✅ |
+| dropdowns (10 публичных) | 🧩 dropdowns | 8562:2978 | — | ✅ finalized; секция «СТРОКА СО СЧЁТЧИКОМ» добавлена 21.09.2026 | ✅ |
 | empty-state | 🧩 page-states (страница переименована) | 8502:667 | — | ✅ finalized | ✅ |
 | text-input · text-area-input · range-input | 🧩 input-fields | 8562:775 | — | ✅ finalized | ✅ |
 | ~~brand-link~~ | — | — | — | ↗️ уехал в Shared | — |

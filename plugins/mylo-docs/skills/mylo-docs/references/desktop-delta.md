@@ -145,6 +145,8 @@
 | .dropdown-menu/calendar (приватный) | свойств-осей нет: BOOL `show-week-6#187:1` (def true) + TEXT `month-title#8765:22`. Габарит 280×336 |
 | .dropdown-menu/calendar/day (приватный) | `state: rest/hover/disabled` · `is-selected` · `is-today` · `range-state: none/start/middle/end` · `is-outside-month` + булев `is-focused#8765:6`. 16 вариантов |
 | filter-menu/default | `show-search` (def true) · `show-scrollbar` (def false) · `show-button` (def true, гасит сразу `button-spacer` и `button-container`) · слот `list-slot` (`allowPreferredValuesOnly: true`, только `dropdown-menu-items/base` и `/category`) |
+| dropdown-menu-items/quantity-select | объявлены `is-selected` [false/true] × `state` [rest/disabled], но в наборе ТОЛЬКО 2 варианта из 4: `false+rest` и `true+disabled`. `hover`/`pressed` нет (у `base` есть все 8). Булевы `show-left-content#876:94` (def false) · `is-focused#8119:10`. Подпись и значение наружу НЕ выведены — правятся во вложенных `center-content` и `.menu-item/quantity-selector-*` |
+| .menu-item/quantity-selector-on-base · -on-container | приватные, ось `buttons-shape` [circle/square] + TEXT `value#8616:5` (def «0»). Кнопки — icon-button 32, иконки `general/+- Minus Simple` / `+- Plus Simple` |
 | filter-menu/no-results · /loading | свойств НЕТ вовсе; 300×112, поиск `filled=true, focused`, текст «Ничего не найдено» / «Загрузка…» |
 
 ## D8a. Справка по задокументированным Desktop-компонентам
@@ -211,6 +213,15 @@
 ### ⛔ Эмодзи в тексте доки не рендерятся
 🧩 и подобные в Inter Display дают пустое место. В блоке-указателе и везде в тексте писать имя
 страницы словами, без эмодзи (ср. тофу-гоча про `␣` в `doc-kit` §6a).
+
+### dropdown-menu-items/quantity-select — SET `9028:4008` на странице `🧩 dropdowns` (`8113:1905`) · входит в семейную доку `8562:2978`, секция «СТРОКА СО СЧЁТЧИКОМ» (21.09.2026)
+- Строка меню, у которой правая зона заменена счётчиком «− значение +». Селектора и галочки нет, левый слот опционален, центр — тот же `center-content` на 1–3 строки.
+- **verified 21.09.2026:** реакций прототипа нет; слой `text-input` — НЕ поле ввода, а прозрачная рамка с текстом (`body/lg-regular-low-height`, HUG, `minWidth 40`), поэтому `ENDING + maxLines=1` на нём мёртвые. Замер роста счётчика: 1–2 знака — 128, три — 140, четыре — 148, «12 500» — 160. Отсюда формулировка доки «под число отведено 40 px — это два знака».
+- ⚠️ **В покое минус выключен** (`decrease-button state=disabled`): набор собран для нуля. Для превью с ненулевым значением минус включают вручную на вложенной кнопке — в доке это проговорено.
+- ⛔ **Три дефекта набора, озвучены дизайнеру, компонент не трогали:** (1) в наборе только 2 комбинации из 4, `is-selected` визуально ни на что не влияет; (2) вариант `rest` собран на `.menu-item/quantity-selector-on-base`, а `disabled` — на `-on-container`, то есть на разных поверхностях, а не состояниях; (3) у приватной пары имена и заливки перепутаны: `-on-base` залит `bg/on-container/*`, `-on-container` — `bg/on-base/*` (правильные для белого меню цвета лежат в `-on-base`).
+- `quantity-select` НЕ добавлен в `preferredValues` слота `list-container#8116:9` у `dropdown-menu/default` (там только `base` и `category`); слот не ограничен `allowPreferredValuesOnly`, поэтому вставка работает, но подсказки в панели нет.
+- **Стенд под превью — белый** `bg-surface/neutral/base-container` + обводка: кнопки счётчика залиты `bg/on-container/*` и на сером стенде исчезают (тот же класс, что D8a про `style`).
+- Приём для превью меню: инстанс `dropdown-menu/default` → `detachInstance()` → бывший слот стал обычным фреймом, строки кладутся и правятся свободно; ширину меню (300 по умолчанию) можно поднять до 360, иначе подписи переносятся.
 
 ## D8b. Фокус в Desktop-компонентах (добавлен 19.08.2026)
 
