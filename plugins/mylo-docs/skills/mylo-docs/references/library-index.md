@@ -157,6 +157,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | ~~brand-link~~ | — | — | — | ↗️ уехал в Shared | — |
 | modal · modal-with-overlay · status-modal · overlay | 🧩 modals | 8562:7906 | — | ✅ finalized | ✅ |
 | specialty/select-city-modal | 🧩 modals | 8672:2509 (отдельная дока семейства) | — | ✅ finalized | ✅ |
+| specialty/credit-calculator-modal | 🧩 modals (секция specialty) | 9080:3125 (отдельная короткая дока в формате specialty modals) | — | ✅ finalized 19.10.2026 | ✅ ссылка переведена с доки modals; описание переписано (было скопировано у `modal`); шапка specialty-доки `8672:2509` теперь называет два окна |
 | OTP-input | 🧩 OTP-input | 8528:1099 | — | ✅ finalized | ✅ (ссылка переведена с Mobile) |
 | pagination-panel | 🧩 pagination | 8502:5319 | — | ✅ finalized | ✅ |
 | progress-bar · segmented-progress-bar | 🧩 progress-indicators | 8562:7911 | — | ✅ finalized | ✅ |
