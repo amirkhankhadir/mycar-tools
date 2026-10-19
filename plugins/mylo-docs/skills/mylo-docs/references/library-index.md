@@ -139,6 +139,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 ⚠️ `brand-link` (страница `🧩 links`) **уехал в Shared** 20.08.2026.
 ⚠️ 28.08.2026 на страницу `🧩 dropdowns` добавлен `on-base-dropdown-button` (дубликат on-container, перекрашен на `bg/on-base/*`); дока и описания обновлены, раздел «Компактные кнопки» теперь про пару.
 ⚠️ 21.09.2026 на страницу `🧩 dropdowns` добавлен `dropdown-menu-items/quantity-select` (SET `9028:4008`) + два приватных счётчика `.menu-item/quantity-selector-*`; описание переписано (было скопировано у `base`), в доку добавлена секция «СТРОКА СО СЧЁТЧИКОМ», обновлены реестр семейства, подпись пина в «как собирается меню» и четвёртая пара Do & Don't. Дефекты набора — в `desktop-delta.md` D8a.
+⚠️ 19.10.2026 добавлена страница `🧩 content-blocks` (`9055:729`): `0.generic-content-block` (COMPONENT `9060:3214`), скопирован с мобильного — наследовал `[Mobile]`-описание и ссылку на мобильную доку, оба переписаны. Справа референс-макет объявления `9055:1162` (не компонент).
 ⚠️ Обе страницы, добавленные 28.08.2026, документированы: `🧩 date-picker` (`8762:6426`) и `🧩 filters` (`8792:30735`).
 ⚠️ Семейство фильтр-меню переименовано в файле: `filter-dropdown-menu/*` → **`filter-menu/*`**, и у него появился шестой компонент `filter-menu/date` (SET `8866:70753`) — в семейной доке фильтров `8812:1096` его ещё нет, это хвост.
 
@@ -164,3 +165,4 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | scrollbar-vertical · scrollbar-horizontal | 🧩 scrollbars | 8501:8405 | — | ✅ finalized | ✅ |
 | filters-panel · filter-button · filter-menu/default · /no-results · /loading | 🧩 filters (`8792:30735`) | 8812:1096 — семейная дока на все пять | — | ✅ finalized 28.08.2026 | ✅ все пять ведут на семейную доку; старой доки на странице не было. ⚠️ `filter-menu/date` в доку не входит |
 | date-picker-input (+ приватный календарь) | 🧩 date-picker (`8762:6426`) | 8874:7199 | — (не нужен) | ✅ finalized 28.08.2026 | ✅ ссылка у набора; у приватного `.dropdown-menu/calendar` оставлена своя ссылка на MUI |
+| 0.generic-content-block (+ приватные `.content-block/header` · `/slot-right` · `/footer`) | 🧩 content-blocks (`9055:729`) | 9065:1657 | — (не нужен) | ✅ finalized 19.10.2026 — короткая дока по запросу: анатомия, шапка, вкладки, подвал, ширина + указатель на мобильную `15607:30778` | ✅ ссылка переведена с мобильной доки; описание переписано с `[Mobile]` на `[Desktop]` |
