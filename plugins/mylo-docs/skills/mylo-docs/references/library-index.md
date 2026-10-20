@@ -69,7 +69,7 @@ republish**. Shared и Mobile после паблиша получили тол�
 
 ## Component registry — Shared (`LxMK9OD6jvgPWPVg25EZAM`) — ✅ БИБЛИОТЕКА ФИНАЛИЗИРОВАНА 20.08.2026
 
-65 публичных компонентов: у всех заполнено `description` с префиксом `[Shared]`, у всех живой `documentationLinks`, чипов CONCEPT нет, битых ссылок нет.
+66 публичных компонентов (popover-tip — с 20.10.2026): у всех заполнено `description` с префиксом `[Shared]`, у всех живой `documentationLinks`, чипов CONCEPT нет, битых ссылок нет.
 
 | Страница | Doc frame | Компоненты |
 |---|---|---|
@@ -86,13 +86,14 @@ republish**. Shared и Mobile после паблиша получили тол�
 | 🧩 links | `175:12723` | brand-link (ось `type [standalone\|inline]`) |
 | 🧩 loaders | `84:9888` | loading-spinner |
 | 🧩 page-states | `13:17371` (empty-state) · `96:1802` (status + loading) | empty-state · status-state · loading-state |
+| 🧩 popover-tip | `437:9748` · DEV NOTES `446:1285` | popover-tip (добавлен 20.10.2026: системная подсказка с крестиком; граница с tooltip — по триггеру) |
 | 🧩 progress-indicators | `46:7279` | progress-circle · segmented-progress-circle · progress-circle-with-label |
 | 🧩 radio | `61:7968` | radio-button-item · radio-button-block |
 | 🧩 skeleton | `84:9991` | skeleton-shimmer |
 | 🧩 steppers | `46:7335` | stepper-vertical · stepper-vertical-sm · stepper-horizontal |
 | 🧩 tags | `42:6127` | 13 тегов: 3 статусных · 5 нейтральных · 5 фирменных |
 | 🧩 timeline | `68:835` | timeline-vertical |
-| 🧩 tooltip | `54:1186` | tooltip |
+| 🧩 tooltip | `54:1186` (секция «Tooltip или popover tip» `435:1372`) | tooltip |
 | 🧩 toggle-switch | `63:850` | toggle-switch |
 
 ⚠️ `brand-link` **приехал из Desktop** 20.08.2026: ссылка на доку переставлена, литералы `&nbsp;` в описаниях приватных наборов заменены на настоящий U+00A0, добавлена секция «Ссылка или кнопка-ссылка» `191:1541` и указатель на неё из доки кнопок. Примеры многострочного переноса **склонированы из старой доки** `links-doc` — своими средствами перенос в Figma не воспроизводится.
