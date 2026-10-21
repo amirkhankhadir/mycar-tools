@@ -156,6 +156,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | primary-chip · autocheck-chip · chips-group | 🧩 chips (`8160:6203`) | 8529:727 | — | ✅ finalized | ✅ |
 | color-picker | 🧩 color-picker | — | — | ⏸ отложено: сейчас только блок-указатель на Mobile; полную доку возможно сделаем позже | — |
 | dropdowns (10 публичных) | 🧩 dropdowns | 8562:2978 | — | ✅ finalized; секция «СТРОКА СО СЧЁТЧИКОМ» добавлена 21.09.2026 | ✅ |
+| multi-select-dropdown (+ приватные `.multi-select-dropdown/tag`, `/input`) | 🧩 dropdowns | 9141:9047 — отдельная дока, без повторов доки dropdowns (ссылается на её разделы) | DEV NOTES `9137:9123` | ✅ finalized 21.10.2026 | ✅ |
 | empty-state | 🧩 page-states (страница переименована) | 8502:667 | — | ✅ finalized | ✅ |
 | text-input · text-area-input · range-input | 🧩 input-fields | 8562:775 | — | ✅ finalized | ✅ |
 | ~~brand-link~~ | — | — | — | ↗️ уехал в Shared | — |
