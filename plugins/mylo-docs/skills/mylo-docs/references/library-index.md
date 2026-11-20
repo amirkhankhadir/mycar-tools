@@ -123,6 +123,7 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 | swipe-card (+ приватные `.swipe-actions/*`) | 🧩 swipe-actions (`4544:9945`) | 15672:33619 | — (не нужен) | ✅ finalized; секция «ПОЛНЫЙ СВАЙП» добавлена 03.09.2026 | ✅ |
 | sliders: range-slider · carousel-slider · **slider** | 🧩 sliders (`1048:637`) | 15672:33529 — семейная дока на все три (ЧАСТЬ 1 / 2 / 3) | — (не нужен) | ✅ finalized; ЧАСТЬ 3 про `slider` добавлена 02.09.2026 | ✅ все три ведут на семейную доку |
 | something-went-wrong-page | 📱 templates/system-status (`16454:3518`) | 16460:804 | — (не нужен) | ✅ finalized 14.09.2026 — сокращённая дока по просьбе дизайнера | ✅ |
+| no-internet-page (+ приватный `.no-internet-image`) | 📱 templates/system-status (`16454:3518`) | 17145:1163 | — (не нужен) | ✅ finalized 20.11.2026 — сокращённая, по образцу something-went-wrong-page | ✅ у `no-internet-page` |
 | nav-bar (+ приватные `.mycar-nav-bar` · `.generic-nav-bar` · `.nav-bar-item`) | 🧩 nav-bar (`1048:109`) | 15647:27989 | — (не нужен) | ✅ finalized; секция «ТРЕТИЙ РАЗДЕЛ» (StarLine/Поиск) добавлена 20.10.2026 | ✅ у `nav-bar` и `.mycar-nav-bar` |
 | text-input · text-area-input · date-input · cvv-input · range-input (+ приватные `.input-hint-text` · `.input-error-text` · `.mask-symbol`) | 🧩 input-fields (`54:1899`) | 15657:30375 — семейная дока | — (не нужен) | ✅ finalized; секция «СЧЁТЧИК СИМВОЛОВ» `16841:1343` добавлена 05.11.2026 | ✅ все пять ведут на семейную доку |
 
@@ -132,6 +133,8 @@ Status: `⬜ not started` · `🧩 concept` · `🚧 built (awaiting approval)` 
 
 
 ⚠️ `something-went-wrong-page` (`16454:12431`) — дока сокращённая: только шапка, «когда использовать / когда взять другое», варианты и «что на экране». Анатомию с пинами, состояния, доступность, адаптив и Do & Don't дизайнер попросил не делать. Страница называется `📱 templates/system-status` (в ссылке пользователя ещё было старое `templates/system-pages`).
+
+⚠️ `no-internet-page` (`17144:1287`, v1.0.0) — собран 20.11.2026 клоном `something-went-wrong-page`: та же ось `layout` [page `17144:1288` · large-modal `17144:1295`], свой приватный `.no-internet-image` (`17144:1282`, тема привязана к переменной `theme`). Дока — клон соседней с теми же четырьмя секциями. Появление компонента сделало неточным пункт «Связи нет…» в доке `something-went-wrong-page` и её строку про кнопку «Обновить» (в компоненте уже «Написать в поддержку») — дизайнеру озвучено, соседняя дока не правилась.
 
 ⚠️ `.mycar-nav-bar` (`2710:8460`) с 20.10.2026 имеет ось `is-user-has-starline`: `false` (по умолчанию) — третий раздел «Поиск», `true` — «StarLine». Ось доступна дизайнеру через открытый вложенный инстанс `mycar-tabbar` в публичном `nav-bar`, своего варианта у `nav-bar` нет. Обновление сделало неверной фразу в «Составе» («четыре фиксированных раздела») — переписана; бейдж `nav-bar` поднят 1.0.0 → 1.1.0.
 
